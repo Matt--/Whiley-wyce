@@ -1,0 +1,171 @@
+package wyce;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class Tests {
+	String header = "#define LIBRARY_TESTING 0\n\n"+
+			"#include \"cCompiler/mattCompiler.h\"\n"+
+			"#include \"cCompiler/mattCompiler_library.c\"\n";//107
+	String TEST = "true";
+	String PATH = "whiley/";
+	String TERMINAL = "terminal";
+
+	@Test
+	public void test_file01() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE1, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("helloWorld");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file02() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE2, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("hellocount");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file03() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE3, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("fourBasicMathOps");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file04() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE4, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("comparatorOps");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file05() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE5, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("mathBrackets");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file06() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE6, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("charOps");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file07() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE7, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("stringOps");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file08() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE8, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("boolOps");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file09() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE9, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("3_constantDeclarations");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file14() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE14, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("4_typeUnions");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file16() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE16, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("4_boolTypeAndUsesArray");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file21() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE21, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("4_tuples");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file52() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE52, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("whileMinimal");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file53() {
+		Wyce.main( new String[]{"false", "whileytoC/", Config.FILE53, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("whiley_main_leds");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file54() {
+		Wyce.main( new String[]{"false", "whileytoC/", Config.FILE54, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("whiley_main_motors");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+	@Test
+	public void test_file55() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE55, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("arrays");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+
+	@Test
+	public void test_file56() {
+		Wyce.main( new String[]{TEST, PATH, Config.FILE56, TERMINAL} );
+		String result = Config.readFile(Config.OUTPUT_FILE);
+		String expect = Config.readFile("void_returnType");
+
+		assertEquals(expect, result);
+		assertEquals(expect.length(), result.length());
+	}
+
+
+}

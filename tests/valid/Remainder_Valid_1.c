@@ -1,0 +1,110 @@
+#define LIBRARY_TESTING true
+
+#include "../../cCompiler/mattCompiler.h"
+#include "../../cCompiler/mattCompiler_library.c"
+Any x1x_f ( Any , Any );
+
+Any x1x_f ( Any a0, Any a1 ){
+  Any a4 = wyce_mod( a0 , a1);
+  return a4;
+}
+
+int main (){
+  Any a6 = Int(10);
+  Any a7 = Int(5);
+  Any a5 = x1x_f ( a6, a7 );
+  Any a4 = toStr ( a5 );
+  println ( a4 );
+  Any a13 = Int(10);
+  Any a14 = Int(4);
+  Any a12 = x1x_f ( a13, a14 );
+  Any a11 = toStr ( a12 );
+  println ( a11 );
+  Any a20 = Int(1);
+  Any a21 = Int(4);
+  Any a19 = x1x_f ( a20, a21 );
+  Any a18 = toStr ( a19 );
+  println ( a18 );
+  Any a27 = Int(103);
+  Any a28 = Int(2);
+  Any a26 = x1x_f ( a27, a28 );
+  Any a25 = toStr ( a26 );
+  println ( a25 );
+  Any a34 = Int(10);
+  Any a35 = wyce_neg(a34);
+  Any a36 = Int(5);
+  Any a33 = x1x_f ( a35, a36 );
+  Any a32 = toStr ( a33 );
+  println ( a32 );
+  Any a42 = Int(10);
+  Any a43 = wyce_neg(a42);
+  Any a44 = Int(4);
+  Any a41 = x1x_f ( a43, a44 );
+  Any a40 = toStr ( a41 );
+  println ( a40 );
+  Any a50 = Int(1);
+  Any a51 = wyce_neg(a50);
+  Any a52 = Int(4);
+  Any a49 = x1x_f ( a51, a52 );
+  Any a48 = toStr ( a49 );
+  println ( a48 );
+  Any a58 = Int(103);
+  Any a59 = wyce_neg(a58);
+  Any a60 = Int(2);
+  Any a57 = x1x_f ( a59, a60 );
+  Any a56 = toStr ( a57 );
+  println ( a56 );
+  Any a66 = Int(10);
+  Any a67 = wyce_neg(a66);
+  Any a68 = Int(5);
+  Any a69 = wyce_neg(a68);
+  Any a65 = x1x_f ( a67, a69 );
+  Any a64 = toStr ( a65 );
+  println ( a64 );
+  Any a75 = Int(10);
+  Any a76 = wyce_neg(a75);
+  Any a77 = Int(4);
+  Any a78 = wyce_neg(a77);
+  Any a74 = x1x_f ( a76, a78 );
+  Any a73 = toStr ( a74 );
+  println ( a73 );
+  Any a84 = Int(1);
+  Any a85 = wyce_neg(a84);
+  Any a86 = Int(4);
+  Any a87 = wyce_neg(a86);
+  Any a83 = x1x_f ( a85, a87 );
+  Any a82 = toStr ( a83 );
+  println ( a82 );
+  Any a93 = Int(103);
+  Any a94 = wyce_neg(a93);
+  Any a95 = Int(2);
+  Any a96 = wyce_neg(a95);
+  Any a92 = x1x_f ( a94, a96 );
+  Any a91 = toStr ( a92 );
+  println ( a91 );
+  Any a102 = Int(10);
+  Any a103 = Int(5);
+  Any a104 = wyce_neg(a103);
+  Any a101 = x1x_f ( a102, a104 );
+  Any a100 = toStr ( a101 );
+  println ( a100 );
+  Any a110 = Int(10);
+  Any a111 = Int(4);
+  Any a112 = wyce_neg(a111);
+  Any a109 = x1x_f ( a110, a112 );
+  Any a108 = toStr ( a109 );
+  println ( a108 );
+  Any a118 = Int(1);
+  Any a119 = Int(4);
+  Any a120 = wyce_neg(a119);
+  Any a117 = x1x_f ( a118, a120 );
+  Any a116 = toStr ( a117 );
+  println ( a116 );
+  Any a126 = Int(103);
+  Any a127 = Int(2);
+  Any a128 = wyce_neg(a127);
+  Any a125 = x1x_f ( a126, a128 );
+  Any a124 = toStr ( a125 );
+  println ( a124 );
+  return 0;
+}
