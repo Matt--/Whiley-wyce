@@ -2,20 +2,20 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_has ( Any , Any );
+Any x1x_has ( Any , Any  );
 
 Any x1x_has ( Any a0, Any a1 ){
   int count = 0;
-  loop_start_label204: ;
-  if(count == strlen(a1.s) ){ goto label204; }
+  loop_start_label179: ;
+  if(count == strlen(a1.s) ){ goto label179; }
   Any a3 = Char( a1.s[count] );
   count++;
-  if ( dataAsInt( a0 ) != dataAsInt( a3 ) ) { goto label205; };
+  if ( dataAsInt( a0 ) != dataAsInt( a3 ) ) { goto label180; };
   Any a6 = Bool(true);
   return a6;
-  label205: ;
-  goto loop_start_label204;
-  label204: ;
+  label180: ;
+  goto loop_start_label179;
+  label179: ;
   Any a7 = Bool(false);
   return a7;
 }

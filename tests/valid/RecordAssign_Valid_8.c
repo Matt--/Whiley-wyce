@@ -2,25 +2,24 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef record XXX bytes;
+typedef struct {Any b1; Any b2; } bytes;
 
-Any f ( Any );
+bytes x1x_f ( Any  );
 
-Any f ( Any a0 ){
+bytes x1x_f ( Any a0 ){
   Any a2 = Int(2);
+  bytes a3 = { a0, a2 };
   return a3;
 }
 
 int main (){
   Any a2 = Int(1);
-  Any a4 = f ( a2 );
-  Any a3 = a4;
-  Any a10 = a3;
-  Any a9 = toStr ( a10 );
+  bytes a4 = x1x_f ( a2 );
+  Any a9 = recordToStr2( "b1", a4.b1, "b2", a4.b2);
   println ( a9 );
-  a3 = null;
-  Any a18 = a3;
-  Any a17 = toStr ( a18 );
+  bytes a13 = { a2, a2 };
+  a4 = a13;
+  Any a17 = recordToStr2( "b1", a4.b1, "b2", a4.b2);
   println ( a17 );
   return 0;
 }

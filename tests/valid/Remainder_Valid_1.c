@@ -2,10 +2,10 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any , Any );
+Any x1x_f ( Any , Any  );
 
 Any x1x_f ( Any a0, Any a1 ){
-  Any a4 = wyce_mod( a0 , a1);
+  Any a4 = wyce_mod( a0, a1);
   return a4;
 }
 

@@ -2,10 +2,10 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef Actor;
+typedef struct {Any data; } Actor;
 
-Any get ( Any );
-Any createActor ( Any );
-Any* createActors ( Any );
+Any x1x_get ( Any );
+Any x1x_createActor ( Any );
+Any* x1x_createActors ( Any );
 
-Any get ( Any a0 ){
+Any x1x_get ( Any a0 ){

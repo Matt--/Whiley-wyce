@@ -6,11 +6,10 @@ typedef int ur4nat;
 typedef int tur4nat;
 typedef int wur4nat;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
-  Any a2 = a0;
-  Any a1 = toStr ( a2 );
+  Any a1 = toStr ( a0 );
   return a1;
 }
 

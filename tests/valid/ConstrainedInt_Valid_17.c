@@ -5,12 +5,12 @@
 typedef int anat;
 typedef int bnat;
 
-Any x1x_atob ( Any );
-Any x1x_btoa ( Any );
+Any x1x_atob ( Any  );
+Any x1x_btoa ( Any  );
 
 Any x1x_atob ( Any a0 ){
   Any a3 = Int(2);
-  Any a5 = wyce_mul( a3 , a0);
+  Any a5 = wyce_mul( a3, a0);
   return a0;
 }
 
@@ -26,7 +26,7 @@ int main (){
   Any a6 = toStr ( a7 );
   println ( a6 );
   Any a17 = Int(2);
-  Any a19 = wyce_mul( a17 , a2);
+  Any a19 = wyce_mul( a17, a2);
   Any a13 = x1x_btoa ( a2 );
   a12 = toStr ( a13 );
   println ( a12 );

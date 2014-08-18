@@ -2,11 +2,11 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   Any a2 = Int(1);
-  Any a3 = wyce_sub( a0 , a2);
+  Any a3 = wyce_sub( a0, a2);
   return a3;
 }
 

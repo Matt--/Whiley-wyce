@@ -2,9 +2,9 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any len ( Any );
+Any x1x_len ( Any );
 
-Any len ( Any a0 ){
+Any x1x_len ( Any a0 ){
   Any a2 = Int( sizeof( a0 ) / sizeof( a0[0] ) );
   return a2;
 }
@@ -16,7 +16,7 @@ int main (){
   Any a5[] = {a2, a3, a4};
   Any *a1 = a5;
   Any *a10 = a1;
-  Any a9 = len ( a10 );
+  Any a9 = x1x_len ( a10 );
   println ( a9 );
   Any a12 = Int(1);
   Any a13 = Int(2);

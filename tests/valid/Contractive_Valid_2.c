@@ -6,10 +6,10 @@ typedef C1;
 typedef C2;
 typedef C3;
 
-Any x1x_f ( Any );
-Any x1x_g ( Any );
-Any x1x_h ( Any );
-Any x1x_i ( Any );
+Any x1x_f ( Any  );
+Any x1x_g ( Any  );
+Any x1x_h ( Any  );
+Any x1x_i ( Any  );
 
 Any x1x_f ( Any a0 ){
   return a0;

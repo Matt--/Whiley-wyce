@@ -5,12 +5,12 @@
 Any x1x_f ( Any );
 
 Any x1x_f ( Any a0 ){
-  if(a0.type == NULL_TYPE){ goto label155; };
-  goto label156;
-  label155: ;
+  if(a0.type == NULL_TYPE){ goto label151; };
+  goto label152;
+  label151: ;
   Any a1 = Int(1);
   return a1;
-  label156: ;
+  label152: ;
   return a0;
 }
 

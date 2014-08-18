@@ -1,8 +1,10 @@
-// Library constructors & functions
+/*
+ * Library constructors & functions
+ */
 
 
-//// Data struct types
-// any new constructor, also put into destructor "dataAsInt"
+/**** Data struct types ****/
+/* any new constructor, also put into destructor "dataAsInt" */
 Any Int(int i)
 {
 	Any a;
@@ -31,16 +33,26 @@ Any Ptr( void *c)
 	a.ptr = c;
 	return a;
 }
+Any Fptr( void* address, int count )
+{
+	Any a;
+	a.type = FPTR_TYPE;
+	a.f.ptr = address; /* generates a warning, void* to func*. Ignore */
+	a.f.params = count;
+	return a;
+}
 Any Str(char* s)
 {
+#if(LIBRARY_TESTING)
 	if(strlen(s) > MAXCHAR) {
 		char message [200];
 		sprintf(message, "method failed, char string over %d chars : Any Str(char* c); The string is: %s", MAXCHAR, s);
 		error(1, message);
 	}
+#endif
 	Any a;
 	a.type = STR_TYPE;
-	memset(a.s, 0, sizeof(a.s)); // TODO shouldn't need this, remove later
+	memset(a.s, 0, sizeof(a.s)); /* TODO shouldn't need this, remove later */
 	strcpy(a.s, s);
 	return a;
 }
@@ -51,13 +63,6 @@ Any Bool(bool b)
 	a.b = b;
 	return a;
 }
-//Any Byte(char* b)
-//{
-//	Any a;
-//	a.byte = b;
-//	a.type = BYTE_TYPE;
-//	return a;
-//}
 Any Null()
 {
 	Any a;
@@ -65,11 +70,11 @@ Any Null()
 	//a.b = b;
 	return a;
 }
-// TODO is there a way to take 2+ parameters in one Tuple constructor?
+
 Any Tuple(Any a, Any b)
 {
 	/*
-	 * kept for my reference only.
+	 * kept for reference only.
 	 * static reserves memory in this function only
 	 * malloc reserves memory for the programs duration or until free()
 	 *	static Any x; x = a;
@@ -110,51 +115,20 @@ bool freeTuple(Any a){
 	return true;
 }
 
-//Any Tuple3(Any a, Any b, Any c)
-//{
-//	Any d;
-//	d.type = TUPLE_TYPE;
-//	d.ptr = malloc(3);
-//	Any** any = (Any**)d.ptr;
-//	any[0] = &a;
-//	any[1] = &b;
-//	any[2] = &c;
-//	return d;
-//}
-
-//Any AnyCopy(Any a)
-//{
-//	Any d;
-//	d.type = a.type;
-//	d.data = a.data;
-//	return d;
-//}
-
-
-
-
 Any toStr(Any a){
-//	Any* x_address = ((Any**)a.ptr)[0];
-//		printf ("x address is %d\n", x_address);
-//		printf ("x is %d\n", x_address->i);
-//	int y = ((Any**)a.ptr)[1]->i;
-//		printf ("y is %d\n", y);
-//	printf("type is : %d\n", a.type);
-//	printf("ptr size is : %d\n", sizeof(a.ptr));
-
 	if(a.type == NULL_TYPE){
 		return Str("null");
 	}
 	if(a.type == INT_TYPE){
 		char str [MAXCHAR+1];
-		sprintf(str, "%d", a.i);
+		sprintf(str, "%ld", a.i);
 		Any b = Str(str);
 		return b;
 	}
 	if(a.type == REAL_TYPE){
 		char str [MAXCHAR+1];
-		sprintf(str, "%g", a.r); // %g to remove trailing 0's
-		if(strchr(str, '.') == NULL){ strcat(str, ".0"); } // add '.0' if not present
+		sprintf(str, "%g", a.r); /* %g to remove trailing 0's */
+		if(strchr(str, '.') == NULL){ strcat(str, ".0"); }
 		Any b = Str(str);
 		return b;
 	}
@@ -165,7 +139,10 @@ Any toStr(Any a){
 		return b;
 	}
 	if(a.type == STR_TYPE){
-		return a;
+		char str[MAXCHAR+1];
+		sprintf(str, "\"%s\"", a.s);
+		Any b = Str(str);
+		return b;
 	}
 	if(a.type == BOOL_TYPE){
 		if(a.b == 0)
@@ -173,21 +150,9 @@ Any toStr(Any a){
 		else
 			return Str("true");
 	}
-	if(a.type == TUPLE_TYPE){
-		// TODO only copes with 2 and 3 tuples.
-		// TODO only prints int values, extend to other types.
-
-		char str [MAXCHAR+1];
-
-		if(sizeof(a.ptr)/4 == 2)
-			sprintf(str, "(%d, %d)", ((Any**)a.ptr)[0]->i, ((Any**)a.ptr)[1]->i);
-		if(sizeof(a.ptr)/4 == 3)
-			sprintf(str, "(%d, %d, %d)", ((Any**)a.ptr)[0]->i, ((Any**)a.ptr)[1]->i, ((Any**)a.ptr)[2]->i);
-		Any b = Str(str);
-		return b;
-	}
+#if(LIBRARY_TESTING)
 	error(1, "error, toStr(Any); type unknown");
-
+#endif
 	return Str("");
 }
 
@@ -196,7 +161,6 @@ int dataAsInt(Any a){
 	if(a.type == INT_TYPE){ return a.i; }
 	if(a.type == REAL_TYPE){ return a.r; }
 	if(a.type == CHAR_TYPE){ return (int)a.c; }
-//	if(a.type == STR_TYPE){ int r = (int)a.s; return r; } //NB pointer cast to int
 	if(a.type == BOOL_TYPE){ return (int)a.b; }
 
 	#if(LIBRARY_TESTING)
@@ -206,84 +170,305 @@ int dataAsInt(Any a){
 	return 0;
 }
 
-//// Math operations
+
+Any recordToStr1(char* s1, Any a){
+	Any as = toStr(a);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+Any recordToStr2(char* s1, Any a, char* s2, Any b){
+	Any as = toStr(a);
+	Any bs = toStr(b);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, ",");
+	strcat(str, s2);
+	strcat(str, ":");
+	strcat(str, bs.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+Any recordToStr3(char* s1, Any a, char* s2, Any b, char* s3, Any c){
+	Any as = toStr(a);
+	Any bs = toStr(b);
+	Any cs = toStr(c);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, ",");
+	strcat(str, s2);
+	strcat(str, ":");
+	strcat(str, bs.s);
+	strcat(str, ",");
+	strcat(str, s3);
+	strcat(str, ":");
+	strcat(str, cs.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+Any recordToStr4(char* s1, Any a, char* s2, Any b, char* s3, Any c, char* s4, Any d){
+	Any as = toStr(a);
+	Any bs = toStr(b);
+	Any cs = toStr(c);
+	Any ds = toStr(d);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, ",");
+	strcat(str, s2);
+	strcat(str, ":");
+	strcat(str, bs.s);
+	strcat(str, ",");
+	strcat(str, s3);
+	strcat(str, ":");
+	strcat(str, cs.s);
+	strcat(str, ",");
+	strcat(str, s4);
+	strcat(str, ":");
+	strcat(str, ds.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+Any recordToStr5(char* s1, Any a, char* s2, Any b, char* s3, Any c, char* s4, Any d, char* s5, Any e){
+	Any as = toStr(a);
+	Any bs = toStr(b);
+	Any cs = toStr(c);
+	Any ds = toStr(d);
+	Any es = toStr(e);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, ",");
+	strcat(str, s2);
+	strcat(str, ":");
+	strcat(str, bs.s);
+	strcat(str, ",");
+	strcat(str, s3);
+	strcat(str, ":");
+	strcat(str, cs.s);
+	strcat(str, ",");
+	strcat(str, s4);
+	strcat(str, ":");
+	strcat(str, ds.s);
+	strcat(str, ",");
+	strcat(str, s5);
+	strcat(str, ":");
+	strcat(str, es.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+Any recordToStr6(char* s1, Any a, char* s2, Any b, char* s3, Any c, char* s4, Any d, char* s5, Any e, char* s6, Any f){
+	Any as = toStr(a);
+	Any bs = toStr(b);
+	Any cs = toStr(c);
+	Any ds = toStr(d);
+	Any es = toStr(e);
+	Any fs = toStr(f);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, ",");
+	strcat(str, s2);
+	strcat(str, ":");
+	strcat(str, bs.s);
+	strcat(str, ",");
+	strcat(str, s3);
+	strcat(str, ":");
+	strcat(str, cs.s);
+	strcat(str, ",");
+	strcat(str, s4);
+	strcat(str, ":");
+	strcat(str, ds.s);
+	strcat(str, ",");
+	strcat(str, s5);
+	strcat(str, ":");
+	strcat(str, es.s);
+	strcat(str, ",");
+	strcat(str, s6);
+	strcat(str, ":");
+	strcat(str, fs.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+Any recordToStr7(char* s1, Any a, char* s2, Any b, char* s3, Any c, char* s4, Any d, char* s5, Any e, char* s6, Any f, char* s7, Any g){
+	Any as = toStr(a);
+	Any bs = toStr(b);
+	Any cs = toStr(c);
+	Any ds = toStr(d);
+	Any es = toStr(e);
+	Any fs = toStr(f);
+	Any gs = toStr(g);
+	char str [MAXCHAR+1];
+	sprintf(str, "%c", '{');
+	strcat(str, s1);
+	strcat(str, ":");
+	strcat(str, as.s);
+	strcat(str, ",");
+	strcat(str, s2);
+	strcat(str, ":");
+	strcat(str, bs.s);
+	strcat(str, ",");
+	strcat(str, s3);
+	strcat(str, ":");
+	strcat(str, cs.s);
+	strcat(str, ",");
+	strcat(str, s4);
+	strcat(str, ":");
+	strcat(str, ds.s);
+	strcat(str, ",");
+	strcat(str, s5);
+	strcat(str, ":");
+	strcat(str, es.s);
+	strcat(str, ",");
+	strcat(str, s6);
+	strcat(str, ":");
+	strcat(str, fs.s);
+	strcat(str, ",");
+	strcat(str, s7);
+	strcat(str, ":");
+	strcat(str, gs.s);
+	strcat(str, "}");
+	return Str(str);
+}
+
+
+/**** Math operations ****/
 Any wyce_add(Any x, Any y)
 {
 	if(x.type != y.type){
-		error(1, "method error, adding two different types : Any add(Any, Any)");}
+#if(LIBRARY_TESTING)
+		error(1, "method error, adding two different types : Any add(Any, Any)");
+#endif
+	}
 	switch(x.type){
 	case INT_TYPE:	return Int(x.i + y.i);
 	case REAL_TYPE:	return Real(x.r + y.r);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, cannot add this type : Any add(Any, Any)");
+#endif
 	}
+	return Null();
 }
 Any wyce_sub(Any x, Any y)
 {
 	if(x.type != y.type){
-		error(1, "method error, subtracting two different types : Any sub(Any, Any)");}
+#if(LIBRARY_TESTING)
+		error(1, "method error, subtracting two different types : Any sub(Any, Any)");
+#endif
+	}
 	switch(x.type){
 	case INT_TYPE:	return Int(x.i - y.i);
 	case REAL_TYPE:	return Real(x.r - y.r);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, cannot subtract this type : Any sub(Any, Any)");
+#endif
 	}
+	return Null();
 }
 Any wyce_neg(Any x)
 {
 	switch(x.type){
 	case INT_TYPE:	return Int(-x.i);
 	case REAL_TYPE:	return Real(-x.r);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, cannot establish negative for this type : Any neg(Any)");
+#endif
 	}
+	return Null();
 }
 Any wyce_mul(Any x, Any y)
 {
 	if(x.type != y.type){
-		error(1, "method error, multiplyinging two different types : Any mul(Any, Any)");}
+#if(LIBRARY_TESTING)
+		error(1, "method error, multiplyinging two different types : Any mul(Any, Any)");
+#endif
+	}
 	switch(x.type){
 	case INT_TYPE:	return Int(x.i * y.i);
 	case REAL_TYPE:	return Real(x.r * y.r);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, cannot multiply this type : Any mul(Any, Any)");
+#endif
 	}
+	return Null();
 }
 Any wyce_div(Any x, Any y)
 {
-//	if(x.type != y.type){
-//		error(1, "method error, dividing two different types : Any div(Any, Any)");}
-
 	switch(x.type){
 	case INT_TYPE:
-		if(y.i == 0){ error(1, "method failed, divisor == 0 : Any div(Any, Any)");}
+		if(y.i == 0){
+#if(LIBRARY_TESTING)
+			error(1, "method failed, divisor == 0 : Any div(Any, Any)");
+#endif
+		}
 		return Int(x.i / y.i);
 	case REAL_TYPE:
-		if(y.r == 0){ error(1, "method failed, divisor == 0 : Any div(Any, Any)");}
+		if(y.r == 0){
+#if(LIBRARY_TESTING)
+			error(1, "method failed, divisor == 0 : Any div(Any, Any)");
+#endif
+		}
 		return Real(x.r / y.r);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, cannot divide this type : Any div(Any, Any)");
+#endif
 	}
+	return Null();
 }
 Any wyce_mod(Any x, Any y)
 {
 	if(x.type != y.type){
-		error(1, "method error, moding two different types : Any mod(Any, Any)");}
+#if(LIBRARY_TESTING)
+		error(1, "method error, moding two different types : Any mod(Any, Any)");
+#endif
+	}
 
 	switch(x.type){
 	case INT_TYPE:
-		if(y.i == 0){ error(1, "method failed, divisor == 0 : Any mod(Any, Any)");}
+		if(y.i == 0){
+#if(LIBRARY_TESTING)
+			error(1, "method failed, divisor == 0 : Any mod(Any, Any)");
+#endif
+		}
 		return Int(x.i % y.i);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, cannot mod this type : Any mod(Any, Any)");
+#endif
 	}
+	return Null();
 }
 
-// Return copy
 Any Copy(Any a)
 {
-	Any copy;
-	switch(copy.type){
+	switch(a.type){
 	case(NULL_TYPE):	return Null();
 	case(INT_TYPE):		return Int(a.i);
 	case(REAL_TYPE):	return Real(a.r);
@@ -291,35 +476,49 @@ Any Copy(Any a)
 	case(BOOL_TYPE):	return Bool(a.b);
 	case(STR_TYPE):		return Str(a.s);
 	case(POINTER_TYPE):	return Ptr(a.ptr);
+#if(LIBRARY_TESTING)
 	default:
 		error(1, "method failed, type not catered for : Any Copy(Any)");
+#endif
 	}
+	Any copy;
 	return copy;
 }
 
 
-//// Helpers
+/**** Helpers ****/
 #if(LIBRARY_TESTING)
-void println(Any a)
+void print(Any);
+
+void println(Any a){
+	print(a);
+	printf("\n");
+}
+
+void print(Any a)
 {
-	// Printing chars. Daves test Char_Valid_2 requires a char to print with single quotes.
-	// The bytecode turns the char type to a string before this method is called.
-	// Making identifying a char at this point problematic.
-	// Changing the toStr for char, creates problems elsewhere...
+	/*
+	 * Printing chars. Daves test Char_Valid_2 requires a char to print with single quotes.
+	 * The bytecode turns the char type to a string before this method is called.
+	 * Making identifying a char at this point problematic.
+	 * Changing the toStr for char, creates problems elsewhere...
+	 */
 
-	Any str = toStr(a); // kept to ensure consistency
-	printf("%s\n", str.s);
-
+	Any str;
+	if(a.type == STR_TYPE){
+		str = a;
+	} else { // turn to string first
+		str = toStr(a);
+	}
+	printf("%s", str.s);
 }
 
 void error(int error_no, char c [200])
 {
   printf("    %s\n", c);
   if(!LIBRARY_TESTING) { exit(error_no); }
-  //exit(error_no);
 }
 #endif
-// end Helpers
 
 
 

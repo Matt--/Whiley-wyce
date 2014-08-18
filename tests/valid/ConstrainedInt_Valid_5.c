@@ -4,9 +4,9 @@
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int nat;
 
-Any x1x_f ( );
+Any x1x_f ( void );
 
-Any x1x_f (){
+Any x1x_f (void){
   Any a0 = Int(1);
   return a0;
 }

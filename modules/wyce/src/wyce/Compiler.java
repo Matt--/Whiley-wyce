@@ -30,22 +30,36 @@ public class Compiler {
 	private final String SP = Config.SP;
 
 	private HashMap<String,HashMap<Integer, String>> scopeCollection;
+	public static HashMap<String, String> types;
 	private boolean outputFileCreated = false;
-    private Methods c_declarations;
+    private Method_Factory methodFactory;
 	private boolean tests;
 	private String outputFile;
 
 	public Compiler(boolean tests, String terminal){
 		this.tests = tests;
 		this.terminal = terminal.equals("terminal") ? 1 : 0;
-		this.c_declarations = new Methods();
+		this.methodFactory = new Method_Factory();
 		scopeCollection = new HashMap<String,HashMap<Integer, String>>();
+		types = new HashMap<String, String>();
 	}
 
 	public void print(WyilFile wyilFile, String path, String name){
 		// empty path indicates write to a.c
 		this.outputFile = path.isEmpty() || path.startsWith("whiley") ? "a.c" : path + name + ".c";
 
+		// generate the C code text output
+		print_prequel(wyilFile);
+		print_Header(wyilFile, path, name);
+		print_Methods(wyilFile);
+	}
+
+	/**
+	 * Prequel information for terminal.
+	 * Note global "terminal" - prints to terminal, "FILE" prints to C text file
+	 * @param wyilFile
+	 */
+	private void print_prequel(WyilFile wyilFile){
 		print(terminal, Config.credits());
 		print(terminal, "Terminal Printer");
 		print(terminal, "Prints a C file to; " +outputFile +"\n");
@@ -54,13 +68,12 @@ public class Compiler {
 		print(terminal, "# ToString : " +wyilFile.toString());
 		print(terminal, "# Filename : " +wyilFile.filename());
 		print(terminal, "# HashCode : " +wyilFile.hashCode());
-
-		print_Header(wyilFile, path, name);
-		print_Methods(wyilFile);
 	}
+
 
 	/**
 	 * Create the header information.
+	 * Note global "terminal" - prints to terminal, "FILE" prints to C text file
 	 * Included in the output .c file.
 	 * TODO pull this out, put in a congfig file
 	 */
@@ -120,6 +133,14 @@ public class Compiler {
 			else if(constant instanceof Constant.Decimal){ r += "double" +SP; }
 			else if(constant instanceof Constant.Set){ r = ""; break; }
 			else if(constant instanceof Constant.Record){ r = ""; break; }
+			else if(constant instanceof Constant.List){ r = ""; break; }
+			// Constant list works, but not used in the test it was developed for...
+//			else if(constant instanceof Constant.List){
+//				r += "char* const ";
+//				r += decl.name() + "[] = ";
+//				r += constant.toString().replace("[", "{").replace("]",  "}");
+//				r += ";\n";
+//				break; }
 			else throw new Error("Constant error, not yet allowed for.");
 			r += decl.name() +SP;
 			r += "=" +SP;
@@ -136,25 +157,52 @@ public class Compiler {
 		String r = "";
 		Iterator<TypeDeclaration> itr = wyilFile.types().iterator();
 		while(itr.hasNext()){
-			r += "typedef" +SP;
+			String s = "";
+			s += "typedef" +SP;
 			TypeDeclaration decl = itr.next();
 			Type type = decl.type();
-			if  (type instanceof Type.Int){ r += "int" +SP; }
-			else if(type instanceof Type.Bool){ r += "bool" +SP; }
-			else if(type instanceof Type.Char){ r += "char" +SP; }
-			else if(type instanceof Type.Strung){ r += "char*" +SP; }
-			else if(type instanceof Type.Real){ r += "double" +SP; }
-			else if(type instanceof Type.Tuple){ r += ""; }
-			else if(type instanceof Type.Record){ r += ""; }
-			else if(type instanceof Type.Set){ r += ""; }
-			else if(type instanceof Type.Any){ r += ""; }
+			if  (type instanceof Type.Int){ s += "int" +SP; }
+			else if(type instanceof Type.Bool){ s += "bool" +SP; }
+			else if(type instanceof Type.Char){ s += "char" +SP; }
+			else if(type instanceof Type.Strung){ s += "char*" +SP; }
+			else if(type instanceof Type.Real){ s += "double" +SP; }
+			else if(type instanceof Type.Tuple){ s += ""; }
+			else if(type instanceof Type.Record){
+				String t = type.toString();
+				String name = decl.name();
+				if(types.containsKey(t)){
+					throw new Error("A second type with this declared type.");
+				} else {
+					types.put(t, name);
+				}
+				Type.Record record = (Type.Record)type;
+				String _types[] = t.substring(1, t.length()-1).split(",");
+				Type.Record.State fields = (Type.Record.State)record.automaton.states[0].data;
+				s += "struct {";
+				for(int i = 0; i < fields.size(); i++){
+					String _type = _types[i].split(" ")[0].trim();
+					if(_type.charAt(0) == '[' && _type.charAt(_type.length()-1) == ']'){
+						s += "Any* ";
+					} else {
+						s += "Any ";
+					}
+					s += fields.get(i) +"; ";
+				}
+				s += "} ";
+			}
+			else if(type instanceof Type.Set){ s += ""; }
+			else if(type instanceof Type.Any){ s += ""; }
+			else if(type instanceof Type.Function){ s += ""; }
 			else if(type instanceof Type.Union){
 				// this method deals with the generation
-				print(terminal+FILE, generateUnionType(decl)); r = ""; continue; }
+				//print(terminal+FILE, generateUnionType(decl)); s = "";
+				continue;
+			}
 			else throw new Error("type error, not yet allowed for.");
 
-			r += decl.name();
-			r += ";\n";
+			s += decl.name();
+			s += ";\n";
+			r += s;
 		}
 //		if(!r.endsWith("typedef ;\n")) // case where no typedef is made
 			print(terminal+FILE, r);
@@ -247,15 +295,21 @@ public class Compiler {
 			if(Config.isMainMethod(d))
 				print(terminal, "# Main method declaration, not printed to file.");
 			else
-				print(terminal+FILE, c_declarations.createDeclaration(d));
+				print(terminal+FILE, methodFactory.createDeclaration(d));
 		}
 	}
 
-	/////////////////////// METHODS ////////////////////////////////////////////
+	/**
+	 * Generate the methods.
+	 * Note global "terminal" - prints to terminal, "FILE" prints to C text file.
+	 * Every C program consists of nested methods, iterate through methods generating statements.
+	 * @param wyilFile
+	 */
 	private void print_Methods(WyilFile wyilFile){
 		Collection<FunctionOrMethodDeclaration> list = wyilFile.methods();
+		// terminal only information
 		print(terminal, "\n"+INDENT+INDENT +"####################################################");
-		print(terminal, "### Methods    : " +wyilFile.methods());
+		print(terminal, "### Methods ####");//    : " +wyilFile.methods());
 		print(terminal, "# Methods count : " +list.size());
 
 		Iterator<FunctionOrMethodDeclaration> itr = list.iterator();
@@ -263,64 +317,56 @@ public class Compiler {
 			FunctionOrMethodDeclaration method = itr.next();
 			print(terminal, "\n"+INDENT+INDENT +"##### Method start #####");
 			print(terminal, "# Method name : " + method.name());
-			print(terminal, "# Method isa method ? : " + method.isMethod());
+			print(terminal, "# Method isa method ? (false == function) : " + method.isMethod());
 
 			if(method.hasModifier(Modifier.NATIVE)){
 				print(terminal, "# Method isa NATIVE method ? : true");
-				print(terminal, "# continue");
+				print(terminal, "# Native methods are specified elsewhere.");
 				continue;
 			}else{
 				print(terminal, "# Method isa NATIVE method ? : false");
 			}
 
-
-			String signature = c_declarations.createDeclaration(method);
-			signature = signature.substring(0, signature.length()-1);
-
 			// each method gets its own register of variable names
 			HashMap<Integer, String> register = new HashMap<Integer, String>();
 			register.put(Integer.MAX_VALUE, "new scope");
-			signature = insertParamName(signature, register);
 			scopeCollection.put(method.name(), register);
 
-			// method name and block
+			// generate method signature
+			String signature = methodFactory.createDeclaration(method);
+			signature = signature.substring(0, signature.length()-1);
+			signature = insertParamName(signature, register);
+
+			// generate method name and block as text file
 			print(terminal+FILE, "\n" +signature +"{");
-			print_cases(method.name(), method);
+			// print the method's statements
+			print_statements(method.name(), method);
+			// close block
 			print(terminal+FILE, "}");
-
 		}
-
 	}
 
-	private void print_cases(String methodName, FunctionOrMethodDeclaration method){
+	private void print_statements(String methodName, FunctionOrMethodDeclaration method){
+		Statement_Factory statements = new Statement_Factory();
+
 		Iterator<Case> caseItr = method.cases().iterator();
 		Case _case = caseItr.next();
-
-		print(terminal, "\n" +INDENT+INDENT +"# Method case toString : " + _case.toString());
 		Block block = _case.body();
-		List<String> locals = _case.locals();
-		print(terminal, "# Method case locals : " + locals);
-		print(terminal, "# Method case locals count : " + locals.size());
 
-		print(terminal, "# Method case block : " + block.toString());
-		print(terminal, "# Method case block count : " + block.size());
-
-		// statements within a method block
-		print_statements(methodName, block);
-	}
-
-	private void print_statements(String methodName, Block block){
-		Iterator<Entry> entryItr = block.iterator();
-		Statements statements = new Statements();
-		int i=0;
+		print_method_details(methodName, _case, block.size());
 		print(terminal, "");
+
+		// iterate through blocks to extract the line by line statements
+		Iterator<Entry> entryItr = block.iterator();
+		int i=0;
 		while(entryItr.hasNext()){
 			Entry entry = entryItr.next();
-			print(terminal, "\n" +INDENT+INDENT +"# Method case block entry "+ i++ +"    : " + entry.toString());
-			print(terminal, " # Method case block attributes : " + entry.attributes().toString());
+			// terminal information
+			print(terminal, "\n" +INDENT+INDENT +"# Whiley bytecode block "+ i++ +"    : " + entry.toString());
+			print(terminal, " # Whiley bytecode block attributes : " + entry.attributes().toString());
 
 			// statements within a method block
-			statements.create(entry.code, scopeCollection.get(methodName), c_declarations);
+			statements.create(entry.code, scopeCollection.get(methodName), methodFactory);
 
 			if(methodName.equals("main") && entry.code.toString().equals("return")){
 				// Whiley main has a void return. C main has an int return
@@ -332,19 +378,31 @@ public class Compiler {
 		}
 	}
 
+	private void print_method_details(String methodName, Case _case, int blockSize){
+		print(terminal, "\n" +INDENT+INDENT +"# Method case toString : " + _case.toString());
+		List<String> locals = _case.locals();
+		print(terminal, "# Method parameters : " + locals);
+		print(terminal, "# Method parameter count : " + locals.size());
+
+		print(terminal, "# Method statements");// : " + block.toString());
+		print(terminal, "# Method statement count : " + blockSize);
+
+	}
+
 	/////////////// HELPERS ///////////////////////////
-	/** Inserts parameter names into a method signature.
-	 *  TODO currently uses a0, a1, a2... for parameter names, might be a problem later?
+	/**
+	 * Inserts parameter names into a method signature.
 	 */
 	private String insertParamName(String sig, HashMap<Integer, String> register){
 		//if(sig.startsWith("main")) return "";
 		String params = sig.substring(sig.indexOf("(")+1, sig.length()-2).trim();
-		if(!params.equals("")){
+		if(!params.isEmpty() && !params.equals("void")){
+			// params is not empty and is not "void"
 			int i = 0;
 			String[] tokens = params.split(",");
 			// tidy up tokens, add the var name
 			while(i< tokens.length){
-				register.put(i, "a" + i); // TODO #################
+				register.put(i, "a" + i);
 				String token = tokens[i].trim();
 				int index = token.indexOf("[]");
 				if(index == -1){
@@ -373,7 +431,9 @@ public class Compiler {
 			}
 			params = " "+params+" ";
 		}
-		sig = sig.substring(0, sig.indexOf("(")+1) + params + ")";
+		sig = sig.substring(0, sig.indexOf("(")+1);
+		sig += params;
+		sig += ")";
 
 		return sig;
 	}

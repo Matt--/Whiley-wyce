@@ -4,26 +4,26 @@
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int nat;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   switch( a0.i ){
-    case 1 : goto label228;
-    default : goto label227;
+    case 1 : goto label203;
+    default : goto label202;
   }
-  label228: ;
+  label203: ;
   Any a4 = Int(1);
   Any a10 = Int(0);
-  if ( dataAsInt( a4 ) == dataAsInt( a10 ) ) { goto label229; };
+  if ( dataAsInt( a4 ) == dataAsInt( a10 ) ) { goto label204; };
   Any a12 = Int(1);
-  label229: ;
+  label204: ;
   return a4;
-  label227: ;
+  label202: ;
   Any a5 = Int(0);
   a10 = Int(0);
-  if ( dataAsInt( a5 ) == dataAsInt( a10 ) ) { goto label230; };
+  if ( dataAsInt( a5 ) == dataAsInt( a10 ) ) { goto label205; };
   a12 = Int(1);
-  label230: ;
+  label205: ;
   return a5;
 }
 

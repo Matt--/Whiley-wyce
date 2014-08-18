@@ -2,25 +2,23 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_indexOf ( Any , Any );
+Any x1x_indexOf ( Any , Any  );
 
 Any x1x_indexOf ( Any a0, Any a1 ){
   Any a3 = Int(0);
-  Any a2 = a3;
-  int count = a1[0];
-  loop_start_label208: ;
-  if(count == strlen(a1.s) ){ goto label208; }
+  int count = 0;
+  loop_start_label183: ;
+  if(count == strlen(a1.s) ){ goto label183; }
   Any a5 = Char( a1.s[count] );
   count++;
-  if ( dataAsInt( a0 ) != dataAsInt( a5 ) ) { goto label209; };
-  Any a8 = a2;
-  return a8;
-  label209: ;
+  if ( dataAsInt( a0 ) != dataAsInt( a5 ) ) { goto label184; };
+  return a3;
+  label184: ;
   Any a10 = Int(1);
-  Any a11 = wyce_add( a2 , a10);
-  a2 = a11;
-  goto loop_start_label208;
-  label208: ;
+  Any a11 = wyce_add( a3, a10);
+  a3 = a11;
+  goto loop_start_label183;
+  label183: ;
   Any a12 = Null();
   return a12;
 }

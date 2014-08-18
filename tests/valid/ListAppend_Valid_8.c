@@ -12,11 +12,11 @@ int main (){
   Any a8[] = {a6, a7};
   Any *a5 = a8;
   #### appending arrays not yet catered for;
-  Any *a9 = null;
+  Any *a9 = Null();
   Any a14 = Int(6);
   Any a15[] = {a14};
   #### appending arrays not yet catered for;
-  Any *a1 = null;
+  Any *a1 = Null();
   Any *a21 = a1;
   Any a20 = toStr ( a21 );
   println ( a20 );

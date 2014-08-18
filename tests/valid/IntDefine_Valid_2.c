@@ -5,17 +5,14 @@
 typedef int ir1nat;
 typedef int pir1nat;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   Any a2 = Int(2);
-  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label176; };
-  Any a4 = a0;
-  Any a3 = a4;
-  Any a6 = a3;
-  Any a5 = toStr ( a6 );
+  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label151; };
+  Any a5 = toStr ( a0 );
   return a5;
-  label176: ;
+  label151: ;
   Any a7 = Str("");
   return a7;
 }

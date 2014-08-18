@@ -2,9 +2,9 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef R1;
+typedef struct {Any x; } R1;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   Any a2;

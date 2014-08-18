@@ -41,7 +41,7 @@ native method cf_lib_getAcc()  => [real]
 native method cf_lib_getMag()  => [real]
 
 //void sensfusion6UpdateQ(float gx, float gy, float gz, float ax, float ay, float az, float dt);
-native method sensfusion6UpdateQ(real gx, real gy, real gz, real ax, real ay, real az, real dt)
+native method cf_lib_sensfusion6UpdateQ(real gx, real gy, real gz, real ax, real ay, real az, real dt)
 
 //void sensfusion6GetEulerRPY(float* roll, float* pitch, float* yaw);
 native method cf_lib_sensfusion6GetEulerRPY(real eulerRollActual, real eulerPitchActual, real eulerYawActual) //done
@@ -64,7 +64,7 @@ native method cf_lib_getYawRateDesired()   => real
 //void controllerCorrectRatePID(
 //       float rollRateActual, float pitchRateActual, float yawRateActual,
 //       float rollRateDesired, float pitchRateDesired, float yawRateDesired);
-native method controllerCorrectRatePID(real rollRateActual, real pitchRateActual, real yawRateActual, real rollRateDesired, real pitchRateDesired, real yawRateDesired)
+native method cf_lib_controllerCorrectRatePID(real rollRateActual, real pitchRateActual, real yawRateActual, real rollRateDesired, real pitchRateDesired, real yawRateDesired)
 
 //void controllerGetActuatorOutput(&actuatorRoll, &actuatorPitch, &actuatorYaw)
 native method cf_lib_controllerGetActuatorOutput(int actuatorRoll, int actuatorPitch, int actuatorYaw)
@@ -88,7 +88,7 @@ native method cf_lib_getPitchType() => string
 native method cf_lib_getYawType()   => string
 
 
-native method motorsSetRatio(int motor, int power)
+native method cf_lib_motorsSetRatio(int motor, int power)
 
 //method main(System.Console console):
 
@@ -171,7 +171,7 @@ method stabilizerTask() => void:
       attitudeCounter = attitudeCounter + 1
       if(attitudeCounter >= 2):
         real fusion_update_dt = 1.0/(500.0 / 2.0)
-        sensfusion6UpdateQ(gyro[0], gyro[1], gyro[2], acc[0], acc[1], acc[2], fusion_update_dt)
+        cf_lib_sensfusion6UpdateQ(gyro[0], gyro[1], gyro[2], acc[0], acc[1], acc[2], fusion_update_dt)
         cf_lib_sensfusion6GetEulerRPY(eulerRollActual, eulerPitchActual, eulerYawActual)
         eulerRollActual  = cf_lib_getEulerRollActual()
         eulerPitchActual = cf_lib_getEulerPitchActual()
@@ -187,7 +187,7 @@ method stabilizerTask() => void:
       // dropped several redundent if statements
       yawRateDesired = -eulerYawDesired
 
-      controllerCorrectRatePID(gyro[0], -gyro[1], gyro[2], rollRateDesired, pitchRateDesired, yawRateDesired)
+      cf_lib_controllerCorrectRatePID(gyro[0], -gyro[1], gyro[2], rollRateDesired, pitchRateDesired, yawRateDesired)
 
       cf_lib_controllerGetActuatorOutput(actuatorRoll, actuatorPitch, actuatorYaw)
       actuatorRoll  = cf_lib_getActuatorRoll()
@@ -208,10 +208,10 @@ method distributePower(int thrust, int roll, int pitch, int yaw): // takes uint1
   int motorPowerM3 = limitThrust(thrust - pitch + yaw)
   int motorPowerM4 = limitThrust(thrust + roll - yaw)
 
-  motorsSetRatio(/*MOTOR_M1*/0, motorPowerM1)
-  motorsSetRatio(/*MOTOR_M2*/1, motorPowerM2)
-  motorsSetRatio(/*MOTOR_M3*/2, motorPowerM3)
-  motorsSetRatio(/*MOTOR_M4*/3, motorPowerM4)
+  cf_lib_motorsSetRatio(/*MOTOR_M1*/0, motorPowerM1)
+  cf_lib_motorsSetRatio(/*MOTOR_M2*/1, motorPowerM2)
+  cf_lib_motorsSetRatio(/*MOTOR_M3*/2, motorPowerM3)
+  cf_lib_motorsSetRatio(/*MOTOR_M4*/3, motorPowerM4)
 
 method limitThrust(int v) => int: // converts an uint32 to a uint16
   int value = v

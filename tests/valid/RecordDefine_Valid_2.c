@@ -2,21 +2,20 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef record XXX Point;
+typedef struct {Any x; Any y; } Point;
 
-Any f ( Any );
+Point x1x_f ( Point  );
 
-Any f ( Any a0 ){
+Point x1x_f ( Point a0 ){
   return a0;
 }
 
 int main (){
   Any a3 = Int(1);
   Any a4 = Int(1);
-  Any a2 = f ( a5 );
-  Any a1 = a2;
-  Any a10 = a1;
-  Any a9 = toStr ( a10 );
+  Point a5 = { a3, a4 };
+  Point a2 = x1x_f ( a5 );
+  Any a9 = recordToStr2( "x", a2.x, "y", a2.y);
   println ( a9 );
   return 0;
 }

@@ -33,6 +33,7 @@ import org.junit.*;
 
 import wyc.WycMain;
 import wyc.testing.TestUtils;
+import wyce.Compiler;
 import wyce.Wyce;
 
  /**
@@ -229,7 +230,7 @@ import wyce.Wyce;
  	// ======================================================================
  	// Tests
  	// ======================================================================
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void Access_Valid_1() {
 		runTest("Access_Valid_1");
 	}
@@ -239,7 +240,7 @@ import wyce.Wyce;
 		runTest("Access_Valid_2");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Assume_Valid_1() {
 		runTest("Assume_Valid_1");
 	}
@@ -294,32 +295,32 @@ import wyce.Wyce;
 		runTest("BoolIfElse_Valid_2");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void BoolList_Valid_1() {
 		runTest("BoolList_Valid_1");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void BoolList_Valid_2() {
 		runTest("BoolList_Valid_2");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void BoolList_Valid_3() {
 		runTest("BoolList_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void BoolRecord_Valid_1() {
 		runTest("BoolRecord_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void BoolRecord_Valid_2() {
 		runTest("BoolRecord_Valid_2");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void BoolRequires_Valid_1() {
 		runTest("BoolRequires_Valid_1");
 	}
@@ -329,47 +330,47 @@ import wyce.Wyce;
 		runTest("BoolReturn_Valid_1");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_1() {
 		runTest("Byte_Valid_1");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_2() {
 		runTest("Byte_Valid_2");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_3() {
 		runTest("Byte_Valid_3");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_4() {
 		runTest("Byte_Valid_4");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_5() {
 		runTest("Byte_Valid_5");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_6() {
 		runTest("Byte_Valid_6");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_7() {
 		runTest("Byte_Valid_7");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_8() {
 		runTest("Byte_Valid_8");
 	}
 
-	@Ignore("byte type") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Byte_Valid_9() {
 		runTest("Byte_Valid_9");
 	}
@@ -379,27 +380,27 @@ import wyce.Wyce;
 		runTest("Cast_Valid_1");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Cast_Valid_2() {
 		runTest("Cast_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("castingrecordsxxx")@Test
 	public void Cast_Valid_3() {
 		runTest("Cast_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("castingrecordsxxx")@Test
 	public void Cast_Valid_4() {
 		runTest("Cast_Valid_4");
 	}
 
-	@Ignore("byte") @Test
+	@Ignore("bytetypexxx") @Test
 	public void Cast_Valid_5() {
 		runTest("Cast_Valid_5");
 	}
 
-	@Test // TODO real string format
+	@Ignore("printrealxxx")@Test // TODO real string format
 	public void Cast_Valid_6() {
 		runTest("Cast_Valid_6");
 	}
@@ -409,7 +410,7 @@ import wyce.Wyce;
 		runTest("Char_Valid_1");
 	}
 
-	@Ignore("???")@Test // TODO asks for char 'a' after bytecode converts the char to a string type
+	@Ignore("printchar")@Test // TODO asks for char 'a' after bytecode converts the char to a string type
 	public void Char_Valid_2() {
 		runTest("Char_Valid_2");
 	}
@@ -419,7 +420,7 @@ import wyce.Wyce;
 		runTest("Char_Valid_3");
 	}
 
-	@Ignore("method overloading")@Test // methods cannot accept 'any' either Any or Any[] not both
+	@Ignore("methodoverloadingxxx")@Test // methods cannot accept 'any' either Any or Any[] not both
 	public void Char_Valid_4() {
 		runTest("Char_Valid_4");
 	}
@@ -429,7 +430,7 @@ import wyce.Wyce;
 		runTest("Char_Valid_5");
 	}
 
-	@Test // TODO constant arrays
+	@Ignore("rangexxx")@Test // TODO constant arrays
 	public void Char_Valid_6() {
 		runTest("Char_Valid_6");
 	}
@@ -444,7 +445,7 @@ import wyce.Wyce;
 		runTest("Coercion_Valid_1");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Coercion_Valid_2() {
 		runTest("Coercion_Valid_2");
 	}
@@ -454,12 +455,12 @@ import wyce.Wyce;
 		runTest("Coercion_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Coercion_Valid_4() {
 		runTest("Coercion_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("setsxxx")@Test
 	public void Coercion_Valid_6() {
 		runTest("Coercion_Valid_6");
 	}
@@ -469,62 +470,62 @@ import wyce.Wyce;
 		runTest("Coercion_Valid_7");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Coercion_Valid_8() {
 		runTest("Coercion_Valid_8");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void Complex_Valid_1() {
 		runTest("Complex_Valid_1");
 	}
 
-	@Ignore("records")@Test
+	@Ignore("unionrecordsxxx")@Test
 	public void Complex_Valid_2() {
 		runTest("Complex_Valid_2");
 	}
 
-	@Ignore("not wyc compiled")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Complex_Valid_3() {
 		runTest("Complex_Valid_3");
 	}
 
-	@Ignore("records")@Test
+	@Ignore("unionrecordsxxx")@Test
 	public void Complex_Valid_4() {
 		runTest("Complex_Valid_4");
 	}
 
-	@Ignore("records")@Test
+	@Ignore("constantsxxx")@Test
 	public void Complex_Valid_5() {
 		runTest("Complex_Valid_5");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Complex_Valid_6() {
 		runTest("Complex_Valid_6");
 	}
 
-	@Ignore("not wyc compiled")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Constant_Valid_1() {
 		runTest("Constant_Valid_1");
 	}
 
-	@Ignore("not wyc compiled")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Constant_Valid_2() {
 		runTest("Constant_Valid_2");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Constant_Valid_3() {
 		runTest("Constant_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void ConstrainedDictionary_Valid_1() {
 		runTest("ConstrainedDictionary_Valid_1");
 	}
 
-	@Ignore("record")@Test
+	@Test
 	public void ConstrainedInt_Valid_1() {
 		runTest("ConstrainedInt_Valid_1");
 	}
@@ -539,22 +540,22 @@ import wyce.Wyce;
 		runTest("ConstrainedInt_Valid_12");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void ConstrainedInt_Valid_13() {
 		runTest("ConstrainedInt_Valid_13");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void ConstrainedInt_Valid_14() {
 		runTest("ConstrainedInt_Valid_14");
 	}
 
-	@Ignore("type where condition")@Test
+	@Ignore("typewhereconditionxxx")@Test
 	public void ConstrainedInt_Valid_15() {
 		runTest("ConstrainedInt_Valid_15");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedInt_Valid_16() {
 		runTest("ConstrainedInt_Valid_16");
 	}
@@ -569,7 +570,7 @@ import wyce.Wyce;
 		runTest("ConstrainedInt_Valid_18");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void ConstrainedInt_Valid_19() {
 		runTest("ConstrainedInt_Valid_19");
 	}
@@ -579,7 +580,7 @@ import wyce.Wyce;
 		runTest("ConstrainedInt_Valid_2");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void ConstrainedInt_Valid_20() {
 		runTest("ConstrainedInt_Valid_20");
 	}
@@ -594,7 +595,7 @@ import wyce.Wyce;
 		runTest("ConstrainedInt_Valid_22");
 	}
 
-	@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedInt_Valid_23() {
 		runTest("ConstrainedInt_Valid_23");
 	}
@@ -604,7 +605,7 @@ import wyce.Wyce;
 		runTest("ConstrainedInt_Valid_3");
 	}
 
-	@Ignore("type where constraint") @Test
+	@Ignore("typewhereconditionxxx") @Test
 	public void ConstrainedInt_Valid_4() {
 		runTest("ConstrainedInt_Valid_4");
 	}
@@ -614,32 +615,32 @@ import wyce.Wyce;
 		runTest("ConstrainedInt_Valid_5");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void ConstrainedInt_Valid_6() {
 		runTest("ConstrainedInt_Valid_6");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void ConstrainedInt_Valid_8() {
 		runTest("ConstrainedInt_Valid_8");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void ConstrainedList_Valid_1() {
 		runTest("ConstrainedList_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("recordsizexxx")@Test
 	public void ConstrainedList_Valid_11() {
 		runTest("ConstrainedList_Valid_11");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_12() {
 		runTest("ConstrainedList_Valid_12");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_14() {
 		runTest("ConstrainedList_Valid_14");
 	}
@@ -649,192 +650,192 @@ import wyce.Wyce;
 		runTest("ConstrainedList_Valid_15");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_16() {
 		runTest("ConstrainedList_Valid_16");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void ConstrainedList_Valid_17() {
 		runTest("ConstrainedList_Valid_17");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_18() {
 		runTest("ConstrainedList_Valid_18");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_19() {
 		runTest("ConstrainedList_Valid_19");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_2() {
 		runTest("ConstrainedList_Valid_2");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_20() {
 		runTest("ConstrainedList_Valid_20");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_21() {
 		runTest("ConstrainedList_Valid_21");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_22() {
 		runTest("ConstrainedList_Valid_22");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void ConstrainedList_Valid_23() {
 		runTest("ConstrainedList_Valid_23");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_24() {
 		runTest("ConstrainedList_Valid_24");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_25() {
 		runTest("ConstrainedList_Valid_25");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_26() {
 		runTest("ConstrainedList_Valid_26");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_3() {
 		runTest("ConstrainedList_Valid_3");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_4() {
 		runTest("ConstrainedList_Valid_4");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_5() {
 		runTest("ConstrainedList_Valid_5");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_6() {
 		runTest("ConstrainedList_Valid_6");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_7() {
 		runTest("ConstrainedList_Valid_7");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_8() {
 		runTest("ConstrainedList_Valid_8");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ConstrainedList_Valid_9() {
 		runTest("ConstrainedList_Valid_9");
 	}
 
-	@Ignore("not wyc compiled")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void ConstrainedNegation_Valid_1() {
 		runTest("ConstrainedNegation_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void ConstrainedRecord_Valid_1() {
 		runTest("ConstrainedRecord_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("constantxxx")@Test
 	public void ConstrainedRecord_Valid_2() {
 		runTest("ConstrainedRecord_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arrayinmethodscope")@Test
 	public void ConstrainedRecord_Valid_3() {
 		runTest("ConstrainedRecord_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void ConstrainedRecord_Valid_4() {
 		runTest("ConstrainedRecord_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void ConstrainedRecord_Valid_5() {
 		runTest("ConstrainedRecord_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void ConstrainedRecord_Valid_6() {
 		runTest("ConstrainedRecord_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("constantxxx")@Test
 	public void ConstrainedRecord_Valid_8() {
 		runTest("ConstrainedRecord_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("nestedarrays")@Test
 	public void ConstrainedRecord_Valid_9() {
 		runTest("ConstrainedRecord_Valid_9");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_1() {
 		runTest("ConstrainedSet_Valid_1");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_2() {
 		runTest("ConstrainedSet_Valid_2");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_3() {
 		runTest("ConstrainedSet_Valid_3");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_4() {
 		runTest("ConstrainedSet_Valid_4");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_5() {
 		runTest("ConstrainedSet_Valid_5");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_6() {
 		runTest("ConstrainedSet_Valid_6");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_7() {
 		runTest("ConstrainedSet_Valid_7");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void ConstrainedSet_Valid_8() {
 		runTest("ConstrainedSet_Valid_8");
 	}
 
-	@Ignore("tuple")@Test
+	@Ignore("tuplesxxx")@Test
 	public void ConstrainedTuple_Valid_1() {
 		runTest("ConstrainedTuple_Valid_1");
 	}
 
-	@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Contractive_Valid_1() {
 		runTest("Contractive_Valid_1");
 	}
@@ -844,17 +845,17 @@ import wyce.Wyce;
 		runTest("Contractive_Valid_2");
 	}
 
-	@Test // needs real to print as (-154/125)
+	@Ignore("printrealxxx")@Test // needs real to print as (-154/125)
 	public void DecimalAssignment_Valid_1() {
 		runTest("DecimalAssignment_Valid_1");
 	}
 
-	@Ignore("record")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Define_Valid_1() {
 		runTest("Define_Valid_1");
 	}
 
-	@Ignore("record")@Test
+	@Test
 	public void Define_Valid_2() {
 		runTest("Define_Valid_2");
 	}
@@ -864,92 +865,92 @@ import wyce.Wyce;
 		runTest("Define_Valid_3");
 	}
 
-	@Ignore("record")@Test
+	@Ignore("recordcontainsarrayxxx")@Test
 	public void Define_Valid_4() {
 		runTest("Define_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_1() {
 		runTest("Dictionary_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_10() {
 		runTest("Dictionary_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_11() {
 		runTest("Dictionary_Valid_11");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_12() {
 		runTest("Dictionary_Valid_12");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_13() {
 		runTest("Dictionary_Valid_13");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_14() {
 		runTest("Dictionary_Valid_14");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_15() {
 		runTest("Dictionary_Valid_15");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_16() {
 		runTest("Dictionary_Valid_16");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_2() {
 		runTest("Dictionary_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_3() {
 		runTest("Dictionary_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_4() {
 		runTest("Dictionary_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_5() {
 		runTest("Dictionary_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_6() {
 		runTest("Dictionary_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_7() {
 		runTest("Dictionary_Valid_7");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_8() {
 		runTest("Dictionary_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void Dictionary_Valid_9() {
 		runTest("Dictionary_Valid_9");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void DoWhile_Valid_1() {
 		runTest("DoWhile_Valid_1");
 	}
@@ -964,17 +965,17 @@ import wyce.Wyce;
 		runTest("DoWhile_Valid_3");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void DoWhile_Valid_4() {
 		runTest("DoWhile_Valid_4");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void DoWhile_Valid_5() {
 		runTest("DoWhile_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void EffectiveList_Valid_1() {
 		runTest("EffectiveList_Valid_1");
 	}
@@ -989,7 +990,7 @@ import wyce.Wyce;
 		runTest("Ensures_Valid_2");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void Ensures_Valid_3() {
 		runTest("Ensures_Valid_3");
 	}
@@ -1004,102 +1005,102 @@ import wyce.Wyce;
 		runTest("Ensures_Valid_5");
 	}
 
-	@Ignore("wyc bytecode generates a loop error")@Test
+	@Ignore("badtestxxx")@Test
 	public void Ensures_Valid_6() {
 		runTest("Ensures_Valid_6");
 	}
 
-	@Ignore("wyc bytecode generates a loop error")@Test
+	@Ignore("badtestxxx")@Test
 	public void Ensures_Valid_7() {
 		runTest("Ensures_Valid_7");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void For_Valid_1() {
 		runTest("For_Valid_1");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void For_Valid_10() {
 		runTest("For_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void For_Valid_11() {
 		runTest("For_Valid_11");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("setsizexxx")@Test
 	public void For_Valid_12() {
 		runTest("For_Valid_12");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("setsizesxxx")@Test
 	public void For_Valid_13() {
 		runTest("For_Valid_13");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void For_Valid_14() {
 		runTest("For_Valid_14");
 	}
 
-	@Ignore("type where constraint") @Test
+	@Ignore("typewhereconditionxxx") @Test
 	public void For_Valid_15() {
 		runTest("For_Valid_15");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void For_Valid_16() {
 		runTest("For_Valid_16");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void For_Valid_17() {
 		runTest("For_Valid_17");
 	}
 
-	@Ignore("sets")@Test
+	@Ignore("setsxxx")@Test
 	public void For_Valid_18() {
 		runTest("For_Valid_18");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void For_Valid_2() {
 		runTest("For_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("tuplesxxx")@Test
 	public void For_Valid_3() {
 		runTest("For_Valid_3");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void For_Valid_4() {
 		runTest("For_Valid_4");
 	}
 
-	@Ignore("tuples") @Test
+	@Ignore("tuplesxxx") @Test
 	public void For_Valid_5() {
 		runTest("For_Valid_5");
 	}
 
-	@Ignore("not wyc compiling") @Test
+	@Ignore("notwyccompiledxxx") @Test
 	public void For_Valid_6() {
 		runTest("For_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void For_Valid_7() {
 		runTest("For_Valid_7");
 	}
 
-	@Ignore("for in loop")@Test //TODO
+	@Ignore("forinloopxxx")@Test //TODO
 	public void For_Valid_8() {
 		runTest("For_Valid_8");
 	}
 
-	@Ignore("for in loop")@Test //TODO
+	@Ignore("forinloopxxx")@Test //TODO
 	public void For_Valid_9() {
 		runTest("For_Valid_9");
 	}
@@ -1109,7 +1110,7 @@ import wyce.Wyce;
 		runTest("FunctionRef_Valid_1");
 	}
 
-	@Test
+	@Ignore("notwyccompiled")@Test
 	public void FunctionRef_Valid_2() {
 		runTest("FunctionRef_Valid_2");
 	}
@@ -1119,22 +1120,22 @@ import wyce.Wyce;
 		runTest("FunctionRef_Valid_3");
 	}
 
-	@Test
+	@Ignore("Constantarrayxxx")@Test
 	public void FunctionRef_Valid_4() {
 		runTest("FunctionRef_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void FunctionRef_Valid_5() {
 		runTest("FunctionRef_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void FunctionRef_Valid_6() {
 		runTest("FunctionRef_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void FunctionRef_Valid_7() {
 		runTest("FunctionRef_Valid_7");
 	}
@@ -1144,42 +1145,42 @@ import wyce.Wyce;
 		runTest("FunctionRef_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void FunctionRef_Valid_9() {
 		runTest("FunctionRef_Valid_9");
 	}
 
-	@Ignore("method overloading")@Test // failing as cannot do method overloading
+	@Ignore("methodoverloadingxxx")@Test // failing as cannot do method overloading
 	public void Function_Valid_1() {
 		runTest("Function_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void Function_Valid_10() {
 		runTest("Function_Valid_10");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("methodoverloadingxxx")@Test
 	public void Function_Valid_12() {
 		runTest("Function_Valid_12");
 	}
 
-	@Ignore("records") @Test
+	@Test
 	public void Function_Valid_13() {
 		runTest("Function_Valid_13");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void Function_Valid_14() {
 		runTest("Function_Valid_14");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Function_Valid_16() {
 		runTest("Function_Valid_16");
 	}
 
-	@Ignore("array size")@Test
+	@Ignore("arraysizexxx")@Test
 	public void Function_Valid_17() {
 		runTest("Function_Valid_17");
 	}
@@ -1189,7 +1190,7 @@ import wyce.Wyce;
 		runTest("Function_Valid_18");
 	}
 
-	@Ignore("asserts") @Test
+	@Ignore("assertsxxx") @Test
 	public void Function_Valid_19() {
 		runTest("Function_Valid_19");
 	}
@@ -1209,7 +1210,7 @@ import wyce.Wyce;
 		runTest("Function_Valid_21");
 	}
 
-	@Ignore("big number") @Test
+	@Ignore("bignumberxxx") @Test
 	public void Function_Valid_3() {
 		runTest("Function_Valid_3");
 	}
@@ -1224,22 +1225,22 @@ import wyce.Wyce;
 		runTest("Function_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("setsxxx")@Test
 	public void Function_Valid_6() {
 		runTest("Function_Valid_6");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void Function_Valid_7() {
 		runTest("Function_Valid_7");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void Function_Valid_8() {
 		runTest("Function_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("setsxxx")@Test
 	public void Function_Valid_9() {
 		runTest("Function_Valid_9");
 	}
@@ -1264,7 +1265,7 @@ import wyce.Wyce;
 		runTest("IfElse_Valid_3");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void IfElse_Valid_4() {
 		runTest("IfElse_Valid_4");
 	}
@@ -1279,7 +1280,7 @@ import wyce.Wyce;
 		runTest("Import_Valid_2");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void Import_Valid_3() {
 		runTest("Import_Valid_3");
 	}
@@ -1304,7 +1305,7 @@ import wyce.Wyce;
 		runTest("Import_Valid_7");
 	}
 
-	@Ignore("big integer") @Test
+	@Ignore("bignumberxxx") @Test
 	public void IntConst_Valid_1() {
 		runTest("IntConst_Valid_1");
 	}
@@ -1334,7 +1335,7 @@ import wyce.Wyce;
 		runTest("IntDiv_Valid_4");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void IntDiv_Valid_5() {
 		runTest("IntDiv_Valid_5");
 	}
@@ -1353,37 +1354,37 @@ import wyce.Wyce;
 		runTest("IntMul_Valid_2");
 	}
 
-	@Ignore("big number") @Test
+	@Ignore("bignumberxxx") @Test
 	public void IntOp_Valid_1() {
 		runTest("IntOp_Valid_1");
 	}
 
-	@Ignore("not wyc compiling") @Test
+	@Ignore("notwyccompiledxxx") @Test
 	public void Intersection_Valid_1() {
 		runTest("Intersection_Valid_1");
 	}
 
-	@Ignore("not wyc compiling") @Test
+	@Ignore("notwyccompiledxxx") @Test
 	public void Intersection_Valid_2() {
 		runTest("Intersection_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Lambda_Valid_1() {
 		runTest("Lambda_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("Complicated")@Test
 	public void Lambda_Valid_2() {
 		runTest("Lambda_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void Lambda_Valid_3() {
 		runTest("Lambda_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void Lambda_Valid_4() {
 		runTest("Lambda_Valid_4");
 	}
@@ -1403,207 +1404,207 @@ import wyce.Wyce;
 		runTest("Lambda_Valid_7");
 	}
 
-	@Test
+	@Ignore("returnsfunction")@Test
 	public void Lambda_Valid_8() {
 		runTest("Lambda_Valid_8");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void LengthOf_Valid_1() {
 		runTest("LengthOf_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void LengthOf_Valid_2() {
 		runTest("LengthOf_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void LengthOf_Valid_3() {
 		runTest("LengthOf_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void LengthOf_Valid_4() {
 		runTest("LengthOf_Valid_4");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void LengthOf_Valid_5() {
 		runTest("LengthOf_Valid_5");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAccess_Valid_1() {
 		runTest("ListAccess_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListAccess_Valid_3() {
 		runTest("ListAccess_Valid_3");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void ListAccess_Valid_5() {
 		runTest("ListAccess_Valid_5");
 	}
 
-	@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void ListAccess_Valid_6() {
 		runTest("ListAccess_Valid_6");
 	}
 
-	@Ignore("not wyc compiling") @Test
+	@Ignore("notwyccompiledxxx") @Test
 	public void ListAccess_Valid_7() {
 		runTest("ListAccess_Valid_7");
 	}
 
-	@Ignore("bytes") @Test
+	@Ignore("bytetypexxx") @Test
 	public void ListAccess_Valid_8() {
 		runTest("ListAccess_Valid_8");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_1() {
 		runTest("ListAppend_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListAppend_Valid_11() {
 		runTest("ListAppend_Valid_11");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListAppend_Valid_13() {
 		runTest("ListAppend_Valid_13");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListAppend_Valid_14() {
 		runTest("ListAppend_Valid_14");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_2() {
 		runTest("ListAppend_Valid_2");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_3() {
 		runTest("ListAppend_Valid_3");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_4() {
 		runTest("ListAppend_Valid_4");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_5() {
 		runTest("ListAppend_Valid_5");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_6() {
 		runTest("ListAppend_Valid_6");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_7() {
 		runTest("ListAppend_Valid_7");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_8() {
 		runTest("ListAppend_Valid_8");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAppend_Valid_9() {
 		runTest("ListAppend_Valid_9");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAssign_Valid_1() {
 		runTest("ListAssign_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListAssign_Valid_11() {
 		runTest("ListAssign_Valid_11");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void ListAssign_Valid_2() {
 		runTest("ListAssign_Valid_2");
 	}
 
-	@Test
+	@Ignore("nestedarraysxxx")@Test
 	public void ListAssign_Valid_3() {
 		runTest("ListAssign_Valid_3");
 	}
 
-	@Test
+	@Ignore("setsxxx")@Test
 	public void ListAssign_Valid_4() {
 		runTest("ListAssign_Valid_4");
 	}
 
-	@Test
+	@Ignore("nestedarraysxxx")@Test
 	public void ListAssign_Valid_5() {
 		runTest("ListAssign_Valid_5");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAssign_Valid_6() {
 		runTest("ListAssign_Valid_6");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void ListAssign_Valid_7() {
 		runTest("ListAssign_Valid_7");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void ListAssign_Valid_8() {
 		runTest("ListAssign_Valid_8");
 	}
 
-	@Test
+	@Ignore("returnslocalarrayxxx")@Test
 	public void ListAssign_Valid_9() {
 		runTest("ListAssign_Valid_9");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListConversion_Valid_1() {
 		runTest("ListConversion_Valid_1");
 	}
 
-	@Test
+	@Ignore("searcharrayxxx")@Test
 	public void ListElemOf_Valid_1() {
 		runTest("ListElemOf_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListEmpty_Valid_1() {
 		runTest("ListEmpty_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListEquals_Valid_1() {
 		runTest("ListEquals_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListGenerator_Valid_1() {
 		runTest("ListGenerator_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListGenerator_Valid_2() {
 		runTest("ListGenerator_Valid_2");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListGenerator_Valid_3() {
 		runTest("ListGenerator_Valid_3");
 	}
@@ -1613,7 +1614,7 @@ import wyce.Wyce;
 		runTest("ListGenerator_Valid_5");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListLength_Valid_1() {
 		runTest("ListLength_Valid_1");
 	}
@@ -1628,67 +1629,67 @@ import wyce.Wyce;
 		runTest("ListLength_Valid_3");
 	}
 
-	@Test
+	@Ignore("rangexxx")@Test
 	public void ListRange_Valid_1() {
 		runTest("ListRange_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListSublist_Valid_1() {
 		runTest("ListSublist_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListSublist_Valid_2() {
 		runTest("ListSublist_Valid_2");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListSublist_Valid_3() {
 		runTest("ListSublist_Valid_3");
 	}
 
-	@Test
+	@Ignore("rangexxx")@Test
 	public void ListSublist_Valid_4() {
 		runTest("ListSublist_Valid_4");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void ListSublist_Valid_5() {
 		runTest("ListSublist_Valid_5");
 	}
 
-	@Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void MessageRef_Valid_1() {
 		runTest("MessageRef_Valid_1");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void MessageRef_Valid_2() {
 		runTest("MessageRef_Valid_2");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void MessageSend_Valid_1() {
 		runTest("MessageSend_Valid_1");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void MessageSend_Valid_2() {
 		runTest("MessageSend_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void MessageSend_Valid_3() {
 		runTest("MessageSend_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void MessageSend_Valid_4() {
 		runTest("MessageSend_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void MessageSend_Valid_5() {
 		runTest("MessageSend_Valid_5");
 	}
@@ -1698,32 +1699,32 @@ import wyce.Wyce;
 		runTest("MethodCall_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arrayinmethodscope")@Test
 	public void MethodCall_Valid_2() {
 		runTest("MethodCall_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void MethodCall_Valid_3() {
 		runTest("MethodCall_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void MethodCall_Valid_4() {
 		runTest("MethodCall_Valid_4");
 	}
 
-	@Test
+	@Ignore("methodtypexxx")@Test
 	public void MethodRef_Valid_1() {
 		runTest("MethodRef_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void MethodRef_Valid_2() {
 		runTest("MethodRef_Valid_2");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void Method_Valid_1() {
 		runTest("Method_Valid_1");
 	}
@@ -1738,7 +1739,7 @@ import wyce.Wyce;
 		runTest("MultiLineComment_Valid_2");
 	}
 
-	@Test
+	@Ignore("arraysizexxx")@Test
 	public void NegationType_Valid_1() {
 		runTest("NegationType_Valid_1");
 	}
@@ -1748,7 +1749,7 @@ import wyce.Wyce;
 		runTest("NegationType_Valid_2");
 	}
 
-	@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void NegationType_Valid_3() {
 		runTest("NegationType_Valid_3");
 	}
@@ -1758,52 +1759,52 @@ import wyce.Wyce;
 		runTest("NegationType_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_1() {
 		runTest("OpenRecord_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_10() {
 		runTest("OpenRecord_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_2() {
 		runTest("OpenRecord_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_3() {
 		runTest("OpenRecord_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_4() {
 		runTest("OpenRecord_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_5() {
 		runTest("OpenRecord_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_6() {
 		runTest("OpenRecord_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_7() {
 		runTest("OpenRecord_Valid_7");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_8() {
 		runTest("OpenRecord_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void OpenRecord_Valid_9() {
 		runTest("OpenRecord_Valid_9");
 	}
@@ -1813,32 +1814,32 @@ import wyce.Wyce;
 		runTest("Print_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void ProcessAccess_Valid_1() {
 		runTest("ProcessAccess_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void ProcessAccess_Valid_2() {
 		runTest("ProcessAccess_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_1() {
 		runTest("Process_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("recordsizexxx")@Test
 	public void Process_Valid_10() {
 		runTest("Process_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_11() {
 		runTest("Process_Valid_11");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_12() {
 		runTest("Process_Valid_12");
 	}
@@ -1863,57 +1864,57 @@ import wyce.Wyce;
 		runTest("Process_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_4() {
 		runTest("Process_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_5() {
 		runTest("Process_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void Process_Valid_6() {
 		runTest("Process_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_7() {
 		runTest("Process_Valid_7");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("passrecordaddressxxx")@Test
 	public void Process_Valid_8() {
 		runTest("Process_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void Process_Valid_9() {
 		runTest("Process_Valid_9");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx")@Test
 	public void Quantifiers_Valid_1() {
 		runTest("Quantifiers_Valid_1");
 	}
 
-	@Test
+	@Ignore("rangexxx")@Test
 	public void Range_Valid_1() {
 		runTest("Range_Valid_1");
 	}
 
-	@Test
+	@Ignore("bignumberxxx")@Test
 	public void RealConst_Valid_1() {
 		runTest("RealConst_Valid_1");
 	}
 
-	@Ignore("print real")@Test // TODO
+	@Ignore("printrealxxx")@Test // TODO
 	public void RealDiv_Valid_1() {
 		runTest("RealDiv_Valid_1");
 	}
 
-	@Ignore("print real")@Test // TODO
+	@Ignore("printrealxxx")@Test // TODO
 	public void RealDiv_Valid_2() {
 		runTest("RealDiv_Valid_2");
 	}
@@ -1938,37 +1939,37 @@ import wyce.Wyce;
 		runTest("RealDiv_Valid_6");
 	}
 
-	@Ignore("print real")@Test // TODO
+	@Ignore("printrealxxx")@Test // TODO
 	public void RealDiv_Valid_7() {
 		runTest("RealDiv_Valid_7");
 	}
 
-	@Test
+	@Ignore("printrealxxx")@Test
 	public void RealNeg_Valid_1() {
 		runTest("RealNeg_Valid_1");
 	}
 
-	@Test
+	@Ignore("printrealxxx")@Test
 	public void RealNeg_Valid_2() {
 		runTest("RealNeg_Valid_2");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void RealSplit_Valid_1() {
 		runTest("RealSplit_Valid_1");
 	}
 
-	@Test
+	@Ignore("printrealxxx")@Test
 	public void RealSub_Valid_1() {
 		runTest("RealSub_Valid_1");
 	}
 
-	@Test
+	@Ignore("printrealxxx")@Test
 	public void RealSub_Valid_2() {
 		runTest("RealSub_Valid_2");
 	}
 
-	@Test
+	@Ignore("printrealxxx")@Test
 	public void RealSub_Valid_3() {
 		runTest("RealSub_Valid_3");
 	}
@@ -1978,92 +1979,92 @@ import wyce.Wyce;
 		runTest("Real_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void RecordAccess_Valid_1() {
 		runTest("RecordAccess_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecordAccess_Valid_2() {
 		runTest("RecordAccess_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordAssign_Valid_1() {
 		runTest("RecordAssign_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordAssign_Valid_10() {
 		runTest("RecordAssign_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("nestedrecordsxxx")@Test
 	public void RecordAssign_Valid_2() {
 		runTest("RecordAssign_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordAssign_Valid_3() {
 		runTest("RecordAssign_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("duplicaterecordtypesignature")@Test
 	public void RecordAssign_Valid_4() {
 		runTest("RecordAssign_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("duplicaterecordtypesignature")@Test
 	public void RecordAssign_Valid_5() {
 		runTest("RecordAssign_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordAssign_Valid_6() {
 		runTest("RecordAssign_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("assignrecordtoany")@Test
 	public void RecordAssign_Valid_7() {
 		runTest("RecordAssign_Valid_7");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordAssign_Valid_8() {
 		runTest("RecordAssign_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("Union type")@Test
 	public void RecordAssign_Valid_9() {
 		runTest("RecordAssign_Valid_9");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("realtonum/den")@Test
 	public void RecordCoercion_Valid_1() {
 		runTest("RecordCoercion_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("recordconversion")@Test
 	public void RecordConversion_Valid_1() {
 		runTest("RecordConversion_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordDefine_Valid_1() {
 		runTest("RecordDefine_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecordDefine_Valid_2() {
 		runTest("RecordDefine_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void RecordSubtype_Valid_1() {
 		runTest("RecordSubtype_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void RecordSubtype_Valid_2() {
 		runTest("RecordSubtype_Valid_2");
 	}
@@ -2073,142 +2074,142 @@ import wyce.Wyce;
 		runTest("RecursiveType_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_10() {
 		runTest("RecursiveType_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_11() {
 		runTest("RecursiveType_Valid_11");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_12() {
 		runTest("RecursiveType_Valid_12");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_13() {
 		runTest("RecursiveType_Valid_13");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_14() {
 		runTest("RecursiveType_Valid_14");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_15() {
 		runTest("RecursiveType_Valid_15");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_16() {
 		runTest("RecursiveType_Valid_16");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_17() {
 		runTest("RecursiveType_Valid_17");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_18() {
 		runTest("RecursiveType_Valid_18");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_19() {
 		runTest("RecursiveType_Valid_19");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_2() {
 		runTest("RecursiveType_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_20() {
 		runTest("RecursiveType_Valid_20");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_21() {
 		runTest("RecursiveType_Valid_21");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_22() {
 		runTest("RecursiveType_Valid_22");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_23() {
 		runTest("RecursiveType_Valid_23");
 	}
 
-	@Ignore("??? using array as a record") @Test
+	@Ignore("unionwitharrayxxx")@Test
 	public void RecursiveType_Valid_24() {
 		runTest("RecursiveType_Valid_24");
 	}
 
-	@Ignore("union real and array") @Test
+	@Ignore("unionwitharrayxxx") @Test
 	public void RecursiveType_Valid_25() {
 		runTest("RecursiveType_Valid_25");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_26() {
 		runTest("RecursiveType_Valid_26");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_27() {
 		runTest("RecursiveType_Valid_27");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void RecursiveType_Valid_28() {
 		runTest("RecursiveType_Valid_28");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void RecursiveType_Valid_3() {
 		runTest("RecursiveType_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arraysizexxx")@Test
 	public void RecursiveType_Valid_4() {
 		runTest("RecursiveType_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void RecursiveType_Valid_5() {
 		runTest("RecursiveType_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecursiveType_Valid_6() {
 		runTest("RecursiveType_Valid_6");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void RecursiveType_Valid_7() {
 		runTest("RecursiveType_Valid_7");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecursiveType_Valid_8() {
 		runTest("RecursiveType_Valid_8");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void RecursiveType_Valid_9() {
 		runTest("RecursiveType_Valid_9");
 	}
 
-	@Ignore("not wyc compiled")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Reference_Valid_1() {
 		runTest("Reference_Valid_1");
 	}
@@ -2218,7 +2219,7 @@ import wyce.Wyce;
 		runTest("Remainder_Valid_1");
 	}
 
-	@Ignore("debug") @Test
+	@Ignore("debugxxx") @Test
 	public void Requires_Valid_1() {
 		runTest("Requires_Valid_1");
 	}
@@ -2228,292 +2229,292 @@ import wyce.Wyce;
 		runTest("Resolution_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetAssign_Valid_1() {
 		runTest("SetAssign_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetAssign_Valid_2() {
 		runTest("SetAssign_Valid_2");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetAssign_Valid_3() {
 		runTest("SetAssign_Valid_3");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_1() {
 		runTest("SetComprehension_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_10() {
 		runTest("SetComprehension_Valid_10");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_11() {
 		runTest("SetComprehension_Valid_11");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_12() {
 		runTest("SetComprehension_Valid_12");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_2() {
 		runTest("SetComprehension_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionsetsxxx")@Test
 	public void SetComprehension_Valid_3() {
 		runTest("SetComprehension_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionsetsxxx")@Test
 	public void SetComprehension_Valid_4() {
 		runTest("SetComprehension_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("unionsetsxxx")@Test
 	public void SetComprehension_Valid_5() {
 		runTest("SetComprehension_Valid_5");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_6() {
 		runTest("SetComprehension_Valid_6");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_7() {
 		runTest("SetComprehension_Valid_7");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetComprehension_Valid_8() {
 		runTest("SetComprehension_Valid_8");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void SetComprehension_Valid_9() {
 		runTest("SetComprehension_Valid_9");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetConversion_Valid_1() {
 		runTest("SetConversion_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetDefine_Valid_1() {
 		runTest("SetDefine_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetDefine_Valid_2() {
 		runTest("SetDefine_Valid_2");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetDefine_Valid_3() {
 		runTest("SetDefine_Valid_3");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetDifference_Valid_1() {
 		runTest("SetDifference_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetElemOf_Valid_1() {
 		runTest("SetElemOf_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetEmpty_Valid_1() {
 		runTest("SetEmpty_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetEquals_Valid_1() {
 		runTest("SetEquals_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetGenerator_Valid_1() {
 		runTest("SetGenerator_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersect_Valid_1() {
 		runTest("SetIntersect_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersect_Valid_2() {
 		runTest("SetIntersect_Valid_2");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_1() {
 		runTest("SetIntersection_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_2() {
 		runTest("SetIntersection_Valid_2");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_3() {
 		runTest("SetIntersection_Valid_3");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_4() {
 		runTest("SetIntersection_Valid_4");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_5() {
 		runTest("SetIntersection_Valid_5");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_6() {
 		runTest("SetIntersection_Valid_6");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetIntersection_Valid_7() {
 		runTest("SetIntersection_Valid_7");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetLength_Valid_1() {
 		runTest("SetLength_Valid_1");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetNull_Valid_1() {
 		runTest("SetNull_Valid_1");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_1() {
 		runTest("SetSubset_Valid_1");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_10() {
 		runTest("SetSubset_Valid_10");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_11() {
 		runTest("SetSubset_Valid_11");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_12() {
 		runTest("SetSubset_Valid_12");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_2() {
 		runTest("SetSubset_Valid_2");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_3() {
 		runTest("SetSubset_Valid_3");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_4() {
 		runTest("SetSubset_Valid_4");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_5() {
 		runTest("SetSubset_Valid_5");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_6() {
 		runTest("SetSubset_Valid_6");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_7() {
 		runTest("SetSubset_Valid_7");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_8() {
 		runTest("SetSubset_Valid_8");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetSubset_Valid_9() {
 		runTest("SetSubset_Valid_9");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetUnion_Valid_1() {
 		runTest("SetUnion_Valid_1");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetUnion_Valid_10() {
 		runTest("SetUnion_Valid_10");
 	}
 
-	@Ignore("subset") @Test
+	@Ignore("subsetxxx") @Test
 	public void SetUnion_Valid_11() {
 		runTest("SetUnion_Valid_11");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_2() {
 		runTest("SetUnion_Valid_2");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_3() {
 		runTest("SetUnion_Valid_3");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_4() {
 		runTest("SetUnion_Valid_4");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_5() {
 		runTest("SetUnion_Valid_5");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_6() {
 		runTest("SetUnion_Valid_6");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_7() {
 		runTest("SetUnion_Valid_7");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_8() {
 		runTest("SetUnion_Valid_8");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void SetUnion_Valid_9() {
 		runTest("SetUnion_Valid_9");
 	}
@@ -2528,7 +2529,7 @@ import wyce.Wyce;
 		runTest("Skip_Valid_1");
 	}
 
-	@Ignore("record - syntaxError")@Test
+	@Ignore("trycatchxxx")@Test
 	public void String_Valid_1() {
 		runTest("String_Valid_1");
 	}
@@ -2558,82 +2559,82 @@ import wyce.Wyce;
 		runTest("String_Valid_6");
 	}
 
-	@Test
+	@Ignore("rangexxx")@Test
 	public void String_Valid_7() {
 		runTest("String_Valid_7");
 	}
 
-	@Test
+	@Ignore("rangexxx")@Test
 	public void String_Valid_8() {
 		runTest("String_Valid_8");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void Subtype_Valid_1() {
 		runTest("Subtype_Valid_1");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Subtype_Valid_10() {
 		runTest("Subtype_Valid_10");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Subtype_Valid_11() {
 		runTest("Subtype_Valid_11");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Subtype_Valid_12() {
 		runTest("Subtype_Valid_12");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Subtype_Valid_13() {
 		runTest("Subtype_Valid_13");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Subtype_Valid_14() {
 		runTest("Subtype_Valid_14");
 	}
 
-	@Ignore("record") @Test
+	@Test
 	public void Subtype_Valid_2() {
 		runTest("Subtype_Valid_2");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arrayofrecords")@Test
 	public void Subtype_Valid_3() {
 		runTest("Subtype_Valid_3");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arrayofrecords")@Test
 	public void Subtype_Valid_4() {
 		runTest("Subtype_Valid_4");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arrayofrecords")@Test
 	public void Subtype_Valid_5() {
 		runTest("Subtype_Valid_5");
 	}
 
-	@Ignore("record") @Test
+	@Ignore("arrayofrecords")@Test
 	public void Subtype_Valid_6() {
 		runTest("Subtype_Valid_6");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void Subtype_Valid_7() {
 		runTest("Subtype_Valid_7");
 	}
 
-	@Ignore("set") @Test
+	@Ignore("setsxxx") @Test
 	public void Subtype_Valid_8() {
 		runTest("Subtype_Valid_8");
 	}
 
-	@Ignore("set") @Test
+	@Ignore("setsxxx") @Test
 	public void Subtype_Valid_9() {
 		runTest("Subtype_Valid_9");
 	}
@@ -2643,7 +2644,7 @@ import wyce.Wyce;
 		runTest("Switch_Valid_1");
 	}
 
-	@Ignore("switch only on int")@Test
+	@Ignore("switchonlyonintxxx")@Test
 	public void Switch_Valid_10() {
 		runTest("Switch_Valid_10");
 	}
@@ -2653,7 +2654,7 @@ import wyce.Wyce;
 		runTest("Switch_Valid_11");
 	}
 
-	@Ignore("???")@Test
+	@Ignore("switchonlyonintxxx")@Test
 	public void Switch_Valid_12() {
 		runTest("Switch_Valid_12");
 	}
@@ -2668,12 +2669,12 @@ import wyce.Wyce;
 		runTest("Switch_Valid_2");
 	}
 
-	@Ignore("Issue raised #368") @Test
+	@Ignore("Issue368xxx") @Test
 	public void Switch_Valid_3() {
 		runTest("Switch_Valid_3");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void Switch_Valid_4() {
 		runTest("Switch_Valid_4");
 	}
@@ -2703,197 +2704,197 @@ import wyce.Wyce;
 		runTest("Switch_Valid_9");
 	}
 
-	@Ignore("debug") @Test
+	@Ignore("debugxxx") @Test
 	public void Syntax_Valid_1() {
 		runTest("Syntax_Valid_1");
 	}
 
-	@Ignore("try catch") @Test
+	@Ignore("trycatchxxx") @Test
 	public void TryCatch_Valid_1() {
 		runTest("TryCatch_Valid_1");
 	}
 
-	@Ignore("try catch") @Test
+	@Ignore("trycatchxxx") @Test
 	public void TryCatch_Valid_2() {
 		runTest("TryCatch_Valid_2");
 	}
 
-	@Ignore("try catch") @Test
+	@Ignore("trycatchxxx") @Test
 	public void TryCatch_Valid_3() {
 		runTest("TryCatch_Valid_3");
 	}
 
-	@Ignore("try catch") @Test
+	@Ignore("trycatchxxx") @Test
 	public void TryCatch_Valid_4() {
 		runTest("TryCatch_Valid_4");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_1() {
 		runTest("TupleType_Valid_1");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_2() {
 		runTest("TupleType_Valid_2");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_3() {
 		runTest("TupleType_Valid_3");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_4() {
 		runTest("TupleType_Valid_4");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_5() {
 		runTest("TupleType_Valid_5");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_6() {
 		runTest("TupleType_Valid_6");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_7() {
 		runTest("TupleType_Valid_7");
 	}
 
-	@Ignore("tuple") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TupleType_Valid_8() {
 		runTest("TupleType_Valid_8");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_1() {
 		runTest("TypeEquals_Valid_1");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_10() {
 		runTest("TypeEquals_Valid_10");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_11() {
 		runTest("TypeEquals_Valid_11");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_12() {
 		runTest("TypeEquals_Valid_12");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionsetxxx")@Test
 	public void TypeEquals_Valid_13() {
 		runTest("TypeEquals_Valid_13");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_14() {
 		runTest("TypeEquals_Valid_14");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void TypeEquals_Valid_15() {
 		runTest("TypeEquals_Valid_15");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void TypeEquals_Valid_16() {
 		runTest("TypeEquals_Valid_16");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void TypeEquals_Valid_17() {
 		runTest("TypeEquals_Valid_17");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void TypeEquals_Valid_18() {
 		runTest("TypeEquals_Valid_18");
 	}
 
-	@Ignore("nested arrays") @Test
+	@Ignore("nestedarraysxxx") @Test
 	public void TypeEquals_Valid_19() {
 		runTest("TypeEquals_Valid_19");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_2() {
 		runTest("TypeEquals_Valid_2");
 	}
 
-	@Ignore("tuples") @Test
+	@Ignore("tuplesxxx") @Test
 	public void TypeEquals_Valid_20() {
 		runTest("TypeEquals_Valid_20");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void TypeEquals_Valid_21() {
 		runTest("TypeEquals_Valid_21");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("dictionaryxxx")@Test
 	public void TypeEquals_Valid_22() {
 		runTest("TypeEquals_Valid_22");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_23() {
 		runTest("TypeEquals_Valid_23");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void TypeEquals_Valid_24() {
 		runTest("TypeEquals_Valid_24");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_25() {
 		runTest("TypeEquals_Valid_25");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void TypeEquals_Valid_26() {
 		runTest("TypeEquals_Valid_26");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_27() {
 		runTest("TypeEquals_Valid_27");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("openrecordsxxx")@Test
 	public void TypeEquals_Valid_28() {
 		runTest("TypeEquals_Valid_28");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_29() {
 		runTest("TypeEquals_Valid_29");
 	}
 
-	@Ignore("fails to wyc compile")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void TypeEquals_Valid_3() {
 		runTest("TypeEquals_Valid_3");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_30() {
 		runTest("TypeEquals_Valid_30");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_31() {
 		runTest("TypeEquals_Valid_31");
 	}
 
-	@Ignore("sets") @Test
+	@Ignore("setsxxx") @Test
 	public void TypeEquals_Valid_32() {
 		runTest("TypeEquals_Valid_32");
 	}
@@ -2903,27 +2904,27 @@ import wyce.Wyce;
 		runTest("TypeEquals_Valid_33");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_34() {
 		runTest("TypeEquals_Valid_34");
 	}
 
-	@Ignore("union int and array") @Test
+	@Ignore("unionwitharrayxxx") @Test
 	public void TypeEquals_Valid_35() {
 		runTest("TypeEquals_Valid_35");
 	}
 
-	@Ignore("not wyc compiling")@Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void TypeEquals_Valid_36() {
 		runTest("TypeEquals_Valid_36");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionarraysxxx")@Test
 	public void TypeEquals_Valid_37() {
 		runTest("TypeEquals_Valid_37");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void TypeEquals_Valid_38() {
 		runTest("TypeEquals_Valid_38");
 	}
@@ -2933,42 +2934,42 @@ import wyce.Wyce;
 		runTest("TypeEquals_Valid_39");
 	}
 
-	@Ignore("union int and array") @Test
+	@Ignore("unionwitharrayxxx") @Test
 	public void TypeEquals_Valid_40() {
 		runTest("TypeEquals_Valid_40");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("notwyccompiled")@Test
 	public void TypeEquals_Valid_41() {
 		runTest("TypeEquals_Valid_41");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_42() {
 		runTest("TypeEquals_Valid_42");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_43() {
 		runTest("TypeEquals_Valid_43");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void TypeEquals_Valid_44() {
 		runTest("TypeEquals_Valid_44");
 	}
 
-	@Ignore("where type condition") @Test
+	@Ignore("typewhereconditionxxx") @Test
 	public void TypeEquals_Valid_45() {
 		runTest("TypeEquals_Valid_45");
 	}
 
-	@Ignore("union int and array") @Test
+	@Ignore("unionwitharrayxxx") @Test
 	public void TypeEquals_Valid_46() {
 		runTest("TypeEquals_Valid_46");
 	}
 
-	@Ignore("where type condition") @Test
+	@Ignore("typewhereconditionxxx") @Test
 	public void TypeEquals_Valid_47() {
 		runTest("TypeEquals_Valid_47");
 	}
@@ -2978,7 +2979,7 @@ import wyce.Wyce;
 		runTest("TypeEquals_Valid_5");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("syntaxerrorxxx")@Test
 	public void TypeEquals_Valid_6() {
 		runTest("TypeEquals_Valid_6");
 	}
@@ -2988,97 +2989,97 @@ import wyce.Wyce;
 		runTest("TypeEquals_Valid_7");
 	}
 
-	@Ignore("union int and array") @Test
+	@Ignore("unionwitharrayxxx") @Test
 	public void TypeEquals_Valid_8() {
 		runTest("TypeEquals_Valid_8");
 	}
 
-	@Ignore("union int and array") @Test
+	@Ignore("unionwitharrayxxx") @Test
 	public void TypeEquals_Valid_9() {
 		runTest("TypeEquals_Valid_9");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void UnionType_Valid_1() {
 		runTest("UnionType_Valid_1");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_10() {
 		runTest("UnionType_Valid_10");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_11() {
 		runTest("UnionType_Valid_11");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_12() {
 		runTest("UnionType_Valid_12");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_13() {
 		runTest("UnionType_Valid_13");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_14() {
 		runTest("UnionType_Valid_14");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_15() {
 		runTest("UnionType_Valid_15");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_16() {
 		runTest("UnionType_Valid_16");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void UnionType_Valid_17() {
 		runTest("UnionType_Valid_17");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_18() {
 		runTest("UnionType_Valid_18");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_19() {
 		runTest("UnionType_Valid_19");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_2() {
 		runTest("UnionType_Valid_2");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_20() {
 		runTest("UnionType_Valid_20");
 	}
 
-	@Ignore("union int and array")@Test
+	@Ignore("unionwitharrayxxx")@Test
 	public void UnionType_Valid_21() {
 		runTest("UnionType_Valid_21");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void UnionType_Valid_22() {
 		runTest("UnionType_Valid_22");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_23() {
 		runTest("UnionType_Valid_23");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void UnionType_Valid_3() {
 		runTest("UnionType_Valid_3");
 	}
@@ -3098,27 +3099,27 @@ import wyce.Wyce;
 		runTest("UnionType_Valid_6");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_7() {
 		runTest("UnionType_Valid_7");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_8() {
 		runTest("UnionType_Valid_8");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void UnionType_Valid_9() {
 		runTest("UnionType_Valid_9");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Update_Valid_1() {
 		runTest("Update_Valid_1");
 	}
 
-	@Ignore("fails to compile to wyil") @Test
+	@Ignore("notwyccompiledxxx")@Test
 	public void Update_Valid_2() {
 		runTest("Update_Valid_2");
 	}
@@ -3138,42 +3139,42 @@ import wyce.Wyce;
 		runTest("VarDecl_Valid_3");
 	}
 
-	@Ignore("big integer")@Test
+	@Ignore("bignumberxxx")@Test
 	public void VarDecl_Valid_4() {
 		runTest("VarDecl_Valid_4");
 	}
 
-	@Ignore("appending arrays") @Test
+	@Ignore("appendarraysxxx")@Test
 	public void While_Valid_1() {
 		runTest("While_Valid_1");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_10() {
 		runTest("While_Valid_10");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_11() {
 		runTest("While_Valid_11");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_12() {
 		runTest("While_Valid_12");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_14() {
 		runTest("While_Valid_14");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void While_Valid_15() {
 		runTest("While_Valid_15");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_16() {
 		runTest("While_Valid_16");
 	}
@@ -3183,42 +3184,42 @@ import wyce.Wyce;
 		runTest("While_Valid_17");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_18() {
 		runTest("While_Valid_18");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_19() {
 		runTest("While_Valid_19");
 	}
 
-	@Ignore("array size")  @Test
+	@Ignore("arraysizexxx")@Test
 	public void While_Valid_2() {
 		runTest("While_Valid_2");
 	}
 
-	@Ignore("records") @Test
+	@Ignore("unionrecordsxxx")@Test
 	public void While_Valid_20() {
 		runTest("While_Valid_20");
 	}
 
-	@Ignore("appending arrays") @Test
+	@Ignore("appendarraysxxx")@Test
 	public void While_Valid_21() {
 		runTest("While_Valid_21");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_22() {
 		runTest("While_Valid_22");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_23() {
 		runTest("While_Valid_23");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_24() {
 		runTest("While_Valid_24");
 	}
@@ -3228,7 +3229,7 @@ import wyce.Wyce;
 		runTest("While_Valid_25");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_26() {
 		runTest("While_Valid_26");
 	}
@@ -3238,42 +3239,42 @@ import wyce.Wyce;
 		runTest("While_Valid_27");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_28() {
 		runTest("While_Valid_28");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_29() {
 		runTest("While_Valid_29");
 	}
 
-	@Ignore("for i in 0 .. 10") @Test
+	@Ignore("rangexxx") @Test
 	public void While_Valid_30() {
 		runTest("While_Valid_30");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_31() {
 		runTest("While_Valid_31");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_3() {
 		runTest("While_Valid_3");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_5() {
 		runTest("While_Valid_5");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_7() {
 		runTest("While_Valid_7");
 	}
 
-	@Ignore("array size") @Test
+	@Ignore("arraysizexxx") @Test
 	public void While_Valid_9() {
 		runTest("While_Valid_9");
 	}

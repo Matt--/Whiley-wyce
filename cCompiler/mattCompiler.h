@@ -13,13 +13,27 @@
 #define BYTE_TYPE 6
 #define TUPLE_TYPE 7
 #define POINTER_TYPE 8
+#define FPTR_TYPE 9
+
+#define FUNCPARAMS_ZERO (Any(*)())
+#define FUNCPARAMS_ONE (Any(*)(Any))
+#define FUNCPARAMS_TWO (Any(*)(Any, Any))
+#define FUNCPARAMS_THREE (Any(*)(Any, Any, Any))
+#define FUNCPARAMS_FOUR (Any(*)(Any, Any, Any, Any))
+#define FUNCPARAMS_FIVE (Any(*)(Any, Any, Any, Any, Any))
+#define FUNCPARAMS_SIX (Any(*)(Any, Any, Any, Any, Any, Any))
+#define FUNCPARAMS_SEVEN (Any(*)(Any, Any, Any, Any, Any, Any, Any))
 
 #define MAXCHAR 40
 
+typedef struct {
+	void (*ptr)(void);
+	int  params;
+}wyce_Func;
 
 typedef struct {
     int type;
-    union{
+    union {
     	long i;
     	double r;
     	bool b;
@@ -27,7 +41,7 @@ typedef struct {
     	char c;
     	char s[MAXCHAR+1];
     	void *ptr;
-//   	struct Any **anyPtr;
+    	wyce_Func f;
     };
 } Any;
 
@@ -35,10 +49,11 @@ void println(Any);
 Any Int(int);
 void error(int, char*);
 
-// Math ops
-Any add(Any, Any);
-Any sub(Any, Any);
-Any mul(Any, Any);
-Any div_wyce(Any, Any);
+/**** Math ops ****/
+Any wyce_add(Any, Any);
+Any wyce_sub(Any, Any);
+Any wyce_mul(Any, Any);
+Any wyce_div(Any, Any);
 
+Any toStr(Any);
 

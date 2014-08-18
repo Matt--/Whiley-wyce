@@ -15,7 +15,7 @@ public class Config {
 	public static final int MAX_ARRAY_SIZE = 10;
 
 	public static final String PRE = Config.PREFIX;
-	public static final String METHOD_PRE = "x1x_";
+	public static String METHOD_PRE = "x1x_";
 	public static final String PRE_LOOP = "loop_start_";
 	public static final String ARRAY_SIZE = "arraySize";
 	public static final String INDENT = "  ";
@@ -26,10 +26,11 @@ public class Config {
 	public static final String TEST_FILES = "whiley/_testC/";
 
   // CODE FILES
-	public static final String CODE0  = "./whileytoC/test.wyil";
-	public static final String CODE1  = "./whileytoC/main_leds.wyil";
-	public static final String CODE2  = "./whileytoC/main_motors.wyil";
-	public static final String CODE3  = "./whileytoC/stabilizer.wyil";
+	public static final String CODE0  = "test";
+	public static final String CODE1  = "main_leds";
+	public static final String CODE2  = "main_motors";
+	public static final String CODE3  = "stabilizer";
+	public static final String CODE4  = "pid";
 
   // TEST FILES
 	public static final String FILE1  = "helloWorld"; // DONE

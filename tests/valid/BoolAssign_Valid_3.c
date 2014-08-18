@@ -2,42 +2,42 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any , Any );
-Any x1x_g ( Any , Any );
+Any x1x_f ( Any , Any  );
+Any x1x_g ( Any , Any  );
 
 Any x1x_f ( Any a0, Any a1 ){
-  if ( dataAsInt( a0 ) == dataAsInt( a1 ) ) { goto label183; };
+  if ( dataAsInt( a0 ) == dataAsInt( a1 ) ) { goto label158; };
   Any a9 = Bool(false);
-  goto label184;
-  label183: ;
+  goto label159;
+  label158: ;
   a9 = Bool(true);
-  label184: ;
+  label159: ;
   Any a11 = Bool(true);
-  if ( dataAsInt( a9 ) == dataAsInt( a11 ) ) { goto label185; };
-  goto label186;
-  label185: ;
+  if ( dataAsInt( a9 ) == dataAsInt( a11 ) ) { goto label160; };
+  goto label161;
+  label160: ;
   Any a12 = Int(1);
   Any a22 = Int(0);
   return a12;
-  label186: ;
-  Any a15 = wyce_add( a0 , a1);
+  label161: ;
+  Any a15 = wyce_add( a0, a1);
   a22 = Int(0);
   return a15;
 }
 
 Any x1x_g ( Any a0, Any a1 ){
-  if ( dataAsInt( a0 ) >= dataAsInt( a1 ) ) { goto label187; };
+  if ( dataAsInt( a0 ) >= dataAsInt( a1 ) ) { goto label162; };
   Any a9 = Bool(false);
-  goto label188;
-  label187: ;
+  goto label163;
+  label162: ;
   a9 = Bool(true);
-  label188: ;
+  label163: ;
   Any a11 = Bool(true);
-  if ( dataAsInt( a9 ) == dataAsInt( a11 ) ) { goto label189; };
-  Any a14 = wyce_add( a0 , a1);
+  if ( dataAsInt( a9 ) == dataAsInt( a11 ) ) { goto label164; };
+  Any a14 = wyce_add( a0, a1);
   Any a22 = Int(0);
   return a14;
-  label189: ;
+  label164: ;
   Any a15 = Int(1);
   a22 = Int(0);
   return a15;

@@ -4,25 +4,25 @@
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int nat;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   switch( a0.i ){
-    case 1 : goto label211;
-    case -1 : goto label212;
-    default : goto label210;
+    case 1 : goto label186;
+    case -1 : goto label187;
+    default : goto label185;
   }
-  label211: ;
+  label186: ;
   Any a3 = Int(1);
-  Any a4 = wyce_sub( a0 , a3);
+  Any a4 = wyce_sub( a0, a3);
   Any a7 = Int(0);
   return a4;
-  label212: ;
+  label187: ;
   Any a6 = Int(1);
-  a7 = wyce_add( a0 , a6);
+  a7 = wyce_add( a0, a6);
   Any a10 = Int(0);
   return a7;
-  label210: ;
+  label185: ;
   Any a8 = Int(1);
   Any a11 = Int(0);
   return a8;

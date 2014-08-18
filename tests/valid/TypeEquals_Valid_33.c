@@ -6,24 +6,22 @@ typedef int pos;
 typedef int neg;
 typedef int expr;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   Any a2 = Int(0);
-  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label68; };
-  goto label69;
-  label68: ;
-  goto label70;
-  label69: ;
+  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label65; };
+  goto label66;
+  label65: ;
+  goto label67;
+  label66: ;
   Any a1 = Str("POSITIVE: ");
-  Any a3 = a0;
-  a2 = toStr ( a3 );
+  a2 = toStr ( a0 );
   Any a4 = Str( strcat ( a1.s , a2.s ) );
   return a4;
-  label70: ;
+  label67: ;
   Any a5 = Str("NEGATIVE: ");
-  Any a7 = a0;
-  Any a6 = toStr ( a7 );
+  Any a6 = toStr ( a0 );
   Any a8 = Str( strcat ( a5.s , a6.s ) );
   return a8;
 }

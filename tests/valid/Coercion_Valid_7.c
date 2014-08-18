@@ -2,14 +2,14 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
-  if(a0.type == INT_TYPE){ goto label147; };
-  goto label148;
-  label147: ;
+  if(a0.type == INT_TYPE){ goto label140; };
+  goto label141;
+  label140: ;
   return a0;
-  label148: ;
+  label141: ;
   Any a2 = Int(1);
   return a2;
 }

@@ -5,12 +5,9 @@
 
 int main (){
   Any a2 = Bool(true);
-  Any a1 = a2;
-  Any a6 = a1;
-  println ( a6 );
+  println ( a2 );
   Any a7 = Bool(false);
-  a1 = a7;
-  Any a11 = a1;
-  println ( a11 );
+  a2 = a7;
+  println ( a2 );
   return 0;
 }

@@ -8,11 +8,19 @@ import wyil.lang.WyilFile;
 public class Wyce {
 
 	public static void main(String[] args){
-		boolean tests = true;
-//		String path = "whiley/";
-//		String name = Config.FILE5;
-		String path = "";
-		String name = "tests/valid/MethodCall_Valid_1";
+		boolean tests = false;
+		String path, name;
+
+		if(tests){
+//			path = "whiley/"; // for FILE
+//			name = Config.FILE4;
+			path = "";
+			name = "tests/valid/Lambda_Valid_2";
+		} else {
+//			Config.METHOD_PRE = "";
+			path = "whileytoC/"; // for CODE
+			name = Config.CODE3; // CODE3 stabilizer, CODE4 pid, set tests to false
+		}
 		String terminal = "terminal";
 
 		if(args.length > 0){

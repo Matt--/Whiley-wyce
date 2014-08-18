@@ -4,13 +4,10 @@
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int cr1nat;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
-  Any a2 = a0;
-  Any a1 = a2;
-  Any a4 = a1;
-  Any a3 = toStr ( a4 );
+  Any a3 = toStr ( a0 );
   return a3;
 }
 

@@ -2,14 +2,13 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
-  Any a1 = a0;
-  a1.type = INT_TYPE;
-  Any a9999 = Char(a1.c);
-  a1.i = (int) a9999.c;
-  return a1;
+  a0.type = INT_TYPE;
+  Any a9999 = Char(a0.c);
+  a0.i = (int) a9999.c;
+  return a0;
 }
 
 int main (){

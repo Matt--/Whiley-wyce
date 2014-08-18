@@ -2,9 +2,10 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef record XXX Rec1;
-typedef record XXX Rec2;
+typedef struct {Any x; } Rec1;
+typedef struct {Any x; } Rec2;
 
-Any f ( Any );
+Any x1x_f ( Rec2  );
 
-Any f ( Any a0 ){
+Any x1x_f ( Rec2 a0 ){
+  Any a3 = a0.x;

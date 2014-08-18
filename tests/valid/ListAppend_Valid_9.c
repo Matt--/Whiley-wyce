@@ -16,7 +16,7 @@ int main (){
   Any *a10 = a6;
   Any *a11 = a1;
   #### appending arrays not yet catered for;
-  a6 = null;
+  a6 = Null();
   Any a17 = a6;
   Any a16 = toStr ( a17 );
   println ( a16 );

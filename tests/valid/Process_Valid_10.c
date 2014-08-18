@@ -2,10 +2,10 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef Queue;
+typedef struct {Any items; } Queue;
 
-Any get ( Any );
-void put ( Any , Any );
-Any isEmpty ( Any );
+Any x1x_get ( Any );
+void x1x_put ( Any , Any );
+Any x1x_isEmpty ( Any );
 
-Any get ( Any a0 ){
+Any x1x_get ( Any a0 ){

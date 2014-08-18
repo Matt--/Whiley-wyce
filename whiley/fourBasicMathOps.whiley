@@ -12,18 +12,20 @@ method main(System.Console console):
     int p = f_divide(a, b)
     console.out.println(p)
 
+	// prints 10\n 6\n 16\n 4
+
 function f_add(int x, int y) => int:
     int r = x + y
     return r
-    
+
 function f_subtract(int x, int y) => int:
     int r = x - y
     return r
-    
+
 function f_multiply(int x, int y) => int:
     int r = x * y
     return r
-    
+
 function f_divide(int x, int y) => int:
     int r = x / y
     return r

@@ -2,30 +2,29 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   switch( a0.i ){
-    case 1 : goto label214;
-    case 2 : goto label215;
-    default : goto label213;
+    case 1 : goto label189;
+    case 2 : goto label190;
+    default : goto label188;
   }
-  label214: ;
+  label189: ;
   Any a3 = Int(1);
   Any a4 = wyce_neg(a3);
-  Any a1 = a4;
-  goto label216;
-  label215: ;
+  goto label191;
+  label190: ;
   Any a5 = Int(2);
   Any a6 = wyce_neg(a5);
-  a1 = a6;
-  goto label216;
-  label213: ;
+  a4 = a6;
+  goto label191;
+  label188: ;
   Any a7 = Int(0);
-  a1 = a7;
-  goto label216;
-  label216: ;
-  return a1;
+  a4 = a7;
+  goto label191;
+  label191: ;
+  return a4;
 }
 
 int main (){

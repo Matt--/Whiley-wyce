@@ -2,11 +2,10 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
-  Any a2 = a0;
-  Any a1 = toStr ( a2 );
+  Any a1 = toStr ( a0 );
   return a1;
 }
 

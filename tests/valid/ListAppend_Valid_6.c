@@ -6,21 +6,21 @@ Any x1x_test ( Any[] , Any[] );
 
 Any x1x_test ( Any a0[], Any a1[] ){
   Any *a2 = a0;
-  label172: ;
+  label166: ;
   Any *a3 = a1;
   #### appending arrays not yet catered for;
   int count = 0;
-  loop_start_label171: ;
-  if(count == a1.i )){ goto label171; }
+  loop_start_label165: ;
+  if(count == a1.i )){ goto label165; }
   Any a5 = Char( a4[count] );
   count++;
-  if(a5.type == INT_TYPE){ goto label172; };
-  goto label173;
+  if(a5.type == INT_TYPE){ goto label166; };
+  goto label167;
   Any a6 = Bool(true);
   return a6;
-  label173: ;
-  goto loop_start_label171;
-  label171: ;
+  label167: ;
+  goto loop_start_label165;
+  label165: ;
   Any a7 = Bool(false);
   return a7;
 }

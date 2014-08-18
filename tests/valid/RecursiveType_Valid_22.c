@@ -2,12 +2,149 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef SortedListNode;
+typedef struct {Any data; Any next; } SortedListNode;
 
-Any SortedList ( Any , Any );
-Any contains ( Any , Any );
+Any x1x_SortedList ( Any , Any );
+Any x1x_contains ( Any , Any );
 
-Any SortedList ( Any a0, Any a1 ){
-  if(a7.type == NULL_TYPE){ goto label29; };
-  label31: ;
-  if( !a7.type == ){ goto label30; };
+Any x1x_SortedList ( Any a0, Any a1 ){
+  SortedListNode a7 = { a0, a1 };
+  if(a7.type == NULL_TYPE){ goto label92; };
+  label94: ;
+  if( !a7.type == ){ goto label93; };
+  Any a9 = a7.next;
+  Any a10 = a7.data;
+  label93: ;
+  if(a9.type == NULL_TYPE){ goto label94; };
+  label92: ;
+  Any a13 = a9.data;
+  return a7;
+}
+
+Any x1x_contains ( Any a0, Any a1 ){
+  if(a1.type == NULL_TYPE){ goto label98; };
+  goto label99;
+  label98: ;
+  Any a2 = Bool(false);
+  label104: ;
+  return a2;
+  label99: ;
+  Any a4 = a1.data;
+  if ( dataAsInt( a4 ) != dataAsInt( a0 ) ) { goto label100; };
+  label103: ;
+  Any a6 = Bool(true);
+  label102: ;
+  return a6;
+  label100: ;
+  Any a8 = a1.data;
+  if ( dataAsInt( a8 ) <= dataAsInt( a0 ) ) { goto label101; };
+  Any a10 = Bool(false);
+  return a10;
+  label101: ;
+  Any a14 = a1.next;
+  if(a14.type == NULL_TYPE){ goto label102; };
+  if( !a14.type == ){ goto label103; };
+  Any a18 = a14.next;
+  Any a19 = a14.data;
+  if(a18.type == NULL_TYPE){ goto label104; };
+  Any a22 = a18.data;
+  Any a11 = x1x_contains ( a0, a14 );
+  return a11;
+}
+
+int main (){
+  Any a3 = Int(10);
+  Any a4 = Null();
+  label107: ;
+  if(a4.type == NULL_TYPE){ goto label105; };
+  if( !a4.type == ){ goto label106; };
+  Any a8 = a4.next;
+  label106: ;
+  Any a9 = a4.data;
+  label105: ;
+  if(a8.type == NULL_TYPE){ goto label107; };
+  Any a12 = a8.data;
+  if(a4.type == NULL_TYPE){ goto label107; };
+  a9 = a4.data;
+  Any a2 = x1x_SortedList ( a3, a4 );
+  Any a1 = a2;
+  Any a6 = Int(5);
+  Any a7 = a1;
+  if(a7.type == NULL_TYPE){ goto label105; };
+  if( !a7.type == ){ goto label106; };
+  Any a11 = a7.next;
+  a12 = a7.data;
+  if(a11.type == NULL_TYPE){ goto label107; };
+  Any a15 = a11.data;
+  if(a7.type == NULL_TYPE){ goto label107; };
+  a12 = a7.data;
+  Any a5 = x1x_SortedList ( a6, a7 );
+  a1 = a5;
+  a9 = Int(3);
+  Any a10 = a1;
+  if(a10.type == NULL_TYPE){ goto label105; };
+  if( !a10.type == ){ goto label106; };
+  Any a14 = a10.next;
+  a15 = a10.data;
+  if(a14.type == NULL_TYPE){ goto label107; };
+  Any a18 = a14.data;
+  if(a10.type == NULL_TYPE){ goto label107; };
+  a15 = a10.data;
+  a8 = x1x_SortedList ( a9, a10 );
+  a1 = a8;
+  a12 = Int(1);
+  Any a13 = a1;
+  if(a13.type == NULL_TYPE){ goto label105; };
+  if( !a13.type == ){ goto label106; };
+  Any a17 = a13.next;
+  a18 = a13.data;
+  if(a17.type == NULL_TYPE){ goto label107; };
+  Any a21 = a17.data;
+  if(a13.type == NULL_TYPE){ goto label107; };
+  a18 = a13.data;
+  a11 = x1x_SortedList ( a12, a13 );
+  a1 = a11;
+  a15 = Int(0);
+  Any a16 = a1;
+  if(a16.type == NULL_TYPE){ goto label105; };
+  if( !a16.type == ){ goto label106; };
+  Any a20 = a16.next;
+  a21 = a16.data;
+  if(a20.type == NULL_TYPE){ goto label107; };
+  Any a24 = a20.data;
+  if(a16.type == NULL_TYPE){ goto label107; };
+  a21 = a16.data;
+  a14 = x1x_SortedList ( a15, a16 );
+  a1 = a14;
+  a21 = Int(2);
+  Any a22 = a1;
+  if(a22.type == NULL_TYPE){ goto label105; };
+  if( !a22.type == ){ goto label106; };
+  Any a26 = a22.next;
+  Any a27 = a22.data;
+  if(a26.type == NULL_TYPE){ goto label107; };
+  Any a30 = a26.data;
+  a20 = x1x_contains ( a21, a22 );
+  println ( a20 );
+  a27 = Int(3);
+  Any a28 = a1;
+  if(a28.type == NULL_TYPE){ goto label105; };
+  if( !a28.type == ){ goto label106; };
+  Any a32 = a28.next;
+  Any a33 = a28.data;
+  if(a32.type == NULL_TYPE){ goto label107; };
+  Any a36 = a32.data;
+  a26 = x1x_contains ( a27, a28 );
+  println ( a26 );
+  a33 = Int(10);
+  Any a34 = a1;
+  if(a34.type == NULL_TYPE){ goto label105; };
+  if( !a34.type == ){ goto label106; };
+  Any a38 = a34.next;
+  Any a39 = a34.data;
+  if(a38.type == NULL_TYPE){ goto label107; };
+  Any a42 = a38.data;
+  a32 = x1x_contains ( a33, a34 );
+  println ( a32 );
+  return 0;
+}

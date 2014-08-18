@@ -2,20 +2,19 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_count ( Any , Any );
+Any x1x_count ( Any , Any  );
 
 Any x1x_count ( Any a0, Any a1 ){
   Any a7 = Int(0);
-  Any a6 = a7;
-  Any a11 = wyce_mul( a0 , a1);
-  loop_start_label67: ;
-  if ( dataAsInt( a6 ) >= dataAsInt( a11 ) ) { goto label67; };
+  Any a11 = wyce_mul( a0, a1);
+  loop_start_label64: ;
+  if ( dataAsInt( a7 ) >= dataAsInt( a11 ) ) { goto label64; };
   Any a19 = Int(1);
-  Any a20 = wyce_add( a6 , a19);
-  a6 = a20;
-  goto loop_start_label67;
-  label67: ;
-  return a6;
+  Any a20 = wyce_add( a7, a19);
+  a7 = a20;
+  goto loop_start_label64;
+  label64: ;
+  return a7;
 }
 
 int main (){

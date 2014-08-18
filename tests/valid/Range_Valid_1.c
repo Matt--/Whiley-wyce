@@ -12,8 +12,8 @@ Any x1x_sum ( Any a0, Any a1 ){
   Any a5 = Int(0);
   a0, a1};
   int count = a8[0];
-  loop_start_label149: ;
-  if(count == a8[1]){ goto label149; }
+  loop_start_label145: ;
+  if(count == a8[1]){ goto label145; }
   Any a9 = Char( a8[count] );
   count++;
   Any a11 = Int(0);
@@ -21,8 +21,8 @@ Any x1x_sum ( Any a0, Any a1 ){
   Any a14 = wyce_add( a2 , a13);
   a2 = a14;
   Any a16 = Int(0);
-  goto loop_start_label149;
-  label149: ;
+  goto loop_start_label145;
+  label145: ;
   Any a20 = Int(0);
   return a2;
 }

@@ -2,12 +2,12 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_g ( Any );
+Any x1x_g ( Any  );
 
 Any x1x_g ( Any a0 ){
   Any a2 = Real(3);
   Any a4 = Real(0);
-  Any a3 = wyce_div( a0 , a2);
+  Any a3 = wyce_div( a0, a2);
   return a3;
 }
 

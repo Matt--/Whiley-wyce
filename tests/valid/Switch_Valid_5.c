@@ -9,33 +9,33 @@ const int PLTE_TYPE = 1163152464 ;
 const int PHYS_TYPE = 1935231088 ;
 const int TIME_TYPE = 1162692980 ;
 
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   switch( a0.i ){
-    case 1380206665 : goto label218;
-    case 1145980233 : goto label219;
-    case 1163152464 : goto label220;
-    case 1935231088 : goto label221;
-    case 1162692980 : goto label222;
-    default : goto label217;
+    case 1380206665 : goto label193;
+    case 1145980233 : goto label194;
+    case 1163152464 : goto label195;
+    case 1935231088 : goto label196;
+    case 1162692980 : goto label197;
+    default : goto label192;
   }
-  label218: ;
+  label193: ;
   Any a2 = Int(1);
   return a2;
-  label219: ;
+  label194: ;
   Any a3 = Int(2);
   return a3;
-  label220: ;
+  label195: ;
   Any a4 = Int(3);
   return a4;
-  label221: ;
+  label196: ;
   Any a5 = Int(4);
   return a5;
-  label222: ;
+  label197: ;
   Any a6 = Int(5);
   return a6;
-  label217: ;
+  label192: ;
   Any a7 = Int(6);
   return a7;
 }

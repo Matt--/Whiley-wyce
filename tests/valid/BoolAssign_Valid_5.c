@@ -2,21 +2,20 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any , Any );
+Any x1x_f ( Any , Any  );
 
 Any x1x_f ( Any a0, Any a1 ){
   Any a7 = Bool(true);
-  Any a6 = a7;
-  if ( dataAsInt( a0 ) >= dataAsInt( a1 ) ) { goto label197; };
+  if ( dataAsInt( a0 ) >= dataAsInt( a1 ) ) { goto label172; };
   Any a10 = Bool(false);
-  a6 = a10;
-  label197: ;
+  a7 = a10;
+  label172: ;
   Any a12 = Bool(true);
-  if ( dataAsInt( a6 ) == dataAsInt( a12 ) ) { goto label198; };
-  Any a15 = wyce_add( a0 , a1);
+  if ( dataAsInt( a7 ) == dataAsInt( a12 ) ) { goto label173; };
+  Any a15 = wyce_add( a0, a1);
   Any a23 = Int(0);
   return a15;
-  label198: ;
+  label173: ;
   Any a16 = Int(123);
   a23 = Int(0);
   return a16;

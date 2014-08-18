@@ -2,29 +2,27 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_rep ( Any , Any , Any );
+Any x1x_rep ( Any , Any , Any  );
 
 Any x1x_rep ( Any a0, Any a1, Any a2 ){
   Any a4 = Int(0);
-  Any a3 = a4;
   Any a6 = Int(0);
-  loop_start_label150: ;
+  loop_start_label145: ;
   Any a8 = Int(0);
   Any a11 = Int( strlen( a2.s) );
-  if ( dataAsInt( a3 ) >= dataAsInt( a11 ) ) { goto label150; };
+  if ( dataAsInt( a4 ) >= dataAsInt( a11 ) ) { goto label145; };
   Any a24 = Int(0);
   Any a25 = Int( strlen( a2.s) );
-  Any a14 = Char( a2.s[ a3.i ] );
-  if ( dataAsInt( a14 ) != dataAsInt( a0 ) ) { goto label151; };
-  Any a17 = a1;
-  a2.s[a3.i] = a17.c;
-  label151: ;
+  Any a14 = Char( a2.s[ a4.i ] );
+  if ( dataAsInt( a14 ) != dataAsInt( a0 ) ) { goto label146; };
+  a2.s[a4.i] = a1.c;
+  label146: ;
   Any a19 = Int(1);
-  Any a20 = wyce_add( a3 , a19);
-  a3 = a20;
+  Any a20 = wyce_add( a4, a19);
+  a4 = a20;
   Any a22 = Int(0);
-  goto loop_start_label150;
-  label150: ;
+  goto loop_start_label145;
+  label145: ;
   return a2;
 }
 

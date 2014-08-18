@@ -2,7 +2,7 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_iof ( Any , Any );
+Any x1x_iof ( Any , Any  );
 
 Any x1x_iof ( Any a0, Any a1 ){
   Any a12 = Int(0);
@@ -15,7 +15,7 @@ Any x1x_iof ( Any a0, Any a1 ){
   a10.type = INT_TYPE;
   a9999 = Char(a10.c);
   a10.i = (int) a9999.c;
-  Any a11 = wyce_sub( a9 , a10);
+  Any a11 = wyce_sub( a9, a10);
   return a11;
 }
 

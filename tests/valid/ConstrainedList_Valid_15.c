@@ -2,9 +2,9 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( );
+Any x1x_f ( void );
 
-Any x1x_f (){
+Any x1x_f (void){
   Any a0 = Str("");
   return a0;
 }

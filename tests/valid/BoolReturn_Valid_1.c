@@ -2,9 +2,9 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_pred ( );
+Any x1x_pred ( void );
 
-Any x1x_pred (){
+Any x1x_pred (void){
   Any a0 = Bool(false);
   return a0;
 }

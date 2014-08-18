@@ -2,17 +2,17 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   Any a2 = Int(0);
-  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label77; };
-  goto label78;
-  label77: ;
+  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label74; };
+  goto label75;
+  label74: ;
   Any a3 = Int(1);
   Any a4 = wyce_neg(a3);
   return a4;
-  label78: ;
+  label75: ;
   return a0;
 }
 

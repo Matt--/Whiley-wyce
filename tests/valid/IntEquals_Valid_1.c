@@ -2,17 +2,16 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any , Any );
+Any x1x_f ( Any , Any  );
 
 Any x1x_f ( Any a0, Any a1 ){
-  Any a2 = a0;
-  a2.type = REAL_TYPE;
-  Any a9999 = Int(a2.i);
-  a2.r = (double) a9999.i;
-  if ( dataAsInt( a2 ) != dataAsInt( a1 ) ) { goto label201; };
+  a0.type = REAL_TYPE;
+  Any a9999 = Int(a0.i);
+  a0.r = (double) a9999.i;
+  if ( dataAsInt( a0 ) != dataAsInt( a1 ) ) { goto label176; };
   Any a4 = Str("EQUAL");
   return a4;
-  label201: ;
+  label176: ;
   Any a5 = Str("NOT EQUAL");
   return a5;
 }

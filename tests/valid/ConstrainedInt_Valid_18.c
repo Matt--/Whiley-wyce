@@ -5,8 +5,8 @@
 typedef int anat;
 typedef int bnat;
 
-Any x1x_atob ( Any );
-Any x1x_btoa ( Any );
+Any x1x_atob ( Any  );
+Any x1x_btoa ( Any  );
 
 Any x1x_atob ( Any a0 ){
   return a0;

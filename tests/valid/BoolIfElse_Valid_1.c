@@ -2,16 +2,16 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any );
+Any x1x_f ( Any  );
 
 Any x1x_f ( Any a0 ){
   Any a2 = Bool(true);
-  if ( dataAsInt( a0 ) == dataAsInt( a2 ) ) { goto label137; };
-  goto label138;
-  label137: ;
+  if ( dataAsInt( a0 ) == dataAsInt( a2 ) ) { goto label130; };
+  goto label131;
+  label130: ;
   Any a3 = Str("TRUE");
   return a3;
-  label138: ;
+  label131: ;
   Any a4 = Str("FALSE");
   return a4;
 }

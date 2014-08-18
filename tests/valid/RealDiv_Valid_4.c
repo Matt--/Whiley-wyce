@@ -2,13 +2,13 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_g ( Any );
-Any x1x_f ( Any , Any );
+Any x1x_g ( Any  );
+Any x1x_f ( Any , Any  );
 
 Any x1x_g ( Any a0 ){
   Any a2 = Int(3);
   Any a4 = Int(0);
-  Any a3 = wyce_div( a0 , a2);
+  Any a3 = wyce_div( a0, a2);
   a3.type = REAL_TYPE;
   Any a9999 = Int(a3.i);
   a3.r = (double) a9999.i;

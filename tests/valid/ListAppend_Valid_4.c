@@ -10,8 +10,8 @@ Any* x1x_append ( Any a0 ){
   Any a5 = Int( strlen( a0.s) );
   a3, a5};
   int count = a6[0];
-  loop_start_label164: ;
-  if(count == a6[1]){ goto label164; }
+  loop_start_label158: ;
+  if(count == a6[1]){ goto label158; }
   Any a7 = Char( a6[count] );
   count++;
   Any a15 = Int(0);
@@ -19,9 +19,9 @@ Any* x1x_append ( Any a0 ){
   Any a10 = Char( a0.s[ a7.i ] );
   Any a11[] = {a10};
   #### appending arrays not yet catered for;
-  a1 = null;
-  goto loop_start_label164;
-  label164: ;
+  a1 = Null();
+  goto loop_start_label158;
+  label158: ;
   return a1;
 }
 
