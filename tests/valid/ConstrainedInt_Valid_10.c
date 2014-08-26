@@ -1,34 +1,35 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int nat;
 
-Any x1x_f ( Any  );
-Any x1x_g ( Any , Any  );
+char * x1x_f ( int  );
+char * x1x_g ( int , int  );
 
-Any x1x_f ( Any a0 ){
-  Any a3 = toStr ( a0 );
+char * x1x_f ( int a0 ){
+  char * a9000 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9000, "%d", a0 );
+  char * a3 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a3, STRINGMAX, "%d", a0 );
+  whileyPrecision( a3 );
   return a3;
 }
 
-Any x1x_g ( Any a0, Any a1 ){
-  Any a12 = x1x_f ( a1 );
+char * x1x_g ( int a0, int a1 ){
+  char * a12 = x1x_f ( a1 );
   return a12;
 }
 
 int main (){
-  Any a5 = Int(1);
-  Any a6 = Int(3);
-  Any a11 = Int(0);
-  Any a10 = Int(1);
-  if ( dataAsInt( a5 ) == dataAsInt( a10 ) ) { goto label215; };
-  Any a12 = Int(2);
-  label215: ;
-  Any a14 = Int(1);
-  Any a15 = Int(2);
-  Any a16 = Int(3);
-  Any a4 = x1x_g ( a5, a6 );
-  println ( a4 );
+  int a5 = 1;
+  int a6 = 3;
+  char * a4 = x1x_g ( a5, a6 );
+  printf ( "%s\n", a4 );
   return 0;
 }

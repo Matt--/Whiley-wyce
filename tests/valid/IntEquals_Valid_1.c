@@ -1,33 +1,52 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any , Any  );
+char * x1x_f ( int , real  );
 
-Any x1x_f ( Any a0, Any a1 ){
-  a0.type = REAL_TYPE;
-  Any a9999 = Int(a0.i);
-  a0.r = (double) a9999.i;
-  if ( dataAsInt( a0 ) != dataAsInt( a1 ) ) { goto label176; };
-  Any a4 = Str("EQUAL");
+char * x1x_f ( int a0, real a1 ){
+  a0 = (real)a0;
+  if ( a0 != a1 ) { goto label160; };
+  char * a4 = malloc(6 * sizeof(char));
+  a4[0] = 'E';
+  a4[1] = 'Q';
+  a4[2] = 'U';
+  a4[3] = 'A';
+  a4[4] = 'L';
+  a4[5] = '\0';
   return a4;
-  label176: ;
-  Any a5 = Str("NOT EQUAL");
+  label160: ;
+  char * a5 = malloc(10 * sizeof(char));
+  a5[0] = 'N';
+  a5[1] = 'O';
+  a5[2] = 'T';
+  a5[3] = ' ';
+  a5[4] = 'E';
+  a5[5] = 'Q';
+  a5[6] = 'U';
+  a5[7] = 'A';
+  a5[8] = 'L';
+  a5[9] = '\0';
   return a5;
 }
 
 int main (){
-  Any a5 = Int(1);
-  Any a6 = Real(4.0);
-  Any a4 = x1x_f ( a5, a6 );
-  println ( a4 );
-  Any a11 = Int(1);
-  Any a12 = Real(4.2);
-  Any a10 = x1x_f ( a11, a12 );
-  println ( a10 );
-  Any a17 = Int(0);
-  Any a18 = Real(0);
-  Any a16 = x1x_f ( a17, a18 );
-  println ( a16 );
+  int a5 = 1;
+  real a6 = 4.0;
+  char * a4 = x1x_f ( a5, a6 );
+  printf ( "%s\n", a4 );
+  int a11 = 1;
+  real a12 = 4.2;
+  char * a10 = x1x_f ( a11, a12 );
+  printf ( "%s\n", a10 );
+  int a17 = 0;
+  real a18 = 0;
+  char * a16 = x1x_f ( a17, a18 );
+  printf ( "%s\n", a16 );
   return 0;
 }

@@ -16,8 +16,10 @@ public class Statement_Factory{
 	protected String result;
 	private HashMap<Integer, String> register;
 	private Method_Factory parentMethod;
-	private String currentMethodName;
 	public Statement_Factory(){}
+
+	// used in for loop, only initialise once in a method.
+	private boolean jgeed38_bool = false;
 
 	/**
 	 * Converts a single bytecode to mostly one, sometimes more, lines of C code.
@@ -33,11 +35,11 @@ public class Statement_Factory{
 		} else if(result.startsWith("@") && code instanceof AbstractAssignable){
 			// if tokens returned, they have already been put in register for later use {register_no, token_string}
 			// but ignore @convert, merely converts from Any to Any
-			if( !result.equals("@convert") ){
+			if( !result.equals("@convert") && !result.equals("@ignore") ){
 				register.put(((AbstractAssignable)code).target, result); // note: indirectinvoke gives key of -1
 			}
 			// this token may generate code...
-			Token token = Token.getInstance().create(result, code, register);
+			Token token = Token.getInstance().create(this, result, code);
 			result = token.isEmpty() ? result : token.toString() ;
 		}
 		return this;
@@ -213,21 +215,43 @@ public class Statement_Factory{
 	}
 	private String createC(int opcode, Code.Assign code){
 		String r = "";
+		// special case. A switch case will assign to a common returned value.
+		boolean switchPresent = register.containsValue("switch");
 		// determine type, Any or Record
-		String type = "Any";
+		String type = "int";
 		if(Compiler.types.containsKey(code.type.toString())){
 			type = Compiler.types.get(code.type.toString());
 			// put variable name into types, with code.type -> identifies for toString operation
 			Compiler.types.put(PRE+code.target, code.type.toString());
 		}
 
-		if(isGhostVariable(code.target, code.operand)){
-			return "@assign";
+		if( register.containsKey(code.operand)){
+			boolean noStatement = false;
+			if( !register.containsKey(code.target)){
+				register.put(code.target,  code.assignedType().toString());
+				r += code.assignedType().toString() +SP;
+				// only want to print a C statement when an existing variable is used
+				noStatement = true;
+			}
+			String target = getRegisterValue(code.target);
+			String operand = getRegisterValue(code.operand);
+
+			r += target;
+			r += " = ";
+			r += operand;
+
+			if( noStatement && !switchPresent){
+				register.put(new Integer(target.replace(PRE, "")), operand);
+			}
+
+			return noStatement && !switchPresent ? "@assign" : r + ";";
 		}
+
 
 		r += lhs_assignment(code, type);
 
-		r += register.get(code.operand) == null ? "Null()" : register.get(code.operand);
+		// special case, passing the System.console will trigger this
+		r += register.get(code.operand) == null ? "NULL" : register.get(code.operand);
 		return r + ";";
 	}
 
@@ -240,66 +264,39 @@ public class Statement_Factory{
 
 	private String createC(int opcode, Code.BinArithOp code){
 		String r = "";
-		// determine left parameter
-		String parameterL = "";
-		if(register.containsKey(code.leftOperand)){
-			parameterL = register.get(code.leftOperand);
-		} else {
-			parameterL = PRE + code.leftOperand;
-		}
-		// determine right parameter
-		String parameterR = "";
-		if(register.containsKey(code.rightOperand)){
-			parameterR = register.get(code.rightOperand);
-		} else {
-			parameterR = PRE + code.rightOperand;
-		}
+		String parameterL = getRegisterValue(code.leftOperand);
+		String parameterR = getRegisterValue(code.rightOperand);
 
 		switch(opcode){
 		case(Code.OPCODE_add):
-			// type target = constant ;
 			r += lhs_assignment(code);
-			r += "wyce_add(" +SP;
 			r += parameterL;
-			r += "," +SP;
+			r += " + ";
 			r += parameterR;
-			r += ")";
 			break;
 		case(Code.OPCODE_sub):
-			// type target = constant ;
 			r += lhs_assignment(code);
-			r += "wyce_sub(" +SP;
 			r += parameterL;
-			r += "," +SP;
+			r += " - ";
 			r += parameterR;
-			r += ")";
 			break;
 		case(Code.OPCODE_mul):
-			// type target = constant ;
 			r += lhs_assignment(code);
-			r += "wyce_mul(" +SP;
 			r += parameterL;
-			r += "," +SP;
+			r += " * ";
 			r += parameterR;
-			r += ")";
 			break;
 		case(Code.OPCODE_div):
-			// type target = constant ;
 			r += lhs_assignment(code);
-			r += "wyce_div(" +SP;
 			r += parameterL;
-			r += "," +SP;
+			r += " / ";
 			r += parameterR;
-			r += ")";
 			break;
 		case(Code.OPCODE_rem):
-			// type target = constant ;
 			r += lhs_assignment(code);
-			r += "wyce_mod(" +SP;
 			r += parameterL;
-			r += "," +SP;
+			r += " % ";
 			r += parameterR;
-			r += ")";
 			break;
 		case(Code.OPCODE_range):
 			if(register.containsKey(code.target)) r += "Any[]" +SP;
@@ -321,62 +318,79 @@ public class Statement_Factory{
 	}
 
 	private String createC(int opcode, Code.BinListOp code){
-		String r = "";
 		switch(opcode){
 		case(Code.OPCODE_append):
-			// type target = constant ;
-//			r += lhs_assignment(code);
-//			r += "{" +SP;
-			r += "#### appending arrays not yet catered for";
-//			r += "}";
-			break;
-
 		case(Code.OPCODE_appendl):
-
 		case(Code.OPCODE_appendr):
-
 		default:
-			throw new Error("Error: createC(int opCode, Code.BinArithOp), opcode not catered for.");
+			throw new Error("Error: createC(int opCode, Code.BinArithOp), appending arrays not yet catered for.");
 		}
-		return r + ";";
 	}
 
 	private String createC(int opcode, Code.BinStringOp code){
 		String r = "";
+		if( !register.containsKey(code.target)){
+			String type = code.assignedType().toString();
+			type = type.equals("string") ? "char *" : type;
+			register.put(code.target, type);
+			r += type +SP;
+		}
+		String target = getRegisterValue(code.target);
+		String parameterL = getRegisterValue(code.leftOperand);
+		String parameterR = getRegisterValue(code.rightOperand);
+		int parameterLint = new Integer(parameterL.replace(PRE, ""));
+		int parameterRint = new Integer(parameterR.replace(PRE, ""));
+
+		if( !register.get(parameterLint).equals("char *")){
+			if( register.containsKey(parameterLint + Config.GHOST_ADD) && register.get(parameterLint + Config.GHOST_ADD).equals("char *")){
+				parameterL = PRE + (parameterLint + Config.GHOST_ADD);
+			}
+		}
+		if( !register.get(parameterRint).equals("char *")){
+			if( register.containsKey(parameterRint + Config.GHOST_ADD) && register.get(parameterRint + Config.GHOST_ADD).equals("char *")){
+				parameterR = PRE + (parameterRint + Config.GHOST_ADD);
+			}
+		}
+
 		switch(code.kind){
 		case LEFT_APPEND:
 			// strcat( a1, a2 ) concatenate onto STRING a1, CHAR a2
-			r += "Any charNowStr = toStr(";
-			r += PRE +code.rightOperand;
-			r += ");\n  "; // NB 2 space tab here
 			r += lhs_assignment(code);
-			r += "Str(" +SP;
-			r += "strcat (" +SP;
-			r += PRE +code.leftOperand +".s ," +SP;
-			r += "charNowStr.s )" +SP;
-			r += ");";
+			r += "calloc( strlen( "+ parameterL +" ) + 1 +1, sizeof(char));\n  ";
+
+			r += "strcat ( ";
+			r += target + ", ";
+			r += parameterL +" );\n  ";
+
+			r += target + "[ strlen( "+ parameterL +" ) ] = ";
+			r += parameterR +";\n  ";
+			r += target + "[ strlen( "+ parameterL +" ) +1 ] = '\\0';";
+
 			break;
 		case RIGHT_APPEND:
 			// strcat( a1, a2 ) concatenate prepend CHAR a1 to STRING a2
-			r += "Any charNowStr = toStr(";
-			r += PRE +code.leftOperand;
-			r += ");\n  "; // NB 2 space tab here
 			r += lhs_assignment(code);
-			r += "Str(" +SP;
-			r += "strcat (" +SP;
-			r += "charNowStr.s, " +SP;
-			r += PRE +code.rightOperand +".s" +SP;
-			r += ")" +SP;
-			r += ");";
+			r += "calloc( strlen( "+ parameterL +" ) + 1 +1, sizeof(char));\n  ";
+
+			r += target +"[0] = " + parameterR +";\n  ";
+			r += "for(int i6398jg = 0; i6398jg < strlen( "+ parameterL +" ); i6398jg++){\n  ";
+			r += "  "+ target +"[i6398jg +1] = "+ parameterL +"[i6398jg];\n  ";
+			r += "};";
+			r += target + "[ strlen( "+ parameterL +" ) +1 ] = '\\0';";
+
 			break;
 		case APPEND:
 			// strcat( a1, a2 ) concatenate onto STRING a1 STRING a2
 			r += lhs_assignment(code);
-			r += "Str(" +SP;
-			r += "strcat (" +SP;
-			r += PRE +code.leftOperand +".s ," +SP;
-			r += PRE +code.rightOperand +".s )" +SP;
-			r += ");";
+			r += "calloc( strlen( "+ parameterL +" ) + strlen( "+ parameterR +" ) +1, sizeof(char));\n  ";
+
+			r += "strcat( ";
+			r += target +", ";
+			r += parameterL +" );\n  ";
+			r += "strcat( ";
+			r += target +", ";
+			r += parameterR +" );";
+
 			break;
 		default:
 			throw new Error("Error, unknown String append code.");
@@ -385,130 +399,175 @@ public class Statement_Factory{
 	}
 	private String createC(int opcode, Code.Const code){
 		String r = "";
-		switch(opcode){
-		// All variables are "Any" structs {type.i, data}
-		case(Code.OPCODE_const):
-			// Any target = Int(constant);
-			r += lhs_assignment(code);
-			switch(code.constant.type().toString()){
-			case("null"):
-				r += "Null()"; // type
-				break;
-			case("[void]"):
-				r = r.substring(0, r.length()-2); // Any a4[9];
-				r += "["+ Config.MAX_ARRAY_SIZE + "]";
-				break;
-			case("int"):
-				r += "Int("; // type
-				r += code.constant;
-				r += ")";
-				break;
-			case("real"):
-				r += "Real("; // type
-				r += code.constant;
-				r += ")";
-				break;
-			case("char"):
-				r += "Char("; // type
-				r += code.constant;
-				r += ")";
-				break;
-			case("string"):
-				r += "Str("; // type
-				r += code.constant;
-				r += ")";
-				break;
-			case("bool"):
-				r += "Bool("; // type
-				r += code.constant;
-				r += ")";
-				break;
-			case("byte"):
-				r += "Byte("; // type
-				r += code.constant;
-				r += ")";
-				break;
-			case("{int+}"):
-				// not catered for yet
-				return "";
-			case("[string+]"):
-				r = "Any " + PRE+code.target +"[] = ";
-				r += "{";
-				String list = code.constant.toString().replace("[", "").replace("]", "");
-				String tokens[] = list.split(",");
-				for(int i = 0; i < tokens.length; i++){
-					r += "Str( " +tokens[i]+ " )";
-					if(i != tokens.length-1)
-						r += ", ";
-				}
-				r += "}";
-				break;
-			default:
-				new Error("error, Code.Const, constant.type not recognised.");
-			}
-			break;
+		String typeStr = code.constant.type().toString();
+
+		if(typeStr.equals("[void]")) {return "@ignore";}
+
+		if( typeStr.trim().contains("string")){
+			typeStr = "char *";
 		}
+
+		if( !register.containsKey(code.target) ){
+			register.put(code.target, typeStr);
+			r += typeStr + SP;
+		}
+
+		String target = getRegisterValue(code.target);
+
+		r += getRegisterValue(code.target);
+		// if an array initialization, replace square brackets with braces
+		String constant = code.constant.toString();
+		r += " = " + constant.replace("[", "{").replace("]", "}");
+
+		// if a string declaration, declare it as an array not a literal
+		// "char * a4 =" becomes "char a4[] ="
+		if(r.contains("char *")){
+			String str[] = r .split(" = ");
+			str[1] = str[1].replace("\"", "");
+			r = str[0] + " = malloc(" + (str[1].length()+1) + " * sizeof(char));\n  ";
+			for(int i = 0; i < str[1].length(); i++){
+				r += target +"["+i+"] = \'" +str[1].charAt(i) +"\';\n  ";
+			}
+			r += target +"["+str[1].length()+"] = \'\\0\'";
+
+
+//			r = r.replace("char", "static char");
+//			r = r.replace(" =", "[] =");
+//			// if not an array of strings, remove *
+//			r = r.contains("{\"") ? r : r.replace(" *", "");
+		}
+
 		return r+";";
 	}
 	private String createC(int opcode, Code.Convert code){
 		// This converts a value type from one to another.
-		if(code.result.equals(Type.T_ANY))
-			return "@convert";
+		String resultType = code.result.toString();
 
-		String r = "", parameterL = "", parameterR = "";
+		// Treat any type as char*, often done in prep for print statements
+		resultType = resultType.equals("any") ? "char *" : resultType;
+
+		String r = "";
 		if( !register.containsKey(code.target)){
-			r += "Any" +SP+ PRE+code.target+";\n  ";
-			register.put(code.target, PRE+ code.target);
+			String targetType = code.result.toString();
+			register.put(code.target, targetType);
+
+			r += targetType + SP;
 		}
 
-		parameterL = register.containsKey(code.target) ?
-				register.get(code.target) :
-					PRE+code.target;
-		if(code.operand == code.target){
-			parameterR = parameterL;
-		} else {
-			parameterR = PRE+code.operand;
-		}
-		switch(code.result.toString()){
+		String parameterL = getRegisterValue(code.target);
+		String parameterR = getRegisterValue(code.operand);
+		int parameterLint = new Integer(parameterL.replace(PRE, ""));
+
+		switch(resultType){
 		case("real"):
 			if(code.type == Type.T_INT){
-				r += parameterL + ".type = ";
-				r += "REAL_TYPE;\n";
-				r += "  "+lhs_temp(9999)+"Int("+parameterR+".i);\n";
-				r += "  "+parameterL+".r = (double) "+PRE+"9999.i;";
-				break;
+				r += parameterL;
+				r += " = (real)";
+				r += parameterR;
 			}
+			if(code.type instanceof Type.Union){
+				String t[] = code.type.toString().split("\\|");
+				if(
+						(t[0].equals("int") || t[0].equals("real"))
+					&& 	(t[1].equals("int") || t[1].equals("real"))
+					){
+					if(register.get(code.target).startsWith(PRE)){
+						// if the existing variable inlines to another, use this variable.
+						register.put(code.target, "real");
+					} else {
+						// otherwise create a new variable
+						register.put(code.target + Config.GHOST_ADD, "real");
+						register.put(code.target, PRE + code.target + Config.GHOST_ADD);
+					}
+					// initialize variable
+					parameterL = getRegisterValue(code.target);
+					r += "real " + parameterL;
+					r += " = (real)";
+					r += parameterR;
+				}
+			}
+			break;
 		case("int"):
 			if(code.type == Type.T_REAL){
-				r += parameterL + ".type = ";
-				r += "REAL_TYPE;\n";
-				r += "  "+lhs_temp(9999)+"Int("+parameterR+".i);\n";
-				r += "  "+parameterL+".r = (int) "+PRE+"9999.i);";
-				break;
+				r += parameterL;
+				r += " = (int)";
+				r += parameterR;
+			} else if(code.type == Type.T_CHAR){
+				r += parameterL;
+				r += " = (int)";
+				r += parameterR;
+			} else if(code.type == Type.T_BOOL){
+				r += parameterL;
+				r += " = (int)";
+				r += parameterR;
 			}
-			if(code.type == Type.T_CHAR){
-				r += parameterL + ".type = ";
-				r += "INT_TYPE;\n";
-				r += "  "+lhs_temp(9999)+"Char("+parameterR+".c);\n";
-				r += "  "+parameterL+".i = (int) "+PRE+"9999.c;";
-				break;
-			}
-			if(code.type == Type.T_BOOL){
-				r += parameterL + ".type = ";
-				r += "INT_TYPE;\n";
-				r += "  "+lhs_temp(9999)+"Bool("+parameterR+".b);\n";
-				r += "  "+parameterL+".i = (int) "+PRE+"9999.b;";
-				break;
-			}
+			break;
+		case("char *"):
+			if(code.type == Type.T_STRING){ return "@ignore"; }
+		if(code.type == Type.T_INT){
+			r = convertTarget(parameterLint);
+			String newParamToken[] = r.split(" ");
+			parameterL = r.startsWith(PRE) ? newParamToken[0] :newParamToken[2];
+			r += "sprintf( "+ parameterL +", \"%d\", " +parameterR+ " )";
+		}
+		if(code.type == Type.T_REAL){
+			r = convertTarget(parameterLint);
+			String newParamToken[] = r.split(" ");
+			parameterL = r.startsWith(PRE) ? newParamToken[0] :newParamToken[2];
+			r += "sprintf( "+ parameterL +", \"%f\", " +parameterR+ " )";
+		}
+		if(code.type == Type.T_BOOL){
+			r = convertTarget(parameterLint);
+			String newParamToken[] = r.split(" ");
+			parameterL = r.startsWith(PRE) ? newParamToken[0] :newParamToken[2];
+			r += "sprintf( "+ parameterL +", \"%s\", " +parameterR+ " ? \"true\" : \"false\" )";
+		}
+			break;
 		case("[int]"):
 			if(code.type == Type.T_STRING){
 				return "@convert";
 			}
+		case("[real]"): //TODO
+			if(code.type instanceof Type.UnionOfLists){ // to [real] from [int]|[real]
+				if(register.get(code.target).startsWith(PRE)){
+					// if the existing variable inlines to another, use this variable.
+					register.put(code.target, "real *");
+				} else {
+					// otherwise create a new variable
+					register.put(code.target + Config.GHOST_ADD, "real *");
+					register.put(code.target, PRE + code.target + Config.GHOST_ADD);
+				}
+				// initialize variable
+				parameterL = getRegisterValue(code.target);
+				r += "static real * " + parameterL +";\n  ";
+
+				// only use of arrays in stabilizer.c is a size 3 array
+				r += "for(" + (jgeed38_bool ? "" : "int") + " jgeed38 = 0; jgeed38 < 3; jgeed38++){\n  ";
+				r += "  "+parameterL+ "[jgeed38] = (real)" +parameterR+ "[jgeed38];\n  ";
+				r += "}";
+				jgeed38_bool = true; // declare only once
+				return r;
+			}
 		default : new Error("type conversion not yet catered for.");
 		}
 
+		return r.isEmpty() ? ";" : r + ";"; // add @ignore
+	}
+
+	private String convertTarget(int parameterLint){
+		String r = "", parameterL = PRE + parameterLint;
+		int newParameterL = parameterLint+Config.GHOST_ADD;
+		if( !register.containsKey(newParameterL)){
+			register.put(newParameterL, "char *");
+			parameterL = PRE + newParameterL;
+			r += "char * "+ parameterL +" = calloc(STRINGMAX, sizeof(char));\n  ";
+		} else {
+			parameterL = PRE + newParameterL;
+			r += parameterL +" = calloc(STRINGMAX, sizeof(char));\n  ";
+		}
 		return r;
 	}
+
 	private String createC(int opcode, Code.FieldLoad code){
 		// FieldLoad extracts the value of a field from the main parameters. ref Code.FieldLoad
 		/* case: sample program has method main(System.console console):
@@ -527,15 +586,13 @@ public class Statement_Factory{
 			// fieldload %4 = %0 y : {int x,int y}|{real x,real y}
 			r += lhs_assignment(code);
 
-			String parameter = register.containsKey(code.operand) ?
-					register.get(code.operand) :
-						PRE+code.operand;
+			String parameter = getRegisterValue(code.operand);
 
 			r += parameter +"." + code.field;
 			return r + ";";
 		}
 	}
-	/*
+	/**
 	 * __No forAll equivalent in C__
 	 * create a count register
 	 * label0 for goto returning here
@@ -562,21 +619,26 @@ public class Statement_Factory{
 
 		r += "if(count ==" +SP;
 		if(code.type == Type.Strung.T_STRING){
-			r += "strlen("+PRE+code.sourceOperand +".s) ";
+			r += "strlen("+PRE+code.sourceOperand +") ";
 		} else {
 			r += code.modifiedOperands.length == 0 ?
-					PRE + "1.i )" :         // this assumes array size is the second parameter
+					PRE + "1 )" :         // this assumes array size is the second parameter
 						PRE+code.sourceOperand +"[1]";
 		}
 		r += "){ goto" + SP;
 		r += code.target + ";" +SP;
 		r += "}\n  ";
 
-		r += lhs_assignment(code);
-		r += "Char( ";
+		if( !register.containsKey(code.indexOperand)){
+			String type = code.type.toString();
+			type = type.equals("string") ? "char" : type;
+			register.put(code.indexOperand, type);
+			r += type + SP;
+		}
+		r += getRegisterValue(code.indexOperand);
+		r += " = ";
 		r += PRE + code.sourceOperand;
-		r += code.type == Type.Strung.T_STRING ? ".s" : "";
-		r += "[count] );\n  "; // includes a tab
+		r += "[count];\n  "; // includes a tab
 
 		r += "count++;";
 
@@ -591,18 +653,12 @@ public class Statement_Factory{
 	}
 	private String createC(int opcode, Code.If code){
 		String r = "";
-		r += "if (" +SP;
-		// determine left parameter
-		String parameterL = "";
-		if(register.containsKey(code.leftOperand)){
-			parameterL = register.get(code.leftOperand);
-		} else {
-			parameterL = PRE + code.leftOperand;
-		}
+		String parameterL = getRegisterValue(code.leftOperand);
+		String parameterR = getRegisterValue(code.rightOperand);
 
-		// need a runtime determination of the data type
-		// this will not work for (for example) comparing strings
-		r += "dataAsInt( "+ parameterL +" )" +SP;
+		r += "if (" +SP;
+		r += parameterL +SP;
+
 		switch(code.op){
 		// If eq, ne, lt, le, gt, ge, elemof/in, ss and sse
 		case EQ:
@@ -624,18 +680,10 @@ public class Statement_Factory{
 		case SUBSETEQ:
 			r += "@TODO" +SP; break;
 		default:
-			break;
+			throw new Error("Code.if error, code.op not recognised.");
 		}
 
-		// determine right parameter
-		String parameterR = "";
-		if(register.containsKey(code.rightOperand)){
-			parameterR = register.get(code.rightOperand);
-		} else {
-			parameterR = PRE + code.rightOperand;
-		}
-
-		r += "dataAsInt( "+ parameterR +" )" +SP;
+		r += parameterR +SP;
 		r += ") {" +SP;
 		r += "goto" +SP;
 		r += code.target +";" +SP;
@@ -680,20 +728,15 @@ public class Statement_Factory{
 		r += lhs_assignment(code);
 
 		String parameterL = "", parameterR = "";
-		parameterL = register.containsKey(code.leftOperand) ?
-				register.get(code.leftOperand) :
-					PRE + code.leftOperand;
-		parameterR = register.containsKey(code.rightOperand) ?
-				register.get(code.rightOperand) :
-					PRE + code.rightOperand;
+		parameterL = getRegisterValue(code.leftOperand);
+		parameterR = getRegisterValue(code.rightOperand);
 
 		if(code.type.toString().equals("string")){
-			r += "Char( ";
-			r += parameterL + ".s[ ";
-			r += parameterR + ".i ] )";
+			r += parameterL + "[ ";
+			r += parameterR + " ]";
 		} else {
-			r += parameterL + "[";
-			r += parameterR + ".i]";
+			r += parameterL + "[ ";
+			r += parameterR + " ]";
 		}
 		return r + ";";
 	}
@@ -707,13 +750,11 @@ public class Statement_Factory{
 
 		switch(opcode){
 		case(Code.OPCODE_indirectinvokemd):
-			return "@indirectinvoke";
 		case(Code.OPCODE_indirectinvokemdv):
-			return "@indirectinvoke";
 		case(Code.OPCODE_indirectinvokefn):
 			return "@indirectinvoke";
 		case(Code.OPCODE_indirectinvokefnv): // --
-			r += generateFunctionTypeSwitch(code);
+			r += generateFunctionType(code);
 			break;
 		default:
 			throw new Error("ERROR: createC(), IndirectInvoke case not covered yet.");
@@ -724,34 +765,74 @@ public class Statement_Factory{
 	private String createC(int opcode, Code.Invoke code){
 		String r = "";
 		// determine return type
-		String type = determineReturnType(code);
+		String returnType = code.type.ret().toString();
+		returnType = returnType.trim().equals("string") ? "char *" : returnType;
+		returnType = returnType.trim().equals("!null")  ? "int" : returnType;
+		returnType = returnType.trim().equals("[real]")  ? "real *" : returnType;
+		returnType = returnType.trim().equals("[int]")  ? "int *" : returnType;
+
+		// is a lambda function?
+		if(returnType.contains("=>")){
+			String funcType = returnType.split("=> ")[1];
+			funcType += "(*)";
+			funcType += returnType.substring(returnType.indexOf("("), returnType.indexOf(")")+1);
+			returnType = funcType;
+		}
 
 		// all four invoke types present
 		switch(opcode){
 		case(Code.OPCODE_invokefn):
 		case(Code.OPCODE_invokemd):
-			String returnType = code.type.ret().toString();
 			if(Compiler.types.containsKey(returnType)){
-				type = Compiler.types.get(returnType);
+				Compiler.types.put(PRE+code.target, returnType);
+				returnType = Compiler.types.get(returnType);
 				// put variable name into types, with code.type -> identifies for toString operation
-				Compiler.types.put(PRE+code.target, code.type.ret().toString());
 			}
-			r += lhs_assignment(code, type);
+
+			if( !register.containsKey(code.target)){
+				register.put(code.target, returnType);
+				r += returnType +SP;
+			}
+
+			String type = code.assignedType().toString();
+			if(type.contains("=>")){ // isa lambda function
+				String funcType = type.split("=> ")[1];
+				funcType += "(*)";
+				funcType += type.substring(type.indexOf("("), type.indexOf(")")+1);
+				type = Compiler.types.get(funcType);
+			}
+
+			type = type.equals("string") ? "char *" : type;
+			type = type.equals("!null")  ? "int" : type;
+			type = type.equals("[real]")  ? "real *" : type;
+			type = type.equals("[int]")  ? "int *" : type;
+			r += checkRegisterForTypeChange(code.target, type) ? type + SP : "";
+			r += getRegisterValue(code.target);
+			r += " = ";
+
 		case(Code.OPCODE_invokefnv):
 		case(Code.OPCODE_invokemdv):
-			r += idMethod(code);
+			String s = idMethod(code);
+			if(
+					s.contains("whileyPrecision") &&
+					!s.contains(";")){ // single line only
+				r = s + ";\n  ";
+			} else {
+				r += s;
+			}
+			// fix for snprintf, declare char* first then do sprintf
+			r = r.contains("snprintf") ? r.replaceFirst(" = ", " = calloc(STRINGMAX, sizeof(char));\n  ") : r;
 		}
 
 		return r + ";";
 	}
 
+
 	private String createC(int opcode, Code.Lambda code){
 		String r = "";
 		r += lhs_assignment(code);
-		r += "Fptr( ";
 		r += "&" + Config.METHOD_PRE+ code.name.name();
-		r += ", "+ code.type.params().size();
-		r += " );";
+		r += ";";
 
 		return r;
 	}
@@ -763,21 +844,20 @@ public class Statement_Factory{
 	 */
 	private String createC(int opcode, Code.LengthOf code){
 		String r = "";
+		String operand = getRegisterValue(code.operand);
 		r += lhs_assignment(code);
 		if(code.type.toString().equals("string")){
-			r += "Int( strlen( ";
-			r += PRE + code.operand + ".s";
-			r += ") )";
+			r += "strlen( ";
+			r += operand;
+			r += ")";
 		} else {
-			r += "Int(" +SP;
 			r += "sizeof(" +SP;
-			r += PRE + code.operand + SP;
-			r +=       ")" +SP;
+			r += operand + SP;
+			r += ")" +SP;
 			r += "/" +SP;
 			r += "sizeof(" +SP;
-			r += PRE + code.operand +"[0]" +SP;
-			r +=       ")" +SP;
-			r +=    ")";
+			r += operand +"[0]" +SP;
+			r += ")";
 		}
 		return r + ";";
 	}
@@ -792,27 +872,30 @@ public class Statement_Factory{
 		r += "goto" +SP;
 		r += Config.PRE_LOOP + code.label;
 		r += ";\n  ";
-		r += code.label + ": ;"; // TODO, need this for if statements, but causes gcc warnings in while(true) statements
+		r += code.label + ": ;";
 		return r;
 	}
 	private String createC(int opcode, Code.NewList code){
 		// contents of the list are already defined
 		// newlist %8 = (%2, %3, %4, %5, %6, %7) : [int]
 		String r = "";
+		String listType = code.assignedType().toString();
+		String elementType = listType.substring(1, listType.length()-1);
+
 		if(register.containsKey(code.target))
 			new Error("error createC(int, Code.NewList), creating a new list using an existing variable name.");
-		register.put(code.target, PRE+ code.target);
-		r += "Any" +SP;
-		r += PRE + code.target +"[]" +SP;
-		r += "=" +SP;
-		r += "{";
-		boolean first = true;
+		register.put(code.target, listType);
+		String target = getRegisterValue(code.target);
+
+		r += elementType +"* ";
+		r += target;
+		r += " = malloc(" +code.operands.length +" * ";
+		r += "sizeof(" +elementType+ "));\n  ";
 		for(int i=0; i < code.operands.length; i++){
-			if( !first) r += "," +SP;
+			r += target +"[" +i+ "] = ";
 			r += PRE + code.operands[i];
-			first = false;
+			r += i != code.operands.length-1 ? ";\n  " : "";
 		}
-		r += "}";
 		return r +";";
 	}
 	private String createC(int opcode, Code.NewRecord code){
@@ -841,8 +924,8 @@ public class Statement_Factory{
 		boolean comma = false;
 		for(int i = 0; i < code.operands.length; i++){
 			r += comma ? ", " : "";
-			r += PRE+code.operands[i];
 			comma = true;
+			r += PRE+code.operands[i];
 		}
 		r += " };";
 		return r;
@@ -863,8 +946,8 @@ public class Statement_Factory{
 		boolean first = true;
 		while( i < code.operands.length){
 			r += first ? "" : ", ";
-			r += PRE +code.operands[i++];
 			first = false;
+			r += PRE +code.operands[i++];
 		}
 		r += ")";
 		return r +";";
@@ -881,43 +964,22 @@ public class Statement_Factory{
 		return r;
 	}
 	private String createC(int opcode, Code.Return code){
-		// if return type is void, do nothing
-		if(code.type == Type.Void.T_VOID){
-			return ""; }
 		String r = "";
-		r += "return" +SP;
+		r += "return";
 
-		r += register.containsKey(code.operand) ?
-				register.get(code.operand) :
-					PRE +code.operand;
-
-		switch(parentMethod.currentMethodName.split("=>")[1]){
-		case("Any"):
-			 break;
-		case("int"):
-			 r += ".i"; break;
-		case("real"):
-			 r += ".r"; break;
-		case("string"):
-			 r += ".s"; break;
-		case("bool"):
-			 r += ".b"; break;
-		default:
-			new Error("Return operation code not captured.");
+		if(code.type != Type.Void.T_VOID){
+			r += SP + getRegisterValue(code.operand);
 		}
+
 		return r + ";";
 	}
 	private String createC(int opcode, Code.Switch code){
+		// registering a switch statement as present in this method
+		register.put(999999999, "switch");
+
 		String r = "";
 		r += "switch( ";
 		r += PRE+ code.operand;
-		switch(code.type.toString()){
-		case ("int") : r += ".i"; break;
-		case ("char") : r += ".c"; break;
-		case ("real") : r += ".r"; break;
-		case ("bool") : r += ".b"; break;
-		default : new Error("type not allowed for in switch statement");
-		}
 		r += " ){\n";
 		int i = 0;
 		while(i < code.branches.size()){
@@ -953,7 +1015,8 @@ public class Statement_Factory{
 	private String createC(int opCode,	Code.UnArithOp code){
 		String r = "";
 		r += lhs_assignment(code);
-		r += "wyce_neg("+PRE+code.operand+")";
+		r += "-";
+		r += getRegisterValue(code.operand);
 		return r+";";
 	}
 	private String createC(int opCode,	Code.Update code){
@@ -966,196 +1029,106 @@ public class Statement_Factory{
 			r += " = ";
 		} else {
 
-			parameter = register.containsKey(code.operands[0]) ?
-					register.get(code.operands[0]) :
-						PRE+code.operands[0];
+			parameter = getRegisterValue(code.operands[0]);
 
 			r += PRE+code.target;
-			r += code.afterType == Type.Strung.T_STRING ? ".s" : "";
 			r += "[";
-			r += parameter +".i]";
+			r += parameter +"]";
 			r += " = ";
 		}
 
-		parameter = register.containsKey(code.operand) ?
-				register.get(code.operand) :
-					PRE+code.operand;
-
-		r += parameter;
-		r += code.type == Type.Strung.T_STRING ? ".c" : "";
+		r += getRegisterValue(code.operand);
 
 		return r+";";
 	}
 
-	//=============================================
+	//=============================================>> TODO
 	// HELPERS
-	//=======================================>>
+	//=======================================>> TODO
 
 	/**
-	 * Identifies redundent variable instantiations, by checking if variable already exists.
-	 * and puts the ghost variable (key) in a map with the correct variable (value).
-	 * Called by Whiley assign function
-	 * @param target
-	 * @param operand
-	 * @return boolean
+	 * Searches the register hashmap for the variable to use.
+	 * The hashmap key, value looks like {5=a7, 7=a8, 8=int}
+	 * Start with var 5, will return variable a8
+	 * @param var the variable value being checked
+	 * @return the variable to be used
 	 */
-	private boolean isGhostVariable(int target, int operand){
-		if( !register.containsKey(target) && register.containsKey(operand)){
-			// operand already exists
-			// set up ghost variables to enable look ups later
-			register.put(target, register.get(operand) );
-			return true;
-		}
-//		if( register.containsKey(target) && register.containsKey(operand) ){
-//			// target & operand already exists
-//			// set up ghost variables to enable look ups later
-//			register.put(target, register.get(operand) );
-//			// return false to allow target to be reassigned
-//			return false;
-//		}
-		return false;
+	public String getRegisterValue(int var){
+		String varStr;
+		do{
+			// for example, register contains {5=a7, 7=a8, 8=int}
+			varStr = register.containsKey(var) ?
+				register.get(var) :
+					PRE + var;
+			if(varStr.startsWith(PRE))
+				// var = 5 becomes var = 7 then 8
+				var = new Integer(varStr.replace(PRE, ""));
+			// when var = 8, guard will fail
+		}while( varStr.startsWith(PRE) );
+
+		return PRE + var;
 	}
 
-	private String pickFuncType(Code.Lambda code){
-		switch(code.type.params().size()){
-		case(0): return "FUNCPARAMS_ZERO";
-		case(1): return "FUNCPARAMS_ONE";
-		case(2): return "FUNCPARAMS_TWO";
-		case(3): return "FUNCPARAMS_THREE";
-		case(4): return "FUNCPARAMS_FOUR";
-		case(5): return "FUNCPARAMS_FIVE";
-		case(6): return "FUNCPARAMS_SIX";
-		case(7): return "FUNCPARAMS_SEVEN";
-		default: new Error("Error in creating lamda type. not enough parameters allowed for.");
-		}
-		return "";
-	}
-	// kept for time being
-	private String createFunctionCaste(Code.Lambda code){
-		String r = "(";
-		String ret = ""+code.type.ret();
-		switch(ret){
-		case("bool"):
-		case("char"):
-		case("string"):
-		case("real"):
-		case("int"): r += "Any"; break;
-		default: throw new Error("Error in createFunctionCaste(), type not catered for.");
-		}
-		r += "(*)(";
-		Iterator itr = code.type.params().iterator();
-		while(itr.hasNext()){
-			String param = itr.next().toString();
-			switch(param){
-			case("bool"):
-			case("char"):
-			case("string"):
-			case("real"):
-			case("int"): r += "Any"; break;
-			default: throw new Error("Error in createFunctionCaste(), type not catered for.");
+	/**
+	 * Check register to see if the type has changed. Whiley has the capacity to union types.
+	 * If yes, create a new variable with the new type. Point the old variable to the new one.
+	 * This has the effect of creating a new C variable that is used from this point.
+	 * If the type changes back, this method will fail...
+	 * @param target
+	 * @param type
+	 */
+	private boolean checkRegisterForTypeChange(int target, String type){
+		boolean result = false;
+		String variable = getRegisterValue(target);
+		int varInt = new Integer(variable.replace(PRE, ""));
+		String existingType = register.get(varInt);
+		if( !existingType.equals(type) ){
+			// variable has changed type.
+			// create new variable of this type, point old variable to the new one.
+			// may have problems if the type changes back...
+			int newVarInt = varInt;
+			while(true){
+				newVarInt += Config.GHOST_ADD;
+				if( register.containsKey(newVarInt)){
+					if(register.get(newVarInt).equals(type)){
+						result = true;
+						break;
+					}
+				} else {
+					type = type.equals("string") ? "char *" : type;
+					register.put(newVarInt, type);
+					register.put(varInt, PRE + newVarInt);
+					result = true;
+					break;
+				}
 			}
 		}
-		r += "))";
-
-		return r;
+		return result;
 	}
 
 	/**
 	 * Create a C switch statement to allow function casts to be included in C code
 	 */
-	private String generateFunctionTypeSwitch(Code.IndirectInvoke code){
+	private String generateFunctionType(Code.IndirectInvoke code){
 		String r = "";
 		r += lhs_assignment(code);
 
-		String operand = register.containsKey(code.operand) ?
-				register.get(code.operand) :
-					PRE + code.operand;
+		String operand = getRegisterValue(code.operand);
 
 		String[] parameters = new String[code.operands.length];
 		for(int i=0; i < code.operands.length; i++){
-			parameters[i] = register.containsKey(code.operands[i]) ?
-					register.get(code.operands[i]) :
-						PRE + code.operands[i];
+			parameters[i] = getRegisterValue(code.operands[i]);
 		}
 
-		switch(code.operands.length){
-
-		case(0):
-		r += "( FUNCPARAMS_ZERO ";
-		r += operand + ".f.ptr )(";
-		r += ");";
-		break;
-
-		case(1):
-		r += "( FUNCPARAMS_ONE ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0];
-		r += ");";
-		break;
-
-		case(2):
-		r += "( FUNCPARAMS_TWO ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0] + ", ";
-		r += parameters[1];
-		r += ");";
-		break;
-
-		case(3):
-		r += "( FUNCPARAMS_THREE ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0] + ", ";
-		r += parameters[1] + ", ";
-		r += parameters[2];
-		r += ");";
-		break;
-
-		case(4):
-		r += "( FUNCPARAMS_FOUR ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0] + ", ";
-		r += parameters[1] + ", ";
-		r += parameters[2] + ", ";
-		r += parameters[3];
-		r += ");";
-		break;
-
-		case(5):
-		r += "( FUNCPARAMS_FIVE ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0] + ", ";
-		r += parameters[1] + ", ";
-		r += parameters[2] + ", ";
-		r += parameters[3] + ", ";
-		r += parameters[4];
-		r += ");";
-		break;
-
-		case(6):
-		r += "( FUNCPARAMS_SIX ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0] + ", ";
-		r += parameters[1] + ", ";
-		r += parameters[2] + ", ";
-		r += parameters[3] + ", ";
-		r += parameters[4] + ", ";
-		r += parameters[5];
-		r += ");";
-		break;
-
-		case(7):
-		r += "( FUNCPARAMS_SEVEN ";
-		r += operand + ".f.ptr )(";
-		r += parameters[0] + ", ";
-		r += parameters[1] + ", ";
-		r += parameters[2] + ", ";
-		r += parameters[3] + ", ";
-		r += parameters[4] + ", ";
-		r += parameters[5] + ", ";
-		r += parameters[6];
-		r += ");";
-		break;
+		r += operand + "( ";
+		boolean comma = false;
+		for(int i=0; i < code.operands.length; i++){
+			r += comma ? ", " : "";
+			comma = true;
+			r += parameters[i];
 		}
+		r += " );";
+
 		return r;
 	}
 
@@ -1173,14 +1146,16 @@ public class Statement_Factory{
 		ArrayList<Type> parameters = parentMethod.getNativeParameters(((Code.Invoke)code).name.name());
 		Iterator<Type> itr = parameters.iterator();
 
-		boolean first = true;
+		boolean comma = false;
 		for(int i=0; i<code.operands.length; i++){
-			result += first ? "" : ", ";
-			first = false;
+			result += comma ? ", " : "";
+			comma = true;
 
-			//!(code instanceof Code.Invoke) &&
-			if( register.containsKey(code.operands[i])){ // isGhostVariable(code.target, code.operands[i])){
-				result += register.get(code.operands[i]);
+			if( register.containsKey(code.operands[i])){
+
+				result += register.get(code.operands[i]).startsWith(PRE) ?
+						register.get(code.operands[i]) :
+							PRE + code.operands[i];
 				continue;
 			}
 
@@ -1228,63 +1203,52 @@ public class Statement_Factory{
 		return result;
 	}
 
-	private String lhs_temp(int c){
-		return lhs_assignment_do("Any", c, false, false);
-	}
-
-	private String determineReturnType(Code.AbstractNaryAssignable code){
-		// determine return type
-		String[] t = code.type.toString().split("=>");
-		String type = t[1].trim();
-		if(Compiler.types.containsKey(type)){
-			type = Compiler.types.get(type);
-		} else {
-			type = "Any";
-		}
-		return type;
-	}
-
-
 	/*
 	 * Determines the lhs of the assignment.
 	 *
 	 */
 	private String lhs_assignment(Code.AbstractAssignable code){
-		return lhs_assignment(code, "Any");
+		String ret = code.assignedType().toString(); // for bytecode add %3 = %0, %2 : int
+		ret = ret.equals("string") ? "char *" : ret;
+
+
+		return lhs_assignment(code, ret);
 	}
 
 	private String lhs_assignment(Code.AbstractAssignable code, String dataType){
-
 		// is this an array - yes then "a6[] =" else "a6 ="
-		boolean invokingMethod = false;
-		String m = code.toString();
-		if(m.contains("method")){ invokingMethod = true; }
+
 		boolean assigningArray = false;
-		String r = code.assignedType().toString();
-		if( !(r.charAt(0) == '{' && r.charAt(r.length()-1) == '}') ){
-			// r does not represent a record
-			if(r.contains("[int]") || r.contains("[real]")){ assigningArray = true; }
+		String arr = code.assignedType().toString();
+		if( !(arr.charAt(0) == '{' && arr.charAt(arr.length()-1) == '}') ){
+			// arr does not represent a record
+			if(arr.contains("[int]") || arr.contains("[real]")){ assigningArray = true; }
 		}
 
-		return lhs_assignment_do(dataType, code.target, invokingMethod, assigningArray);
-	}
-
-	private String lhs_assignment(Code.ForAll code){
-		return lhs_assignment_do("Any", code.indexOperand, false, false);
-	}
-
-	private String lhs_assignment_do(String dataType, int param, boolean invokingMethod, boolean assigningArray){
 		String r = "";
-		String parameter = "";
-		if( !register.containsKey(param)){
-			parameter = PRE + param;
+		if( !register.containsKey(code.target)){
+			register.put(code.target, dataType);
 			r += dataType +SP;
 			r += assigningArray ? "*" : "";
-			register.put(param, parameter);
-		} else {
-			parameter = register.get(param);
 		}
-		r += parameter;
+
+		String target = getRegisterValue(code.target);
+		int targetInt = new Integer(target.replace(PRE, ""));
+		r += getRegisterValue(targetInt);
+
+		if(code.toString().contains("lambda")){
+			dataType = ((Code.Lambda)code).type.ret().toString();
+			r = dataType +" (*"+target+")(";
+			ArrayList<Type> operandTypes = ((Code.Lambda)code).type.params();
+			boolean comma = false;
+			for(int i = 0; i < operandTypes.size(); i++){
+				r += comma ? ", " : "";
+				comma = true;
+				r += operandTypes.get(i);
+			}
+			r += ")";
+		}
+
 		r += SP+ "=" +SP;
 		return r;
 	}
@@ -1305,7 +1269,7 @@ public class Statement_Factory{
 			switch(name){
 			case("toString"):
 				if(Compiler.types.containsKey(PRE+whileyMethod.operands[0])){
-
+					// Records ??
 					String op = "";
 					if(register.containsKey(whileyMethod.operands[0])){
 						op = register.get(whileyMethod.operands[0]);
@@ -1335,10 +1299,10 @@ public class Statement_Factory{
 					}
 					r += ")";
 				} else {
-					r += "toStr" +SP;
-					r += "( ";
-					r += parameters(whileyMethod) +SP;
-					r += ")";
+					r += printToWhileyStyle(
+							whileyMethod.target,
+							whileyMethod.operands[0],
+							parameters(whileyMethod));
 				}
 				return r;
 			default:
@@ -1347,17 +1311,15 @@ public class Statement_Factory{
 		case("whiley/lang/Math"):
 			switch(name){
 			case("floor"):
-				r += "Int(" +SP;
 				r += "floor(" +SP;
-				r += parameters(whileyMethod) +".r" +SP;
-				r += "));";
+				r += parameters(whileyMethod) +SP;
+				r += ");";
 				return r;
 			case("abs"):
-				r += "Int(" +SP;
 				r += name +SP;
 				r += "(" +SP;
-				r += parameters(whileyMethod)+".i" +SP; // may need to expand to real
-				r += "));";
+				r += parameters(whileyMethod) +SP; // may need to expand to real
+				r += ");";
 				return r;
 			default:
 				new Error(err +"method in Whiley \"Math\" library not recognised.");
@@ -1367,15 +1329,6 @@ public class Statement_Factory{
 		default:
 			// assuming a declared native method, returning a C primitive, wrap it in a Any constructor
 			boolean constructor = false;
-			String returnType = whileyMethod.assignedType().toString();
-			if( ! parentMethod.isMethod(name)){
-				if		(returnType.equals("int")){    constructor = true; r += "Int("; }
-				else if	(returnType.equals("bool")){   constructor = true; r += "Bool("; }
-//				else if	(returnType.equals("string")){ /*no constructor needed*/ }
-//				else if	(returnType.equals("[real]")){ /*no constructor needed*/ }
-//				else if	(!returnType.equals("void")){
-//					new Error (err + "invoke bytecode, return type not yet catered for."); }
-			}
 			r += parentMethod.getNativeParameters(name).isEmpty()
 					|| name.startsWith("cf_lib_") ? "" : Config.METHOD_PRE;
 			r += parentMethod.isMethod(name)
@@ -1389,12 +1342,48 @@ public class Statement_Factory{
 		return r;
 	}
 
+	protected String printToWhileyStyle(int _target, int _operand, String parameters){
+		String r = "";
+		String target = getRegisterValue(_target);
+		int targetInt = new Integer(target.replace(PRE, ""));
+		String operand = getRegisterValue(_operand);
+		String operandType = register.get( new Integer(operand.replace(PRE, "")) );
+		if( register.get(targetInt).equals("char *") ||
+				( register.containsKey(_target + Config.GHOST_ADD)
+				&& !register.get(_target + Config.GHOST_ADD).equals("char *")
+				)){
+			r += "snprintf( ";
+			r += target;
+			r += ", STRINGMAX";
+			r += ", \"";
+			r += operandType.equals("int") ? "%d" : // type of parameter input
+				operandType.equals("char") ? "%c" :
+				operandType.equals("bool") ? "%s" :
+				operandType.equals("real") ? "%f" : "fail";
+			r += "\", ";
+			//		String parameters = parameters(whileyMethod);
+			if( operandType.equals("bool") && !parameters.contains(", ")){
+				// caters for a single param only
+				r += parameters + " ? \"true\" : \"false\"";
+			} else {
+				r += parameters +SP; // parameter input
+			}
+			r += ");\n  ";
+		} else {
+			target = PRE + (new Integer(operand.replace(PRE, "")) + Config.GHOST_ADD);
+		}
+		r += "whileyPrecision( "+target+" )";
+		return r;
+	}
+
 	//========================================================================
 	// Token Class
 	//========================================================================
-	public static class Token extends Statement_Factory{
+	public static class Token{
 
 		private static Token tokenSingleton;
+		private Statement_Factory statementFactory;
+		private String result;
 
 		private Token(){}
 
@@ -1410,10 +1399,14 @@ public class Statement_Factory{
 			return tokenSingleton;
 		}
 
-		public Token create(String token, Code code, HashMap<Integer, String> register){
-			result = switchToGenerate(token, code, register);
+		public Token create(Statement_Factory statementFactory, String token, Code code){
+			this.statementFactory = statementFactory;
+			result = switchToGenerate(token, code, statementFactory.register);
 			return tokenSingleton;
 		}
+
+		public boolean isEmpty(){ return result.isEmpty(); }
+		public String  toString(){ return result; }
 
 		/////////////////// OVERLOADED TOKENS //////////////////////////////
 
@@ -1460,18 +1453,58 @@ public class Statement_Factory{
 
 		/////////////////// Printing Specific Token Code ///////////////////////////////////
 		private String print(Code code, HashMap<Integer, String> register){
-			String r = "print (" +SP;
-			//
-			int var = ((AbstractSplitNaryAssignable<?>)code).operands[0];
-			String varStr = register.get(var);
-			r += varStr +SP;
-			r += ");";
+			String SP = statementFactory.SP;
+			String PRE = statementFactory.PRE;
+			String r = "printf (" +SP;
+
+			// get correct variable
+			int operands = ((AbstractSplitNaryAssignable<?>)code).operands[0];
+			String varStr = statementFactory.getRegisterValue(operands);
+			operands = new Integer(varStr.replace(PRE, ""));
+
+			varStr = statementFactory.register.get(operands);
+
+			switch(varStr.trim()){
+			case("int"):
+				r += "\"%i\", "; break;
+			case("bool"):
+				r += "\"%s\", "+ PRE+operands +" ? \"true\" : \"false\");";
+				return r;
+			case("char *"):
+				r += "\"%s\", "; break;
+			case("real"):
+				r = "";
+				// to get Whiley style printing
+				if(!register.containsKey(985468)){
+					register.put(985468, "char *");
+					r += "char a985468[STRINGMAX];\n  ";
+				}
+				r += statementFactory.printToWhileyStyle(
+						985468,
+						operands,
+						PRE + operands);
+				r += ";\n  ";
+				r += "printf(\"%s\", a985468);";
+				return r;
+			default:
+				throw new Error("Print cannot yet print type "+varStr);
+			}
+			r += register.get(operands).startsWith(PRE) ?
+					register.get(operands) :
+						PRE + operands;
+			r += " );";
 			return r;
 		}
 
 		private String println(Code code, HashMap<Integer, String> register){
 			String r = print(code, register);
-			r = r.replace("print", "println");
+			if(r.contains(" printf")){
+				String[] arr = r.split(" printf");
+				arr[1] = arr[1].replace("\",", "\\n\",");
+				r = arr[0]+" printf"+arr[1];
+			} else {
+				r = r.replace("\",", "\\n\",");
+			}
 			return r;
 		}
 	}

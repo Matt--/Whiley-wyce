@@ -1,30 +1,36 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_g ( Any  );
-Any x1x_f ( Any , Any  );
+real x1x_g ( int  );
+char * x1x_f ( int , int  );
 
-Any x1x_g ( Any a0 ){
-  Any a2 = Int(3);
-  Any a4 = Int(0);
-  Any a3 = wyce_div( a0, a2);
-  a3.type = REAL_TYPE;
-  Any a9999 = Int(a3.i);
-  a3.r = (double) a9999.i;
+real x1x_g ( int a0 ){
+  int a2 = 3;
+  int a3 = a0 / a2;
+  a3 = (real)a3;
   return a3;
 }
 
-Any x1x_f ( Any a0, Any a1 ){
-  Any a3 = x1x_g ( a0 );
-  Any a2 = toStr ( a3 );
+char * x1x_f ( int a0, int a1 ){
+  real a3 = x1x_g ( a0 );
+  char * a9003 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9003, "%f", a3 );
+  char * a2 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a2, STRINGMAX, "%f", a3 );
+  whileyPrecision( a2 );
   return a2;
 }
 
 int main (){
-  Any a5 = Int(1);
-  Any a6 = Int(2);
-  Any a4 = x1x_f ( a5, a6 );
-  println ( a4 );
+  int a5 = 1;
+  int a6 = 2;
+  char * a4 = x1x_f ( a5, a6 );
+  printf ( "%s\n", a4 );
   return 0;
 }

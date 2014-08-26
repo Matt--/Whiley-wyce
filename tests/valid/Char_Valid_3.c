@@ -1,46 +1,67 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_rep ( Any , Any , Any  );
+char * x1x_rep ( char , char , char *  );
 
-Any x1x_rep ( Any a0, Any a1, Any a2 ){
-  Any a4 = Int(0);
-  Any a6 = Int(0);
-  loop_start_label145: ;
-  Any a8 = Int(0);
-  Any a11 = Int( strlen( a2.s) );
-  if ( dataAsInt( a4 ) >= dataAsInt( a11 ) ) { goto label145; };
-  Any a24 = Int(0);
-  Any a25 = Int( strlen( a2.s) );
-  Any a14 = Char( a2.s[ a4.i ] );
-  if ( dataAsInt( a14 ) != dataAsInt( a0 ) ) { goto label146; };
-  a2.s[a4.i] = a1.c;
-  label146: ;
-  Any a19 = Int(1);
-  Any a20 = wyce_add( a4, a19);
+char * x1x_rep ( char a0, char a1, char * a2 ){
+  int a4 = 0;
+  int a6 = 0;
+  loop_start_label129: ;
+  int a8 = 0;
+  int a11 = strlen( a2);
+  if ( a4 >= a11 ) { goto label129; };
+  char a14 = a2[ a4 ];
+  if ( a14 != a0 ) { goto label130; };
+  a2[a4] = a1;
+  label130: ;
+  int a19 = 1;
+  int a20 = a4 + a19;
   a4 = a20;
-  Any a22 = Int(0);
-  goto loop_start_label145;
-  label145: ;
+  int a22 = 0;
+  goto loop_start_label129;
+  label129: ;
   return a2;
 }
 
 int main (){
-  Any a5 = Char('e');
-  Any a6 = Char('w');
-  Any a7 = Str("Hello");
-  Any a4 = x1x_rep ( a5, a6, a7 );
-  println ( a4 );
-  Any a12 = Char('H');
-  Any a13 = Char('z');
-  Any a14 = Str("Hello");
-  Any a11 = x1x_rep ( a12, a13, a14 );
-  println ( a11 );
-  Any a19 = Char('o');
-  Any a20 = Char('1');
-  Any a21 = Str("Hello");
-  Any a18 = x1x_rep ( a19, a20, a21 );
-  println ( a18 );
+  char a5 = 'e';
+  char a6 = 'w';
+  char * a7 = malloc(6 * sizeof(char));
+  a7[0] = 'H';
+  a7[1] = 'e';
+  a7[2] = 'l';
+  a7[3] = 'l';
+  a7[4] = 'o';
+  a7[5] = '\0';
+  char * a4 = x1x_rep ( a5, a6, a7 );
+  printf ( "%s\n", a4 );
+  char a12 = 'H';
+  char a13 = 'z';
+  char * a14 = malloc(6 * sizeof(char));
+  a14[0] = 'H';
+  a14[1] = 'e';
+  a14[2] = 'l';
+  a14[3] = 'l';
+  a14[4] = 'o';
+  a14[5] = '\0';
+  char * a11 = x1x_rep ( a12, a13, a14 );
+  printf ( "%s\n", a11 );
+  char a19 = 'o';
+  char a20 = '1';
+  char * a21 = malloc(6 * sizeof(char));
+  a21[0] = 'H';
+  a21[1] = 'e';
+  a21[2] = 'l';
+  a21[3] = 'l';
+  a21[4] = 'o';
+  a21[5] = '\0';
+  char * a18 = x1x_rep ( a19, a20, a21 );
+  printf ( "%s\n", a18 );
   return 0;
 }

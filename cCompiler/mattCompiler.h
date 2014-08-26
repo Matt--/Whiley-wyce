@@ -45,15 +45,14 @@ typedef struct {
     };
 } Any;
 
-void println(Any);
-Any Int(int);
+//void println(Any);
 void error(int, char*);
 
 /**** Math ops ****/
-Any wyce_add(Any, Any);
-Any wyce_sub(Any, Any);
-Any wyce_mul(Any, Any);
-Any wyce_div(Any, Any);
-
-Any toStr(Any);
+//Any wyce_add(Any, Any);
+//Any wyce_sub(Any, Any);
+//Any wyce_mul(Any, Any);
+//Any wyce_div(Any, Any);
+//
+//Any toStr(Any);
 

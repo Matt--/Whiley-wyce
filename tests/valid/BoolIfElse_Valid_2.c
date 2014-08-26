@@ -1,27 +1,43 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any  );
+char * x1x_f ( bool  );
 
-Any x1x_f ( Any a0 ){
-  Any a2 = Bool(true);
-  if ( dataAsInt( a0 ) == dataAsInt( a2 ) ) { goto label132; };
-  goto label133;
-  label132: ;
-  Any a3 = Str("TRUE");
+char * x1x_f ( bool a0 ){
+  bool a2 = true;
+  if ( a0 == a2 ) { goto label121; };
+  goto label122;
+  label121: ;
+  char * a3 = malloc(5 * sizeof(char));
+  a3[0] = 'T';
+  a3[1] = 'R';
+  a3[2] = 'U';
+  a3[3] = 'E';
+  a3[4] = '\0';
   return a3;
-  label133: ;
-  Any a4 = Str("FALSE");
+  label122: ;
+  char * a4 = malloc(6 * sizeof(char));
+  a4[0] = 'F';
+  a4[1] = 'A';
+  a4[2] = 'L';
+  a4[3] = 'S';
+  a4[4] = 'E';
+  a4[5] = '\0';
   return a4;
 }
 
 int main (){
-  Any a5 = Bool(true);
-  Any a4 = x1x_f ( a5 );
-  println ( a4 );
-  Any a10 = Bool(false);
-  Any a9 = x1x_f ( a10 );
-  println ( a9 );
+  bool a5 = true;
+  char * a4 = x1x_f ( a5 );
+  printf ( "%s\n", a4 );
+  bool a10 = false;
+  char * a9 = x1x_f ( a10 );
+  printf ( "%s\n", a9 );
   return 0;
 }

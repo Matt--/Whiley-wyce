@@ -116,19 +116,19 @@ export method stabilizerInit() => void:
 
 // This sets up and contains the loop that the stabilzer task runs
 method stabilizerTask() => void:
-  [real] gyro = [0, 0, 0]
-  [real] acc  = [0, 0, 0]
-  [real] mag  = [0, 0, 0]
+  [real] gyro = [0.0, 0.0, 0.0]
+  [real] acc  = [0.0, 0.0, 0.0]
+  [real] mag  = [0.0, 0.0, 0.0]
 
-  real eulerRollActual   = 0
-  real eulerPitchActual  = 0
-  real eulerYawActual    = 0
-  real eulerRollDesired  = 0
-  real eulerPitchDesired = 0
-  real eulerYawDesired   = 0
-  real rollRateDesired   = 0
-  real pitchRateDesired  = 0
-  real yawRateDesired    = 0
+  real eulerRollActual   = 0.0
+  real eulerPitchActual  = 0.0
+  real eulerYawActual    = 0.0
+  real eulerRollDesired  = 0.0
+  real eulerPitchDesired = 0.0
+  real eulerYawDesired   = 0.0
+  real rollRateDesired   = 0.0
+  real pitchRateDesired  = 0.0
+  real yawRateDesired    = 0.0
 
   string rollType  = "ANGLE"
   string pitchType = "ANGLE"

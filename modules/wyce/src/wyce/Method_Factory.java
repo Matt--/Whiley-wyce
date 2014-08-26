@@ -3,6 +3,7 @@ package wyce;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.regex.Pattern;
 
 import wyil.lang.Modifier;
 import wyil.lang.Type;
@@ -50,12 +51,25 @@ public class Method_Factory {
 		String r = "";
 		r += name.equals("main") ? "int" :
 			declaration.ret() instanceof Type.Void ? "void" :
-//			declaration.ret() instanceof Type.Bool ? "bool" :
-//			declaration.ret() instanceof Type.Int ? "int" :
+			declaration.ret() instanceof Type.Bool ? "bool" :
+			declaration.ret() instanceof Type.Int ? "int" :
+			declaration.ret() instanceof Type.Strung ? "char *" :
+			declaration.ret() instanceof Type.Real ? "real" :
+			declaration.ret() instanceof Type.Negation ? "int" :
 			declaration.ret() instanceof Type.Record ? Compiler.types.get(declaration.ret().toString()) :
 			declaration.ret() instanceof Type.List ? "Any*" :
 			this.methods.get(name).hasModifier(Modifier.EXPORT) ? declaration.ret().toString() :
-				 "Any";
+				// assumption, only return type to reach here is function
+				 "retFunction";
+
+		if(r.equals("retFunction")){
+			String funcType = declaration.ret().toString();
+			String tokens[] = funcType.split(" ");
+
+			r = tokens[2] + "(*)("+tokens[0].substring(9, tokens[0].length()-1) +")";
+			r = Compiler.types.get(r);
+		}
+
 		// The method return type has been determined
 		// name an return type is used by the return statement.
 		currentMethodName = name + "=>" + r;
@@ -72,17 +86,22 @@ public class Method_Factory {
 			boolean comma = false;
 			while(itr.hasNext()){
 				p += comma ? ", " : "";
-				Type type = itr.next();
-				if(Compiler.types.containsKey(type.toString())){
-					p += Compiler.types.get(type.toString());
-//				} else if(type instanceof Type.Int){ p += "int";
-//				} else if(type instanceof Type.Bool){ p += "bool";
-				} else {
-					p += "Any";
-				}
-				if(type instanceof Type.List) p += "[]"; //, Any";
-				p += SP;
 				comma = true;
+
+				Type type = itr.next();
+				if(type instanceof Type.Record){
+					p += "int";
+					continue;
+				} else if(type instanceof Type.FunctionOrMethod){
+					p += "int (*)(int)";        			///// TODO replace this with dynamic code
+				} else if(Compiler.types.containsKey(type.toString())){
+					p += Compiler.types.get(type.toString());
+				} else {
+					p += type.toString().equals("string") ? "char *" :
+							type.toString().equals("[int]") ? "int []" :
+									type;
+				}
+				p += SP;
 			}
 		}
 		r += p.isEmpty() && notMain ? "void" : p ;

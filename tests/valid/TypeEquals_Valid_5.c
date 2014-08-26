@@ -2,25 +2,19 @@
 
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any  );
+Any x1x_f ( null|int  );
 
-Any x1x_f ( Any a0 ){
+Any x1x_f ( null|int a0 ){
   if(a0.type == NULL_TYPE){ goto label0; };
   goto label1;
   label0: ;
-  Any a1 = Str("GOT NULL");
+  string a1 = "GOT NULL";
   return a1;
   label1: ;
-  Any a2 = Str("GOT INT");
+  string a2 = "GOT INT";
   return a2;
 }
 
 int main (){
-  Any a2 = Null();
-  Any a6 = x1x_f ( a2 );
-  println ( a6 );
-  Any a12 = Int(1);
-  Any a11 = x1x_f ( a12 );
-  println ( a11 );
-  return 0;
-}
+  null a2 = null;
+  string a6 = x1x_f ( a2 );

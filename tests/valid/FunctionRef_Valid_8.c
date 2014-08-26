@@ -1,42 +1,59 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_read ( Any  );
-Any x1x_id ( Any  );
-Any x1x_test ( Any , Any  );
+int x1x_read ( int  );
+int x1x_id ( int  );
+int x1x_test ( int (*)(int) , int  );
 
-Any x1x_read ( Any a0 ){
-  Any a2 = wyce_neg(a0);
+int x1x_read ( int a0 ){
+  int a2 = -a0;
   return a2;
 }
 
-Any x1x_id ( Any a0 ){
+int x1x_id ( int a0 ){
   return a0;
 }
 
-Any x1x_test ( Any a0, Any a1 ){
-  Any a2 = ( FUNCPARAMS_ONE a0.f.ptr )(a1);
+int x1x_test ( int ( *a0 )(int), int a1 ){
+  int a2 = a0( a1 );
   return a2;
 }
 
 int main (){
-  Any a3 = Fptr( &x1x_id, 1 );
-  Any a4 = Int(1);
-  Any a2 = x1x_test ( a3, a4 );
-  Any a8 = toStr ( a2 );
-  println ( a8 );
-  Any a11 = Fptr( &x1x_id, 1 );
-  Any a12 = Int(123);
-  Any a10 = x1x_test ( a11, a12 );
+  int (*a3)(int) = &x1x_id;
+  int a4 = 1;
+  int a2 = x1x_test ( a3, a4 );
+  char * a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%d", a2 );
+  char * a8 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a8, STRINGMAX, "%d", a2 );
+  whileyPrecision( a8 );
+  printf ( "%s\n", a8 );
+  int (*a11)(int) = &x1x_id;
+  int a12 = 123;
+  int a10 = x1x_test ( a11, a12 );
   a2 = a10;
-  Any a16 = toStr ( a2 );
-  println ( a16 );
-  Any a19 = Fptr( &x1x_id, 1 );
-  Any a20 = Int(223);
-  Any a18 = x1x_test ( a19, a20 );
+  a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%d", a2 );
+  char * a16 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a16, STRINGMAX, "%d", a2 );
+  whileyPrecision( a16 );
+  printf ( "%s\n", a16 );
+  int (*a19)(int) = &x1x_id;
+  int a20 = 223;
+  int a18 = x1x_test ( a19, a20 );
   a2 = a18;
-  Any a24 = toStr ( a2 );
-  println ( a24 );
+  a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%d", a2 );
+  char * a24 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a24, STRINGMAX, "%d", a2 );
+  whileyPrecision( a24 );
+  printf ( "%s\n", a24 );
   return 0;
 }

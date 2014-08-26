@@ -1,20 +1,28 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int cr1nat;
 
-Any x1x_f ( Any  );
+char * x1x_f ( int  );
 
-Any x1x_f ( Any a0 ){
-  Any a3 = toStr ( a0 );
+char * x1x_f ( int a0 ){
+  char * a9000 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9000, "%d", a0 );
+  char * a3 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a3, STRINGMAX, "%d", a0 );
+  whileyPrecision( a3 );
   return a3;
 }
 
 int main (){
-  Any a5 = Int(9);
-  Any a9 = Int(10);
-  Any a4 = x1x_f ( a5 );
-  println ( a4 );
+  int a5 = 9;
+  char * a4 = x1x_f ( a5 );
+  printf ( "%s\n", a4 );
   return 0;
 }

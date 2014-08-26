@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class Compiler {
 	private final String INDENT = Config.INDENT;
 	private final String SP = Config.SP;
 
-	private HashMap<String,HashMap<Integer, String>> scopeCollection;
+	private HashMap<String,HashMap<Integer, String>> registerCollection;
 	public static HashMap<String, String> types;
 	private boolean outputFileCreated = false;
     private Method_Factory methodFactory;
@@ -40,7 +41,7 @@ public class Compiler {
 		this.tests = tests;
 		this.terminal = terminal.equals("terminal") ? 1 : 0;
 		this.methodFactory = new Method_Factory();
-		scopeCollection = new HashMap<String,HashMap<Integer, String>>();
+		registerCollection = new HashMap<String,HashMap<Integer, String>>();
 		types = new HashMap<String, String>();
 	}
 
@@ -48,7 +49,7 @@ public class Compiler {
 		// empty path indicates write to a.c
 		this.outputFile = path.isEmpty() || path.startsWith("whiley") ? "a.c" : path + name + ".c";
 
-		// generate the C code text output
+		// Main C Code Generating Functions
 		print_prequel(wyilFile);
 		print_Header(wyilFile, path, name);
 		print_Methods(wyilFile);
@@ -75,7 +76,6 @@ public class Compiler {
 	 * Create the header information.
 	 * Note global "terminal" - prints to terminal, "FILE" prints to C text file
 	 * Included in the output .c file.
-	 * TODO pull this out, put in a congfig file
 	 */
 	private void print_Header(WyilFile wyilFile, String path, String name){
 		print(terminal, "\n"+INDENT+INDENT +"####################################################"
@@ -94,8 +94,21 @@ public class Compiler {
 			}
 		}
 
-		print(terminal+FILE, "#include \""+pathUp+Config.COMPILER_h +"\"");
-		print(terminal+FILE, "#include \""+pathUp+Config.COMPILER_LIBRARY_c +"\"");
+		pathUp = this.tests ? pathUp : "";
+
+		print(terminal+FILE, "#include <stdio.h>");
+		print(terminal+FILE, "#include <stdbool.h>\n");
+
+		print(terminal+FILE, "#define STRINGMAX 10 // used in snprint functions");
+		print(terminal+FILE, "#define real " +Config.REAL+ " // can be changed to suit application");
+
+		String include = Config.COMPILER_h;
+		include = this.tests ? include : include.substring(include.lastIndexOf('/')+1);
+		print(terminal+FILE, "#include \""+pathUp+include +"\"");
+
+		include = Config.COMPILER_LIBRARY_c;
+		include = this.tests ? include : include.substring(include.lastIndexOf('/')+1);
+		print(terminal+FILE, "#include \""+pathUp+include +"\"");
 
 		if(!tests){
 			if(name.contains("main")){
@@ -103,10 +116,13 @@ public class Compiler {
 				print(terminal+FILE, "#include \"led.h\"");
 				print(terminal+FILE, "#include \"motors.h\"\n");
 			} else {
-				print(terminal+FILE, "#include \""+Config.CRAZYFLIE_LIB_c +"\"" + "\n");
+				include = Config.CRAZYFLIE_LIB_c;
+				include = this.tests ? include : include.substring(include.lastIndexOf('/')+1);
+				print(terminal+FILE, "#include \""+include +"\"" + "\n");
 			}
 		}
 
+		// Main Header Functions
 		print_constants(wyilFile);
 		print_types(wyilFile);
 		print_declarations(wyilFile);
@@ -126,6 +142,7 @@ public class Compiler {
 			r += "const" +SP;
 			ConstantDeclaration decl = itr.next();
 			Constant constant = decl.constant();
+
 			if  (constant instanceof Constant.Integer){ r += "int" +SP; }
 			else if(constant instanceof Constant.Bool){ r += "bool" +SP; }
 			else if(constant instanceof Constant.Char){ r += "char" +SP; }
@@ -134,14 +151,8 @@ public class Compiler {
 			else if(constant instanceof Constant.Set){ r = ""; break; }
 			else if(constant instanceof Constant.Record){ r = ""; break; }
 			else if(constant instanceof Constant.List){ r = ""; break; }
-			// Constant list works, but not used in the test it was developed for...
-//			else if(constant instanceof Constant.List){
-//				r += "char* const ";
-//				r += decl.name() + "[] = ";
-//				r += constant.toString().replace("[", "{").replace("]",  "}");
-//				r += ";\n";
-//				break; }
 			else throw new Error("Constant error, not yet allowed for.");
+
 			r += decl.name() +SP;
 			r += "=" +SP;
 			r += constant +SP;
@@ -192,7 +203,23 @@ public class Compiler {
 			}
 			else if(type instanceof Type.Set){ s += ""; }
 			else if(type instanceof Type.Any){ s += ""; }
-			else if(type instanceof Type.Function){ s += ""; }
+			else if(type instanceof Type.Function){
+				Type returnType = ((Type.Function) type).ret();
+
+				ArrayList<Type> funcType = ((Type.Function) type).params();
+				String func = returnType + "(*)(";
+				Iterator<Type> itr2 = funcType.iterator();
+				boolean comma = false;
+				while(itr2.hasNext()){
+					func += comma ? ", " : "";
+					comma = true;
+					func += itr2.next();
+				}
+				func += ")";
+				types.put(func, decl.name());
+				s += func.replace("(*)", "(*"+decl.name()+")");
+
+				}
 			else if(type instanceof Type.Union){
 				// this method deals with the generation
 				//print(terminal+FILE, generateUnionType(decl)); s = "";
@@ -200,11 +227,10 @@ public class Compiler {
 			}
 			else throw new Error("type error, not yet allowed for.");
 
-			s += decl.name();
+			s += s.contains(decl.name()) ? "" : decl.name();
 			s += ";\n";
 			r += s;
 		}
-//		if(!r.endsWith("typedef ;\n")) // case where no typedef is made
 			print(terminal+FILE, r);
 
 	}
@@ -238,16 +264,16 @@ public class Compiler {
 	 * AND every time the contents of the pointer is read, it must be cast.
 	 *    int x = (int *)ptr; or (int)&ptr; ???
 	 */
-	private String generateUnionType(TypeDeclaration decl){
-		String r = "";
-
-		/*
-		 * Leaving this alone for the time being.
-		 * Union Types use Automaton which allows recursive data structures like trees.
-		 * But to write code to utilise it will take too much time at this point for
-		 * possibly limited gain.
-		 * Davids view is to not include recursive data structures. 30/04/14
-		 */
+//	private String generateUnionType(TypeDeclaration decl){
+//		String r = "";
+//
+//		/*
+//		 * Leaving this alone for the time being.
+//		 * Union Types use Automaton which allows recursive data structures like trees.
+//		 * But to write code to utilise it will take too much time at this point for
+//		 * possibly limited gain.
+//		 * Davids view is to not include recursive data structures. 30/04/14
+//		 */
 //		Type type = decl.type();
 //		Type.Union union = (Type.Union) type;
 //		r += union.automaton +"\n\n";
@@ -265,9 +291,9 @@ public class Compiler {
 //			}
 //		}
 //		r += "}";
-
-		return r; // just returning an empty string
-	}
+//
+//		return r; // just returning an empty string
+//	}
 
 	/////////////////////// DECLARATIONS ////////////////////////////////////////////
 	private void print_declarations(WyilFile wyilFile){
@@ -330,7 +356,7 @@ public class Compiler {
 			// each method gets its own register of variable names
 			HashMap<Integer, String> register = new HashMap<Integer, String>();
 			register.put(Integer.MAX_VALUE, "new scope");
-			scopeCollection.put(method.name(), register);
+			registerCollection.put(method.name(), register);
 
 			// generate method signature
 			String signature = methodFactory.createDeclaration(method);
@@ -366,7 +392,7 @@ public class Compiler {
 			print(terminal, " # Whiley bytecode block attributes : " + entry.attributes().toString());
 
 			// statements within a method block
-			statements.create(entry.code, scopeCollection.get(methodName), methodFactory);
+			statements.create(entry.code, registerCollection.get(methodName), methodFactory);
 
 			if(methodName.equals("main") && entry.code.toString().equals("return")){
 				// Whiley main has a void return. C main has an int return
@@ -402,19 +428,22 @@ public class Compiler {
 			String[] tokens = params.split(",");
 			// tidy up tokens, add the var name
 			while(i< tokens.length){
-				register.put(i, "a" + i);
 				String token = tokens[i].trim();
+				register.put(i, token);
 				int index = token.indexOf("[]");
-				if(index == -1){
-					token = token +" " +Config.PRE +i;
-				}else{
+				if(index >= 0){
 					token = token.substring(0, index) + SP;
 					token += Config.PRE +i;
 					token += "[]";
 					tokens[i++] = token;
-					// next element is arraySize
-//					tokens[i++] = "Any " + Config.ARRAY_SIZE;
 					continue;
+				} else {
+					if(token.contains("(*)")){ // is a function pointer
+						String j[] = token.split("\\(\\*\\)");
+						token = j[0] + "( *" + Config.PRE + i + " )" + j[1];
+					} else {
+						token = token +" " +Config.PRE +i;
+					}
 				}
 				tokens[i++] = token;
 			}

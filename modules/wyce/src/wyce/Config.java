@@ -13,6 +13,8 @@ public class Config {
 	public static final String SP = " ";
 	public static final String PREFIX = "a";
 	public static final int MAX_ARRAY_SIZE = 10;
+	public static final int GHOST_ADD = 9000;
+	public static final String REAL = "float";
 
 	public static final String PRE = Config.PREFIX;
 	public static String METHOD_PRE = "x1x_";

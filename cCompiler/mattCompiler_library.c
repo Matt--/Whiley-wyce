@@ -5,42 +5,42 @@
 
 /**** Data struct types ****/
 /* any new constructor, also put into destructor "dataAsInt" */
-Any Int(int i)
-{
-	Any a;
-	a.type = INT_TYPE;
-	a.i = i;
-	return a;
-}
-Any Real(double r)
-{
-	Any a;
-	a.type = REAL_TYPE;
-	a.r = r;
-	return a;
-}
-Any Char(char c)
-{
-	Any a;
-	a.type = CHAR_TYPE;
-	a.c = c;
-	return a;
-}
-Any Ptr( void *c)
-{
-	Any a;
-	a.type = POINTER_TYPE;
-	a.ptr = c;
-	return a;
-}
-Any Fptr( void* address, int count )
-{
-	Any a;
-	a.type = FPTR_TYPE;
-	a.f.ptr = address; /* generates a warning, void* to func*. Ignore */
-	a.f.params = count;
-	return a;
-}
+//Any Int(int i)
+//{
+//	Any a;
+//	a.type = INT_TYPE;
+//	a.i = i;
+//	return a;
+//}
+//Any Real(double r)
+//{
+//	Any a;
+//	a.type = REAL_TYPE;
+//	a.r = r;
+//	return a;
+//}
+//Any Char(char c)
+//{
+//	Any a;
+//	a.type = CHAR_TYPE;
+//	a.c = c;
+//	return a;
+//}
+//Any Ptr( void *c)
+//{
+//	Any a;
+//	a.type = POINTER_TYPE;
+//	a.ptr = c;
+//	return a;
+//}
+//Any Fptr( void* address, int count )
+//{
+//	Any a;
+//	a.type = FPTR_TYPE;
+//	a.f.ptr = address; /* generates a warning, void* to func*. Ignore */
+//	a.f.params = count;
+//	return a;
+//}
 Any Str(char* s)
 {
 #if(LIBRARY_TESTING)
@@ -56,23 +56,23 @@ Any Str(char* s)
 	strcpy(a.s, s);
 	return a;
 }
-Any Bool(bool b)
-{
-	Any a;
-	a.type = BOOL_TYPE;
-	a.b = b;
-	return a;
-}
-Any Null()
-{
-	Any a;
-	a.type = NULL_TYPE;
-	//a.b = b;
-	return a;
-}
-
-Any Tuple(Any a, Any b)
-{
+//Any Bool(bool b)
+//{
+//	Any a;
+//	a.type = BOOL_TYPE;
+//	a.b = b;
+//	return a;
+//}
+//Any Null()
+//{
+//	Any a;
+//	a.type = NULL_TYPE;
+//	//a.b = b;
+//	return a;
+//}
+//
+//Any Tuple(Any a, Any b)
+//{
 	/*
 	 * kept for reference only.
 	 * static reserves memory in this function only
@@ -81,39 +81,39 @@ Any Tuple(Any a, Any b)
 	 *	static Any y; y = b;
 	 */
 
-	Any *x = malloc(sizeof(*x));
-	Any *y = malloc(sizeof(*y));
-	*x = a;
-	*y = b;
-
-	Any d;
-	d.type = TUPLE_TYPE;
-	d.ptr = malloc( sizeof(d.ptr) * 2 );
-	Any **any = (Any**)d.ptr;
-	any[0] = x;
-	any[1] = y;
-	return d;
-}
+//	Any *x = malloc(sizeof(*x));
+//	Any *y = malloc(sizeof(*y));
+//	*x = a;
+//	*y = b;
+//
+//	Any d;
+//	d.type = TUPLE_TYPE;
+//	d.ptr = malloc( sizeof(d.ptr) * 2 );
+//	Any **any = (Any**)d.ptr;
+//	any[0] = x;
+//	any[1] = y;
+//	return d;
+//}
 
 /**
  * Frees all memory reserved by this tuple. Including any
  * values held. ie: copy them before calling this.
  * TODO extend to handle recursion?
  */
-bool freeTuple(Any a){
-	if(a.type != TUPLE_TYPE) return true;
-	// A pointer to an array of pointers
-	Any **any = (Any**)a.ptr;
-	int size = sizeof(a.ptr)/4;
-	// free the pointers in the array
-	int i = 0;
-	while(i < size){
-		free(any[i++]);
-	}
-	// free the array pointer
-	free(a.ptr);
-	return true;
-}
+//bool freeTuple(Any a){
+//	if(a.type != TUPLE_TYPE) return true;
+//	// A pointer to an array of pointers
+//	Any **any = (Any**)a.ptr;
+//	int size = sizeof(a.ptr)/4;
+//	// free the pointers in the array
+//	int i = 0;
+//	while(i < size){
+//		free(any[i++]);
+//	}
+//	// free the array pointer
+//	free(a.ptr);
+//	return true;
+//}
 
 Any toStr(Any a){
 	if(a.type == NULL_TYPE){
@@ -156,19 +156,19 @@ Any toStr(Any a){
 	return Str("");
 }
 
-int dataAsInt(Any a){
-	if(a.type == NULL_TYPE){ return 0; }
-	if(a.type == INT_TYPE){ return a.i; }
-	if(a.type == REAL_TYPE){ return a.r; }
-	if(a.type == CHAR_TYPE){ return (int)a.c; }
-	if(a.type == BOOL_TYPE){ return (int)a.b; }
-
-	#if(LIBRARY_TESTING)
-	error(1, "error, dataAsInt(Any); type unknown");
-	#endif
-
-	return 0;
-}
+//int dataAsInt(Any a){
+//	if(a.type == NULL_TYPE){ return 0; }
+//	if(a.type == INT_TYPE){ return a.i; }
+//	if(a.type == REAL_TYPE){ return a.r; }
+//	if(a.type == CHAR_TYPE){ return (int)a.c; }
+//	if(a.type == BOOL_TYPE){ return (int)a.b; }
+//
+//	#if(LIBRARY_TESTING)
+//	error(1, "error, dataAsInt(Any); type unknown");
+//	#endif
+//
+//	return 0;
+//}
 
 
 Any recordToStr1(char* s1, Any a){
@@ -355,170 +355,186 @@ Any recordToStr7(char* s1, Any a, char* s2, Any b, char* s3, Any c, char* s4, An
 
 
 /**** Math operations ****/
-Any wyce_add(Any x, Any y)
-{
-	if(x.type != y.type){
-#if(LIBRARY_TESTING)
-		error(1, "method error, adding two different types : Any add(Any, Any)");
-#endif
-	}
-	switch(x.type){
-	case INT_TYPE:	return Int(x.i + y.i);
-	case REAL_TYPE:	return Real(x.r + y.r);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, cannot add this type : Any add(Any, Any)");
-#endif
-	}
-	return Null();
-}
-Any wyce_sub(Any x, Any y)
-{
-	if(x.type != y.type){
-#if(LIBRARY_TESTING)
-		error(1, "method error, subtracting two different types : Any sub(Any, Any)");
-#endif
-	}
-	switch(x.type){
-	case INT_TYPE:	return Int(x.i - y.i);
-	case REAL_TYPE:	return Real(x.r - y.r);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, cannot subtract this type : Any sub(Any, Any)");
-#endif
-	}
-	return Null();
-}
-Any wyce_neg(Any x)
-{
-	switch(x.type){
-	case INT_TYPE:	return Int(-x.i);
-	case REAL_TYPE:	return Real(-x.r);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, cannot establish negative for this type : Any neg(Any)");
-#endif
-	}
-	return Null();
-}
-Any wyce_mul(Any x, Any y)
-{
-	if(x.type != y.type){
-#if(LIBRARY_TESTING)
-		error(1, "method error, multiplyinging two different types : Any mul(Any, Any)");
-#endif
-	}
-	switch(x.type){
-	case INT_TYPE:	return Int(x.i * y.i);
-	case REAL_TYPE:	return Real(x.r * y.r);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, cannot multiply this type : Any mul(Any, Any)");
-#endif
-	}
-	return Null();
-}
-Any wyce_div(Any x, Any y)
-{
-	switch(x.type){
-	case INT_TYPE:
-		if(y.i == 0){
-#if(LIBRARY_TESTING)
-			error(1, "method failed, divisor == 0 : Any div(Any, Any)");
-#endif
-		}
-		return Int(x.i / y.i);
-	case REAL_TYPE:
-		if(y.r == 0){
-#if(LIBRARY_TESTING)
-			error(1, "method failed, divisor == 0 : Any div(Any, Any)");
-#endif
-		}
-		return Real(x.r / y.r);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, cannot divide this type : Any div(Any, Any)");
-#endif
-	}
-	return Null();
-}
-Any wyce_mod(Any x, Any y)
-{
-	if(x.type != y.type){
-#if(LIBRARY_TESTING)
-		error(1, "method error, moding two different types : Any mod(Any, Any)");
-#endif
-	}
+//Any wyce_add(Any x, Any y)
+//{
+//	if(x.type != y.type){
+//#if(LIBRARY_TESTING)
+//		error(1, "method error, adding two different types : Any add(Any, Any)");
+//#endif
+//	}
+//	switch(x.type){
+////	case INT_TYPE:	return Int(x.i + y.i);
+//	case REAL_TYPE:	return Real(x.r + y.r);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, cannot add this type : Any add(Any, Any)");
+//#endif
+//	}
+//	return Null();
+//}
+//Any wyce_sub(Any x, Any y)
+//{
+//	if(x.type != y.type){
+//#if(LIBRARY_TESTING)
+//		error(1, "method error, subtracting two different types : Any sub(Any, Any)");
+//#endif
+//	}
+//	switch(x.type){
+////	case INT_TYPE:	return Int(x.i - y.i);
+//	case REAL_TYPE:	return Real(x.r - y.r);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, cannot subtract this type : Any sub(Any, Any)");
+//#endif
+//	}
+//	return Null();
+//}
+//Any wyce_neg(Any x)
+//{
+//	switch(x.type){
+////	case INT_TYPE:	return Int(-x.i);
+//	case REAL_TYPE:	return Real(-x.r);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, cannot establish negative for this type : Any neg(Any)");
+//#endif
+//	}
+//	return Null();
+//}
+//Any wyce_mul(Any x, Any y)
+//{
+//	if(x.type != y.type){
+//#if(LIBRARY_TESTING)
+//		error(1, "method error, multiplyinging two different types : Any mul(Any, Any)");
+//#endif
+//	}
+//	switch(x.type){
+////	case INT_TYPE:	return Int(x.i * y.i);
+//	case REAL_TYPE:	return Real(x.r * y.r);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, cannot multiply this type : Any mul(Any, Any)");
+//#endif
+//	}
+//	return Null();
+//}
+//Any wyce_div(Any x, Any y)
+//{
+//	switch(x.type){
+//	case INT_TYPE:
+//		if(y.i == 0){
+//#if(LIBRARY_TESTING)
+//			error(1, "method failed, divisor == 0 : Any div(Any, Any)");
+//#endif
+//		}
+////		return Int(x.i / y.i);
+//	case REAL_TYPE:
+//		if(y.r == 0){
+//#if(LIBRARY_TESTING)
+//			error(1, "method failed, divisor == 0 : Any div(Any, Any)");
+//#endif
+//		}
+//		return Real(x.r / y.r);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, cannot divide this type : Any div(Any, Any)");
+//#endif
+//	}
+//	return Null();
+//}
+//Any wyce_mod(Any x, Any y)
+//{
+//	if(x.type != y.type){
+//#if(LIBRARY_TESTING)
+//		error(1, "method error, moding two different types : Any mod(Any, Any)");
+//#endif
+//	}
+//
+//	switch(x.type){
+//	case INT_TYPE:
+//		if(y.i == 0){
+//#if(LIBRARY_TESTING)
+//			error(1, "method failed, divisor == 0 : Any mod(Any, Any)");
+//#endif
+//		}
+////		return Int(x.i % y.i);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, cannot mod this type : Any mod(Any, Any)");
+//#endif
+//	}
+//	return Null();
+//}
 
-	switch(x.type){
-	case INT_TYPE:
-		if(y.i == 0){
-#if(LIBRARY_TESTING)
-			error(1, "method failed, divisor == 0 : Any mod(Any, Any)");
-#endif
-		}
-		return Int(x.i % y.i);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, cannot mod this type : Any mod(Any, Any)");
-#endif
-	}
-	return Null();
-}
-
-Any Copy(Any a)
-{
-	switch(a.type){
-	case(NULL_TYPE):	return Null();
-	case(INT_TYPE):		return Int(a.i);
-	case(REAL_TYPE):	return Real(a.r);
-	case(CHAR_TYPE):	return Char(a.c);
-	case(BOOL_TYPE):	return Bool(a.b);
-	case(STR_TYPE):		return Str(a.s);
-	case(POINTER_TYPE):	return Ptr(a.ptr);
-#if(LIBRARY_TESTING)
-	default:
-		error(1, "method failed, type not catered for : Any Copy(Any)");
-#endif
-	}
-	Any copy;
-	return copy;
-}
+//Any Copy(Any a)
+//{
+//	switch(a.type){
+//	case(NULL_TYPE):	return Null();
+////	case(INT_TYPE):		return Int(a.i);
+//	case(REAL_TYPE):	return Real(a.r);
+//	case(CHAR_TYPE):	return Char(a.c);
+//	case(BOOL_TYPE):	return Bool(a.b);
+//	case(STR_TYPE):		return Str(a.s);
+//	case(POINTER_TYPE):	return Ptr(a.ptr);
+//#if(LIBRARY_TESTING)
+//	default:
+//		error(1, "method failed, type not catered for : Any Copy(Any)");
+//#endif
+//	}
+//	Any copy;
+//	return copy;
+//}
 
 
 /**** Helpers ****/
 #if(LIBRARY_TESTING)
-void print(Any);
+//void print(Any);
+//
+//void println(Any a){
+//	print(a);
+//	printf("\n");
+//}
+//
+//void print(Any a)
+//{
+//	/*
+//	 * Printing chars. Daves test Char_Valid_2 requires a char to print with single quotes.
+//	 * The bytecode turns the char type to a string before this method is called.
+//	 * Making identifying a char at this point problematic.
+//	 * Changing the toStr for char, creates problems elsewhere...
+//	 */
+//
+//	Any str;
+//	if(a.type == STR_TYPE){
+//		str = a;
+//	} else { // turn to string first
+//		str = toStr(a);
+//	}
+//	printf("%s", str.s);
+//}
+//
+//void error(int error_no, char c [200])
+//{
+//  printf("    %s\n", c);
+//  if(!LIBRARY_TESTING) { exit(error_no); }
+//}
 
-void println(Any a){
-	print(a);
-	printf("\n");
-}
-
-void print(Any a)
-{
-	/*
-	 * Printing chars. Daves test Char_Valid_2 requires a char to print with single quotes.
-	 * The bytecode turns the char type to a string before this method is called.
-	 * Making identifying a char at this point problematic.
-	 * Changing the toStr for char, creates problems elsewhere...
-	 */
-
-	Any str;
-	if(a.type == STR_TYPE){
-		str = a;
-	} else { // turn to string first
-		str = toStr(a);
-	}
-	printf("%s", str.s);
-}
-
-void error(int error_no, char c [200])
-{
-  printf("    %s\n", c);
-  if(!LIBRARY_TESTING) { exit(error_no); }
+/*
+ * Whiley precision in test cases is of style x.0 or x.123...
+ * Takes char* to a malloc space, replaces excess '0' with '\0'
+ * Leaves last 0 through guard i > 0
+ * Author: Matt 20th Aug 2014
+ */
+void whileyPrecision(char * str){
+  if(strchr(str, '.') == NULL){ return; }
+  int i = strlen(str);
+  if( str[i] != '.' ) {
+    while( i > 0 ){
+      if( str[i] == '.' ) { str[i+1] = '0'; break; }
+      if( str[i] != '0' && str[i] != '\0') { break; }
+      str[i--] = '\0';
+    }
+  };
 }
 #endif
-
-
 

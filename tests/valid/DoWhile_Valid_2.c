@@ -1,22 +1,29 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
 
 int main (){
-  Any a2 = Int(0);
-  loop_start_label57: ;
-  Any a4 = Int(2);
-  if ( dataAsInt( a2 ) != dataAsInt( a4 ) ) { goto label58; };
-  goto label57;
-  label58: ;
-  Any a6 = Int(1);
-  Any a7 = wyce_add( a2, a6);
+  int a2 = 0;
+  loop_start_label52: ;
+  int a4 = 2;
+  if ( a2 != a4 ) { goto label53; };
+  goto label52;
+  label53: ;
+  int a6 = 1;
+  int a7 = a2 + a6;
   a2 = a7;
-  Any a9 = Int(5);
-  if ( dataAsInt( a7 ) >= dataAsInt( a9 ) ) { goto label57; };
-  goto loop_start_label57;
-  label57: ;
-  println ( a2 );
+  int a9 = 5;
+  if ( a7 >= a9 ) { goto label52; };
+  goto loop_start_label52;
+  label52: ;
+  char * a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%d", a2 );
+  printf ( "%i\n", a2 );
   return 0;
 }

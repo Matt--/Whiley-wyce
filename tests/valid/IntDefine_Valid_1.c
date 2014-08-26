@@ -1,31 +1,41 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
 typedef int ir1nat;
 typedef int pir1nat;
 
-Any x1x_f ( Any  );
+char * x1x_f ( int  );
 
-Any x1x_f ( Any a0 ){
-  Any a2 = Int(2);
-  if ( dataAsInt( a0 ) <= dataAsInt( a2 ) ) { goto label150; };
-  Any a5 = toStr ( a0 );
+char * x1x_f ( int a0 ){
+  int a2 = 2;
+  if ( a0 <= a2 ) { goto label134; };
+  char * a9000 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9000, "%d", a0 );
+  char * a5 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a5, STRINGMAX, "%d", a0 );
+  whileyPrecision( a5 );
   return a5;
-  label150: ;
-  Any a7 = Str("");
+  label134: ;
+  char * a7 = malloc(1 * sizeof(char));
+  a7[0] = '\0';
   return a7;
 }
 
 int main (){
-  Any a5 = Int(1);
-  Any a4 = x1x_f ( a5 );
-  println ( a4 );
-  Any a10 = Int(2);
-  Any a9 = x1x_f ( a10 );
-  println ( a9 );
-  Any a15 = Int(3);
-  Any a14 = x1x_f ( a15 );
-  println ( a14 );
+  int a5 = 1;
+  char * a4 = x1x_f ( a5 );
+  printf ( "%s\n", a4 );
+  int a10 = 2;
+  char * a9 = x1x_f ( a10 );
+  printf ( "%s\n", a9 );
+  int a15 = 3;
+  char * a14 = x1x_f ( a15 );
+  printf ( "%s\n", a14 );
   return 0;
 }

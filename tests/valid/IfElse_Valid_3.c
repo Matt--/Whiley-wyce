@@ -1,40 +1,65 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any  );
+int x1x_f ( int  );
 
-Any x1x_f ( Any a0 ){
-  Any a2 = Int(10);
-  if ( dataAsInt( a0 ) >= dataAsInt( a2 ) ) { goto label8; };
-  Any a3 = Int(1);
+int x1x_f ( int a0 ){
+  int a2 = 10;
+  if ( a0 >= a2 ) { goto label4; };
+  int a3 = 1;
   return a3;
-  label8: ;
-  Any a4 = Int(2);
+  label4: ;
+  int a4 = 2;
   return a4;
 }
 
 int main (){
-  Any a6 = Int(1);
-  Any a5 = x1x_f ( a6 );
-  Any a4 = toStr ( a5 );
-  println ( a4 );
-  Any a12 = Int(10);
-  Any a11 = x1x_f ( a12 );
-  Any a10 = toStr ( a11 );
-  println ( a10 );
-  Any a18 = Int(11);
-  Any a17 = x1x_f ( a18 );
-  Any a16 = toStr ( a17 );
-  println ( a16 );
-  Any a24 = Int(1212);
-  Any a23 = x1x_f ( a24 );
-  Any a22 = toStr ( a23 );
-  println ( a22 );
-  Any a30 = Int(1212);
-  Any a31 = wyce_neg(a30);
-  Any a29 = x1x_f ( a31 );
-  Any a28 = toStr ( a29 );
-  println ( a28 );
+  int a6 = 1;
+  int a5 = x1x_f ( a6 );
+  char * a9005 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9005, "%d", a5 );
+  char * a4 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a4, STRINGMAX, "%d", a5 );
+  whileyPrecision( a4 );
+  printf ( "%s\n", a4 );
+  int a12 = 10;
+  int a11 = x1x_f ( a12 );
+  char * a9011 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9011, "%d", a11 );
+  char * a10 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a10, STRINGMAX, "%d", a11 );
+  whileyPrecision( a10 );
+  printf ( "%s\n", a10 );
+  int a18 = 11;
+  int a17 = x1x_f ( a18 );
+  char * a9017 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9017, "%d", a17 );
+  char * a16 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a16, STRINGMAX, "%d", a17 );
+  whileyPrecision( a16 );
+  printf ( "%s\n", a16 );
+  int a24 = 1212;
+  int a23 = x1x_f ( a24 );
+  char * a9023 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9023, "%d", a23 );
+  char * a22 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a22, STRINGMAX, "%d", a23 );
+  whileyPrecision( a22 );
+  printf ( "%s\n", a22 );
+  int a30 = 1212;
+  int a31 = -a30;
+  int a29 = x1x_f ( a31 );
+  char * a9029 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9029, "%d", a29 );
+  char * a28 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a28, STRINGMAX, "%d", a29 );
+  whileyPrecision( a28 );
+  printf ( "%s\n", a28 );
   return 0;
 }

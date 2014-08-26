@@ -1,40 +1,54 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any  );
+int x1x_f ( int  );
 
-Any x1x_f ( Any a0 ){
-  switch( a0.i ){
-    case 1 : goto label210;
-    case 2 : goto label211;
-    default : goto label209;
+int x1x_f ( int a0 ){
+  switch( a0 ){
+    case 1 : goto label190;
+    case 2 : goto label191;
+    default : goto label189;
   }
-  label210: ;
-  Any a2 = Int(2);
-  Any a9 = Int(1);
+  label190: ;
+  int a2 = 2;
   return a2;
-  label211: ;
-  Any a3 = Int(2);
-  a9 = Int(1);
+  label191: ;
+  int a3 = 2;
   return a3;
-  label209: ;
-  a9 = Int(1);
+  label189: ;
   return a0;
 }
 
 int main (){
-  Any a6 = Int(2);
-  Any a5 = x1x_f ( a6 );
-  Any a4 = toStr ( a5 );
-  println ( a4 );
-  Any a12 = Int(1);
-  Any a11 = x1x_f ( a12 );
-  Any a10 = toStr ( a11 );
-  println ( a10 );
-  Any a18 = Int(0);
-  Any a17 = x1x_f ( a18 );
-  Any a16 = toStr ( a17 );
-  println ( a16 );
+  int a6 = 2;
+  int a5 = x1x_f ( a6 );
+  char * a9005 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9005, "%d", a5 );
+  char * a4 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a4, STRINGMAX, "%d", a5 );
+  whileyPrecision( a4 );
+  printf ( "%s\n", a4 );
+  int a12 = 1;
+  int a11 = x1x_f ( a12 );
+  char * a9011 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9011, "%d", a11 );
+  char * a10 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a10, STRINGMAX, "%d", a11 );
+  whileyPrecision( a10 );
+  printf ( "%s\n", a10 );
+  int a18 = 0;
+  int a17 = x1x_f ( a18 );
+  char * a9017 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9017, "%d", a17 );
+  char * a16 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a16, STRINGMAX, "%d", a17 );
+  whileyPrecision( a16 );
+  printf ( "%s\n", a16 );
   return 0;
 }

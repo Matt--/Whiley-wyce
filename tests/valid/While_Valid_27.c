@@ -1,40 +1,45 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_count ( Any , Any  );
+int x1x_count ( int , int  );
 
-Any x1x_count ( Any a0, Any a1 ){
-  Any a7 = Int(0);
-  Any a11 = wyce_mul( a0, a1);
-  loop_start_label64: ;
-  if ( dataAsInt( a7 ) >= dataAsInt( a11 ) ) { goto label64; };
-  Any a19 = Int(1);
-  Any a20 = wyce_add( a7, a19);
+int x1x_count ( int a0, int a1 ){
+  int a7 = 0;
+  int a11 = a0 * a1;
+  loop_start_label59: ;
+  if ( a7 >= a11 ) { goto label59; };
+  int a19 = 1;
+  int a20 = a7 + a19;
   a7 = a20;
-  goto loop_start_label64;
-  label64: ;
+  goto loop_start_label59;
+  label59: ;
   return a7;
 }
 
 int main (){
-  Any a5 = Int(0);
-  Any a6 = Int(0);
-  Any a10 = Int(0);
-  Any a12 = Int(0);
-  Any a4 = x1x_count ( a5, a6 );
-  println ( a4 );
-  Any a11 = Int(1);
-  a12 = Int(1);
-  Any a16 = Int(0);
-  Any a18 = Int(0);
-  a10 = x1x_count ( a11, a12 );
-  println ( a10 );
-  Any a17 = Int(5);
-  a18 = Int(5);
-  Any a22 = Int(0);
-  Any a24 = Int(0);
-  a16 = x1x_count ( a17, a18 );
-  println ( a16 );
+  int a5 = 0;
+  int a6 = 0;
+  int a4 = x1x_count ( a5, a6 );
+  char * a9004 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9004, "%d", a4 );
+  printf ( "%i\n", a4 );
+  int a11 = 1;
+  int a12 = 1;
+  int a10 = x1x_count ( a11, a12 );
+  char * a9010 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9010, "%d", a10 );
+  printf ( "%i\n", a10 );
+  int a17 = 5;
+  int a18 = 5;
+  int a16 = x1x_count ( a17, a18 );
+  char * a9016 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9016, "%d", a16 );
+  printf ( "%i\n", a16 );
   return 0;
 }

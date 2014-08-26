@@ -1,12 +1,19 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
 
 int main (){
-  Any a2 = Int(1);
-  Any a4 = Int(2);
-  Any a10 = wyce_add( a2, a4);
-  println ( a10 );
+  int a2 = 1;
+  int a4 = 2;
+  int a10 = a2 + a4;
+  char * a9010 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9010, "%d", a10 );
+  printf ( "%i\n", a10 );
   return 0;
 }

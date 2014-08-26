@@ -1,33 +1,44 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef func;
+typedef int(*func)(int);
 
-Any x1x_g ( void );
-Any x1x_$lambda95 ( Any  );
+func x1x_g ( void );
+int x1x_$lambda95 ( int  );
 
-Any x1x_g (void){
-  Any a0 = Fptr( &x1x_$lambda95, 1 );
+func x1x_g (void){
+  int (*a0)(int) = &x1x_$lambda95;
   return a0;
 }
 
 int main (){
-  Any a2 = x1x_g (  );
-  Any a8 = Int(1);
-  Any a6 = ( FUNCPARAMS_ONE a2.f.ptr )(a8);
-  println ( a6 );
-  Any a14 = Int(2);
-  Any a12 = ( FUNCPARAMS_ONE a2.f.ptr )(a14);
-  println ( a12 );
-  Any a20 = Int(3);
-  Any a18 = ( FUNCPARAMS_ONE a2.f.ptr )(a20);
-  println ( a18 );
+  func a2 = x1x_g (  );
+  int a8 = 1;
+  int a6 = a2( a8 );
+  char * a9006 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9006, "%d", a6 );
+  printf ( "%i\n", a6 );
+  int a14 = 2;
+  int a12 = a2( a14 );
+  char * a9012 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9012, "%d", a12 );
+  printf ( "%i\n", a12 );
+  int a20 = 3;
+  int a18 = a2( a20 );
+  char * a9018 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9018, "%d", a18 );
+  printf ( "%i\n", a18 );
   return 0;
 }
 
-Any x1x_$lambda95 ( Any a0 ){
-  Any a2 = Int(1);
-  Any a3 = wyce_add( a0, a2);
+int x1x_$lambda95 ( int a0 ){
+  int a2 = 1;
+  int a3 = a0 + a2;
   return a3;
 }

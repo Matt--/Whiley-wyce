@@ -1,19 +1,21 @@
 #define LIBRARY_TESTING true
 
+#define STRINGMAX 10 // used in snprint functions
+#include <stdio.h>
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-void x1x_f ( Any , Any  );
+#define real double // can be changed to suit application
+void x1x_f ( {[string] args,{method(any) => void print,method(any) => void println} out} , int  );
 
-void x1x_f ( Any a0, Any a1 ){
-  Any a5 = toStr ( a1 );
-  println ( a5 );
+void x1x_f ( {[string] args a0, {method(any) => void print a1, method(any) => void println} out} a2, int a3 ){
+  char * a5 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a5, STRINGMAX, "fail", a1 );
+  whileyPrecision( a5 );
+  printf ( "%s\n", a5 );
 }
 
 int main (){
-  Any a1 = Null();
-  Any a2 = Int(1);
+   a1 = Null();
+  int a2 = 1;
   x1x_f ( a1, a2 );
-  Any a6 = Str("");
-  print ( a6 );
-  return 0;
-}
+  char *  a6 = "";

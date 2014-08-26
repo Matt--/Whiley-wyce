@@ -15,7 +15,8 @@ public class Wyce {
 //			path = "whiley/"; // for FILE
 //			name = Config.FILE4;
 			path = "";
-			name = "tests/valid/Lambda_Valid_2";
+			name = "tests/valid/ListLength_Valid_2";
+//			name = "tests/valid/Function_Valid_18";
 		} else {
 //			Config.METHOD_PRE = "";
 			path = "whileytoC/"; // for CODE

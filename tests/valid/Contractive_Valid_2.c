@@ -1,36 +1,17 @@
 #define LIBRARY_TESTING true
 
+#define STRINGMAX 10 // used in snprint functions
+#include <stdio.h>
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
+#define real double // can be changed to suit application
 typedef C1;
 typedef C2;
 typedef C3;
 
-Any x1x_f ( Any  );
-Any x1x_g ( Any  );
-Any x1x_h ( Any  );
-Any x1x_i ( Any  );
+Any x1x_f ( any  );
+Any x1x_g ( any  );
+Any x1x_h ( any  );
+Any x1x_i ( any  );
 
-Any x1x_f ( Any a0 ){
-  return a0;
-}
-
-Any x1x_g ( Any a0 ){
-  return a0;
-}
-
-Any x1x_h ( Any a0 ){
-  return a0;
-}
-
-Any x1x_i ( Any a0 ){
-  return a0;
-}
-
-int main (){
-  Any a3 = Null();
-  Any a2 = x1x_f ( a3 );
-  Any a7 = toStr ( a2 );
-  println ( a7 );
-  return 0;
-}
+Any x1x_f ( any a0 ){

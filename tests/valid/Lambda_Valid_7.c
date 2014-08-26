@@ -1,37 +1,42 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef func_t;
+typedef int(*func_t)(int);
 
-Any x1x_f ( Any  );
-Any x1x_g ( Any  );
-Any x1x_$lambda181 ( Any  );
+int x1x_f ( int  );
+int x1x_g ( int  );
+int x1x_$lambda181 ( int  );
 
-Any x1x_f ( Any a0 ){
-  Any a4 = Int(1);
-  Any a5 = wyce_add( a0, a4);
+int x1x_f ( int a0 ){
+  int a4 = 1;
+  int a5 = a0 + a4;
   return a5;
 }
 
-Any x1x_g ( Any a0 ){
-  Any a4 = Fptr( &x1x_$lambda181, 1 );
-  Any a5 = ( FUNCPARAMS_ONE a4.f.ptr )(a0);
+int x1x_g ( int a0 ){
+  int (*a4)(int) = &x1x_$lambda181;
+  int a5 = a4( a0 );
   return a5;
 }
 
 int main (){
-  Any a3 = Int(5);
-  Any a6 = Int(0);
-  Any a2 = x1x_g ( a3 );
-  println ( a2 );
+  int a3 = 5;
+  int a2 = x1x_g ( a3 );
+  char * a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%d", a2 );
+  printf ( "%i\n", a2 );
   return 0;
 }
 
-Any x1x_$lambda181 ( Any a0 ){
-  Any a3 = Int(1);
-  Any a4 = wyce_add( a0, a3);
-  Any a7 = Int(0);
-  Any a1 = x1x_f ( a4 );
+int x1x_$lambda181 ( int a0 ){
+  int a3 = 1;
+  int a4 = a0 + a3;
+  int a1 = x1x_f ( a4 );
   return a1;
 }

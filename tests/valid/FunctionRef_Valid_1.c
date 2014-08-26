@@ -1,39 +1,52 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-typedef func_t;
+typedef int(*func_t)(int);
 
-Any x1x_f1 ( Any  );
-Any x1x_f2 ( Any  );
-Any x1x_g ( Any  );
+int x1x_f1 ( int  );
+int x1x_f2 ( int  );
+int x1x_g ( int (*)(int)  );
 
-Any x1x_f1 ( Any a0 ){
-  Any a2 = Int(1);
-  Any a3 = wyce_add( a0, a2);
+int x1x_f1 ( int a0 ){
+  int a2 = 1;
+  int a3 = a0 + a2;
   return a3;
 }
 
-Any x1x_f2 ( Any a0 ){
-  Any a2 = Int(2);
-  Any a3 = wyce_mul( a0, a2);
+int x1x_f2 ( int a0 ){
+  int a2 = 2;
+  int a3 = a0 * a2;
   return a3;
 }
 
-Any x1x_g ( Any a0 ){
-  Any a3 = Int(1234);
-  Any a1 = ( FUNCPARAMS_ONE a0.f.ptr )(a3);
+int x1x_g ( int ( *a0 )(int) ){
+  int a3 = 1234;
+  int a1 = a0( a3 );
   return a1;
 }
 
 int main (){
-  Any a6 = Fptr( &x1x_f1, 1 );
-  Any a5 = x1x_g ( a6 );
-  Any a4 = toStr ( a5 );
-  println ( a4 );
-  Any a12 = Fptr( &x1x_f2, 1 );
-  Any a11 = x1x_g ( a12 );
-  Any a10 = toStr ( a11 );
-  println ( a10 );
+  int (*a6)(int) = &x1x_f1;
+  int a5 = x1x_g ( a6 );
+  char * a9005 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9005, "%d", a5 );
+  char * a4 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a4, STRINGMAX, "%d", a5 );
+  whileyPrecision( a4 );
+  printf ( "%s\n", a4 );
+  int (*a12)(int) = &x1x_f2;
+  int a11 = x1x_g ( a12 );
+  char * a9011 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9011, "%d", a11 );
+  char * a10 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a10, STRINGMAX, "%d", a11 );
+  whileyPrecision( a10 );
+  printf ( "%s\n", a10 );
   return 0;
 }

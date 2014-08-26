@@ -1,29 +1,36 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
-Any x1x_f ( Any , Any  );
+int x1x_f ( int , int  );
 
-Any x1x_f ( Any a0, Any a1 ){
-  Any a7 = Bool(true);
-  if ( dataAsInt( a0 ) >= dataAsInt( a1 ) ) { goto label172; };
-  Any a10 = Bool(false);
+int x1x_f ( int a0, int a1 ){
+  bool a7 = true;
+  if ( a0 >= a1 ) { goto label156; };
+  bool a10 = false;
   a7 = a10;
-  label172: ;
-  Any a12 = Bool(true);
-  if ( dataAsInt( a7 ) == dataAsInt( a12 ) ) { goto label173; };
-  Any a15 = wyce_add( a0, a1);
-  Any a23 = Int(0);
+  label156: ;
+  bool a12 = true;
+  if ( a7 == a12 ) { goto label157; };
+  int a15 = a0 + a1;
   return a15;
-  label173: ;
-  Any a16 = Int(123);
-  a23 = Int(0);
+  label157: ;
+  int a16 = 123;
   return a16;
 }
 
 int main (){
-  Any a5 = Int(1);
-  Any a4 = toStr ( a5 );
-  println ( a4 );
+  int a5 = 1;
+  char * a9005 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9005, "%d", a5 );
+  char * a4 = calloc(STRINGMAX, sizeof(char));
+  snprintf( a4, STRINGMAX, "%d", a5 );
+  whileyPrecision( a4 );
+  printf ( "%s\n", a4 );
   return 0;
 }

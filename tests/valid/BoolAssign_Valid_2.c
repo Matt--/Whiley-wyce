@@ -1,38 +1,61 @@
 #define LIBRARY_TESTING true
 
+#include <stdio.h>
+#include <stdbool.h>
+
+#define STRINGMAX 10 // used in snprint functions
+#define real float // can be changed to suit application
 #include "../../cCompiler/mattCompiler.h"
 #include "../../cCompiler/mattCompiler_library.c"
 
 int main (){
-  Any a2 = Bool(true);
-  Any a4 = Bool(false);
-  println ( a2 );
-  println ( a4 );
-  Any a16 = Str("AND");
-  println ( a16 );
-  Any a18 = Bool(true);
-  if ( dataAsInt( a2 ) == dataAsInt( a18 ) ) { goto label152; };
-  goto label153;
-  label152: ;
-  Any a20 = Bool(true);
-  if ( dataAsInt( a4 ) == dataAsInt( a20 ) ) { goto label154; };
-  label153: ;
-  Any a21 = Bool(false);
-  goto label155;
-  label154: ;
-  a21 = Bool(true);
-  label155: ;
+  bool a2 = true;
+  bool a4 = false;
+  char * a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%s", a2 ? "true" : "false" );
+  printf ( "%s\n", a2 ? "true" : "false");
+  char * a9004 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9004, "%s", a4 ? "true" : "false" );
+  printf ( "%s\n", a4 ? "true" : "false");
+  char * a16 = malloc(4 * sizeof(char));
+  a16[0] = 'A';
+  a16[1] = 'N';
+  a16[2] = 'D';
+  a16[3] = '\0';
+  printf ( "%s\n", a16 );
+  bool a18 = true;
+  if ( a2 == a18 ) { goto label136; };
+  goto label137;
+  label136: ;
+  bool a20 = true;
+  if ( a4 == a20 ) { goto label138; };
+  label137: ;
+  bool a21 = false;
+  goto label139;
+  label138: ;
+  a21 = true;
+  label139: ;
   a2 = a21;
-  println ( a2 );
-  Any a29 = Str("NOT");
-  println ( a29 );
-  Any a36 = Bool(true);
-  if ( dataAsInt( a21 ) == dataAsInt( a36 ) ) { goto label156; };
-  Any a34 = Bool(true);
-  goto label157;
-  label156: ;
-  a34 = Bool(false);
-  label157: ;
-  println ( a34 );
+  a9002 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9002, "%s", a2 ? "true" : "false" );
+  printf ( "%s\n", a2 ? "true" : "false");
+  char * a29 = malloc(4 * sizeof(char));
+  a29[0] = 'N';
+  a29[1] = 'O';
+  a29[2] = 'T';
+  a29[3] = '\0';
+  printf ( "%s\n", a29 );
+  bool a36 = true;
+  if ( a21 == a36 ) { goto label140; };
+  bool a34 = true;
+  char * a9034 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9034, "%s", a34 ? "true" : "false" );
+  goto label141;
+  label140: ;
+  a34 = false;
+  a9034 = calloc(STRINGMAX, sizeof(char));
+  sprintf( a9034, "%s", a34 ? "true" : "false" );
+  label141: ;
+  printf ( "%s\n", a34 ? "true" : "false");
   return 0;
 }
