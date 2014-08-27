@@ -1,8 +1,8 @@
 #define LIBRARY_TESTING false
 
-#include "cCompiler/mattCompiler.h"
-#include "cCompiler/mattCompiler_library.c"
-#include "cCompiler/cf_Lib.c"
+#include "mattCompiler.h"
+#include "mattCompiler_library.c"
+#include "cf_Lib.c"
 
 bool stabilizerTest ( void );
 void stabilizerInit ( void );
@@ -84,22 +84,31 @@ void stabilizerInit (void){
   Any a5 = Int(0);
   Any a6 = Int(2);
   Any a7 = Int(0);
-  cf_lib_xTaskCreate ( a2, a3, a4, a5, a6, a7 );
+  cf_lib_xTaskCreate ( a2, a3.s, a4.i, a5.i, a6.i, a7.i );
 }
 
 void x1x_stabilizerTask (void){
   Any a1 = Real(0.0);
   Any a2 = Real(0.0);
   Any a3 = Real(0.0);
-  Any a4[] = {a1, a2, a3};
+  Any *a4 = malloc(3 * sizeof(Any));
+		a4[0] = a1;
+		a4[1] = a2;
+		a4[2] = a3;
   Any a6 = Real(0.0);
   Any a7 = Real(0.0);
   Any a8 = Real(0.0);
-  Any a9[] = {a6, a7, a8};
+  Any *a9 = malloc(3 * sizeof(Any));
+		a9[0] = a6;
+		a9[1] = a7;
+		a9[2] = a8;
   Any a11 = Real(0.0);
   Any a12 = Real(0.0);
   Any a13 = Real(0.0);
-  Any a14[] = {a11, a12, a13};
+  Any *a14 = malloc(3 * sizeof(Any));
+		a14[0] = a11;
+		a14[1] = a12;
+		a14[2] = a13;
   Any a16 = Real(0.0);
   Any a18 = Real(0.0);
   Any a20 = Real(0.0);
@@ -119,42 +128,42 @@ void x1x_stabilizerTask (void){
   Any a48 = Int(0);
   Any a50 = Int(0);
   Any a51 = Int(3);
-  cf_lib_vTaskSetApplicationTaskTag ( a50, a51 );
+  cf_lib_vTaskSetApplicationTaskTag ( a50.i, a51.i );
   systemWaitStart (  );
   Any a52 = Int(cf_lib_xTaskGetTickCount (  ));
   loop_start_label18: ;
-  goto label19;
+/*  goto label19;
   label19: ;
   Any a54 = Int(2);
-  cf_lib_vTaskDelayUntil ( a52, a54 );
+  cf_lib_vTaskDelayUntil ( a52.i, a54.i );
   cf_lib_imu9Read ( a4, a9, a14 );
   Any *a58 = cf_lib_getGyro (  );
   a4 = a58;
   Any *a59 = cf_lib_getAcc (  );
   a9 = a59;
   Any *a60 = cf_lib_getMag (  );
-  a14 = a60;
+  a14 = a60;*/
   Any a61 = Bool(imu6IsCalibrated (  ));
   Any a62 = Bool(true);
   if ( dataAsInt( a61 ) == dataAsInt( a62 ) ) { goto label20; };
   goto label21;
   label20: ;
-  cf_lib_commanderGetRPY ( a22, a24, a26 );
+/*  cf_lib_commanderGetRPY ( a22.r, a24.r, a26.r );
   Any a66 = cf_lib_getEulerYawDesired (  );
   a26 = a66;
-  cf_lib_commanderGetRPYType ( a34, a36, a38 );
+  cf_lib_commanderGetRPYType ( a34.s, a36.s, a38.s );
   Any a70 = cf_lib_getRollType (  );
   a34 = a70;
   Any a71 = cf_lib_getPitchType (  );
   a36 = a71;
   Any a72 = cf_lib_getYawType (  );
-  a38 = a72;
+  a38 = a72;*/
   Any a74 = Int(1);
   Any a75 = wyce_add( a48, a74);
   a48 = a75;
   Any a77 = Int(2);
   if ( dataAsInt( a75 ) < dataAsInt( a77 ) ) { goto label22; };
-  Any a79 = Real(1.0);
+/*  Any a79 = Real(1.0);
   Any a80 = Real(500.0);
   Any a81 = Real(2.0);
   Any a82 = wyce_div( a80, a81);
@@ -171,8 +180,8 @@ void x1x_stabilizerTask (void){
   Any a98 = a59[a97.i];
   Any a100 = Int(2);
   Any a101 = a59[a100.i];
-  cf_lib_sensfusion6UpdateQ ( a86, a89, a92, a95, a98, a101, a83 );
-  cf_lib_sensfusion6GetEulerRPY ( a16, a18, a20 );
+  cf_lib_sensfusion6UpdateQ ( a86.r, a89.r, a92.r, a95.r, a98.r, a101.r, a83.r );
+  cf_lib_sensfusion6GetEulerRPY ( a16.r, a18.r, a20.r );
   Any a106 = cf_lib_getEulerRollActual (  );
   a16 = a106;
   Any a107 = cf_lib_getEulerPitchActual (  );
@@ -180,15 +189,15 @@ void x1x_stabilizerTask (void){
   Any a108 = cf_lib_getEulerYawActual (  );
   a20 = a108;
   Any a115 = wyce_neg(a66);
-  cf_lib_controllerCorrectAttitudePID ( a16, a18, a20, a22, a24, a115, a28, a30, a32 );
+  cf_lib_controllerCorrectAttitudePID ( a16.r, a18.r, a20.r, a22.r, a24.r, a115.r, a28.r, a30.r, a32.r );
   Any a119 = cf_lib_getRollRateDesired (  );
   a28 = a119;
   Any a120 = cf_lib_getPitchRateDesired (  );
   a30 = a120;
   Any a121 = Int(0);
-  a48 = a121;
+  a48 = a121;*/
   label22: ;
-  Any a123 = wyce_neg(a66);
+/*  Any a123 = wyce_neg(a66);
   a32 = a123;
   Any a125 = Int(0);
   Any a126 = a58[a125.i];
@@ -197,15 +206,15 @@ void x1x_stabilizerTask (void){
   Any a130 = wyce_neg(a129);
   Any a132 = Int(2);
   Any a133 = a58[a132.i];
-  cf_lib_controllerCorrectRatePID ( a126, a130, a133, a28, a30, a32 );
-  cf_lib_controllerGetActuatorOutput ( a42, a44, a46 );
+  cf_lib_controllerCorrectRatePID ( a126.r, a130.r, a133.r, a28.r, a30.r, a32.r );
+  cf_lib_controllerGetActuatorOutput ( a42.i, a44.i, a46.i );
   Any a140 = Int(cf_lib_getActuatorRoll (  ));
   a42 = a140;
   Any a141 = Int(cf_lib_getActuatorPitch (  ));
   a44 = a141;
   Any a142 = Int(cf_lib_getActuatorYaw (  ));
   a46 = a142;
-  Any a143 = Int(cf_lib_commanderGetThrust ( a40 ));
+  Any a143 = Int(cf_lib_commanderGetThrust ( a40.i ));
   a40 = a143;
   Any a146 = Int(0);
   if ( dataAsInt( a143 ) <= dataAsInt( a146 ) ) { goto label23; };
@@ -218,10 +227,10 @@ void x1x_stabilizerTask (void){
   Any a154 = Int(0);
   Any a155 = Int(0);
   x1x_distributePower ( a152, a153, a154, a155 );
-  controllerResetAllPID (  );
+  controllerResetAllPID (  );*/
   label21: ;
   goto loop_start_label18;
-  label18: ;
+//  label18: ;
 }
 
 void x1x_distributePower ( Any a0, Any a1, Any a2, Any a3 ){
