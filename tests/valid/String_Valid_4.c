@@ -30,19 +30,7 @@ char * x1x_repl ( char a0, char a1, char * a2 ){
 }
 
 int main (){
-  char * a2 = malloc(12 * sizeof(char));
-  a2[0] = 'H';
-  a2[1] = 'e';
-  a2[2] = 'l';
-  a2[3] = 'l';
-  a2[4] = 'o';
-  a2[5] = ' ';
-  a2[6] = 'W';
-  a2[7] = 'o';
-  a2[8] = 'r';
-  a2[9] = 'l';
-  a2[10] = 'd';
-  a2[11] = '\0';
+  char * a2 = "Hello World";
   char a4 = 'l';
   char a5 = '1';
   char * a3 = x1x_repl ( a4, a5, a2 );

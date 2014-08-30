@@ -46,13 +46,7 @@ int x1x_f ( int a0 ){
 }
 
 int main (){
-  char * a4 = malloc(6 * sizeof(char));
-  a4[0] = 'G';
-  a4[1] = 'O';
-  a4[2] = 'T';
-  a4[3] = ':';
-  a4[4] = ' ';
-  a4[5] = '\0';
+  char * a4 = "GOT: ";
   int a6 = 1380206665;
   int a5 = x1x_f ( a6 );
   char * a9005 = calloc(STRINGMAX, sizeof(char));
@@ -63,13 +57,7 @@ int main (){
   strcat( a7, a4 );
   strcat( a7, a9005 );
   printf ( "%s\n", a7 );
-  char * a11 = malloc(6 * sizeof(char));
-  a11[0] = 'G';
-  a11[1] = 'O';
-  a11[2] = 'T';
-  a11[3] = ':';
-  a11[4] = ' ';
-  a11[5] = '\0';
+  char * a11 = "GOT: ";
   int a13 = 1145980233;
   int a12 = x1x_f ( a13 );
   char * a9012 = calloc(STRINGMAX, sizeof(char));
@@ -80,13 +68,7 @@ int main (){
   strcat( a14, a11 );
   strcat( a14, a9012 );
   printf ( "%s\n", a14 );
-  char * a18 = malloc(6 * sizeof(char));
-  a18[0] = 'G';
-  a18[1] = 'O';
-  a18[2] = 'T';
-  a18[3] = ':';
-  a18[4] = ' ';
-  a18[5] = '\0';
+  char * a18 = "GOT: ";
   int a20 = 1163152464;
   int a19 = x1x_f ( a20 );
   char * a9019 = calloc(STRINGMAX, sizeof(char));
@@ -97,13 +79,7 @@ int main (){
   strcat( a21, a18 );
   strcat( a21, a9019 );
   printf ( "%s\n", a21 );
-  char * a25 = malloc(6 * sizeof(char));
-  a25[0] = 'G';
-  a25[1] = 'O';
-  a25[2] = 'T';
-  a25[3] = ':';
-  a25[4] = ' ';
-  a25[5] = '\0';
+  char * a25 = "GOT: ";
   int a27 = 1935231088;
   int a26 = x1x_f ( a27 );
   char * a9026 = calloc(STRINGMAX, sizeof(char));
@@ -114,13 +90,7 @@ int main (){
   strcat( a28, a25 );
   strcat( a28, a9026 );
   printf ( "%s\n", a28 );
-  char * a32 = malloc(6 * sizeof(char));
-  a32[0] = 'G';
-  a32[1] = 'O';
-  a32[2] = 'T';
-  a32[3] = ':';
-  a32[4] = ' ';
-  a32[5] = '\0';
+  char * a32 = "GOT: ";
   int a34 = 1162692980;
   int a33 = x1x_f ( a34 );
   char * a9033 = calloc(STRINGMAX, sizeof(char));

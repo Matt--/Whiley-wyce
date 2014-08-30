@@ -12,26 +12,10 @@ char * x1x_f ( int , real  );
 char * x1x_f ( int a0, real a1 ){
   a0 = (real)a0;
   if ( a0 != a1 ) { goto label160; };
-  char * a4 = malloc(6 * sizeof(char));
-  a4[0] = 'E';
-  a4[1] = 'Q';
-  a4[2] = 'U';
-  a4[3] = 'A';
-  a4[4] = 'L';
-  a4[5] = '\0';
+  char * a4 = "EQUAL";
   return a4;
   label160: ;
-  char * a5 = malloc(10 * sizeof(char));
-  a5[0] = 'N';
-  a5[1] = 'O';
-  a5[2] = 'T';
-  a5[3] = ' ';
-  a5[4] = 'E';
-  a5[5] = 'Q';
-  a5[6] = 'U';
-  a5[7] = 'A';
-  a5[8] = 'L';
-  a5[9] = '\0';
+  char * a5 = "NOT EQUAL";
   return a5;
 }
 

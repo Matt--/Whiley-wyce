@@ -14,21 +14,10 @@ char * x1x_f ( bool a0 ){
   if ( a0 == a2 ) { goto label119; };
   goto label120;
   label119: ;
-  char * a3 = malloc(5 * sizeof(char));
-  a3[0] = 'T';
-  a3[1] = 'R';
-  a3[2] = 'U';
-  a3[3] = 'E';
-  a3[4] = '\0';
+  char * a3 = "TRUE";
   return a3;
   label120: ;
-  char * a4 = malloc(6 * sizeof(char));
-  a4[0] = 'F';
-  a4[1] = 'A';
-  a4[2] = 'L';
-  a4[3] = 'S';
-  a4[4] = 'E';
-  a4[5] = '\0';
+  char * a4 = "FALSE";
   return a4;
 }
 

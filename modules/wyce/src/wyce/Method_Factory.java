@@ -123,6 +123,10 @@ public class Method_Factory {
 		return methods.containsKey(m);
 	}
 
+	public boolean isNativeMethod(String m){
+		return nativeMethods.containsKey(m);
+	}
+
 	public FunctionOrMethodDeclaration getMethod(String m){
 		return methods.get(m);
 	}

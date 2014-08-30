@@ -11,19 +11,7 @@ const double out = 123.456 ;
 
 
 int main (){
-  char * a4 = malloc(12 * sizeof(char));
-  a4[0] = 'H';
-  a4[1] = 'e';
-  a4[2] = 'l';
-  a4[3] = 'l';
-  a4[4] = 'o';
-  a4[5] = ' ';
-  a4[6] = 'W';
-  a4[7] = 'o';
-  a4[8] = 'r';
-  a4[9] = 'l';
-  a4[10] = 'd';
-  a4[11] = '\0';
+  char * a4 = "Hello World";
   printf ( "%s\n", a4 );
   return 0;
 }

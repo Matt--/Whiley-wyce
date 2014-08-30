@@ -92,6 +92,8 @@ public class Statement_Factory{
 			result = createC(Code.OPCODE_const,   	(Code.Const) code); return result;
 		case(Code.OPCODE_convert):
 			result = createC(Code.OPCODE_convert, 	(Code.Convert) code); return result;
+		case(Code.OPCODE_dereference):
+			result = createC(Code.OPCODE_dereference,	 	(Code.Dereference) code); return result;
 		case(Code.OPCODE_div):
 			result = createC(Code.OPCODE_div,	 	(Code.BinArithOp) code); return result;
 		case(Code.OPCODE_fieldload):
@@ -155,6 +157,8 @@ public class Statement_Factory{
 			result = createC(Code.OPCODE_neg,		(Code.UnArithOp) code); return result;
 		case(Code.OPCODE_newlist):
 			result = createC(Code.OPCODE_newlist,	(Code.NewList) code); return result;
+		case(Code.OPCODE_newobject):
+			result = createC(Code.OPCODE_newobject,	(Code.NewObject) code); return result;
 		case(Code.OPCODE_newrecord):
 			result = createC(Code.OPCODE_newrecord,	(Code.NewRecord) code); return result;
 		case(Code.OPCODE_newset):
@@ -421,7 +425,7 @@ public class Statement_Factory{
 
 		// if a string declaration, declare it as an array not a literal
 		// "char * a4 =" becomes "char a4[] ="
-		if(r.contains("char *")){
+/*		if(r.contains("char *")){
 			String str[] = r .split(" = ");
 			str[1] = str[1].replace("\"", "");
 			r = str[0] + " = malloc(" + (str[1].length()+1) + " * sizeof(char));\n  ";
@@ -435,7 +439,7 @@ public class Statement_Factory{
 //			r = r.replace(" =", "[] =");
 //			// if not an array of strings, remove *
 //			r = r.contains("{\"") ? r : r.replace(" *", "");
-		}
+		}*/
 
 		return r+";";
 	}
@@ -568,6 +572,29 @@ public class Statement_Factory{
 		return r;
 	}
 
+	private String createC(int opcode, Code.Dereference code){
+		String r = "";
+		String operand = getRegisterValue(code.operand);
+		int operandInt = new Integer(operand.replace(PRE,  ""));
+		String operandType = register.get(operandInt);
+
+		if( !register.containsKey(code.target)){
+			String type = operandType.replace("*", "").trim(); //.replace("&", "")
+			register.put(code.target, type);
+			r += type +SP;
+		}
+
+		String target = getRegisterValue(code.target);
+		int targetInt = new Integer(target.replace(PRE,  ""));
+		if( !register.get(targetInt).equals( register.get(operandInt).replace("*", "").trim() ) )//.replace("&", "")
+			throw new Error("Dereference operator, target and operand of different types.");
+
+		r += target;
+		r += " = ";
+		r += "*" + operand + ";";
+
+		return r;
+	}
 	private String createC(int opcode, Code.FieldLoad code){
 		// FieldLoad extracts the value of a field from the main parameters. ref Code.FieldLoad
 		/* case: sample program has method main(System.console console):
@@ -872,7 +899,9 @@ public class Statement_Factory{
 		r += "goto" +SP;
 		r += Config.PRE_LOOP + code.label;
 		r += ";\n  ";
-		r += code.label + ": ;";
+		if( !code.label.equals("label18")){ // convenience only for Crazyflie project. stops a warning.
+			r += code.label + ": ;";
+		}
 		return r;
 	}
 	private String createC(int opcode, Code.NewList code){
@@ -887,10 +916,11 @@ public class Statement_Factory{
 		register.put(code.target, listType);
 		String target = getRegisterValue(code.target);
 
-		r += elementType +"* ";
-		r += target;
-		r += " = malloc(" +code.operands.length +" * ";
-		r += "sizeof(" +elementType+ "));\n  ";
+		r += elementType +SP;
+		r += target +"[";
+		r += code.operands.length +"];\n  ";
+//		r += " = pvPortMalloc(" +code.operands.length +" * ";
+//		r += "sizeof(" +elementType+ "));\n  ";
 		for(int i=0; i < code.operands.length; i++){
 			r += target +"[" +i+ "] = ";
 			r += PRE + code.operands[i];
@@ -898,9 +928,44 @@ public class Statement_Factory{
 		}
 		return r +";";
 	}
-	private String createC(int opcode, Code.NewRecord code){
+	/**
+	 * This implementation is context specific.
+	 * Generates a pointer, pointing to a stack allocated array address.
+	 * In this context, the array is declared in the parent method, then passed to
+	 * and modified by child methods. Nicely avoids the need for malloc() or the
+	 * FreeRTOS version pvPortMalloc().
+	 */
+	private String createC(int opcode, Code.NewObject code){
 		String r = "";
-		String t = code.type.toString();
+//		String t = code.type.toString();
+		String objectType = code.assignedType().toString();
+		objectType = objectType.trim().equals("&string") ? "char" : objectType;
+		String elementType = objectType.startsWith("&[") ? objectType.substring(2, objectType.length()-1) :
+				objectType.startsWith("&") ? objectType.substring(1):
+					objectType;
+		elementType += " *";
+
+		if(!register.containsKey(code.target)){
+			register.put(code.target, elementType);
+		}
+		String target = getRegisterValue(code.target);
+		int targetInt = new Integer(target.replace(PRE,  ""));
+		String operand = getRegisterValue(code.operand);
+		int operandInt = new Integer(operand.replace(PRE,  ""));
+		boolean sameTypes = register.get(targetInt).equals(register.get(operandInt));
+
+		r += elementType;
+		r += target;
+		r += " = " + (sameTypes ? "" : "&");
+//		r += " = pvPortMalloc(sizeof(" +PRE + code.operand+ "));\n  ";
+		r += objectType.contains("[") ?
+				"(" +PRE+code.operand +"[0]);" :
+				PRE+code.operand +";";
+		return r;
+	}
+		private String createC(int opcode, Code.NewRecord code){
+			String r = "";
+			String t = code.type.toString();
 		if(!Compiler.types.containsKey(t)){
 			// create an anonymous struct for the record
 			String[] list = t.substring(1, t.length()-1).split(",");
@@ -1329,10 +1394,11 @@ public class Statement_Factory{
 		default:
 			// assuming a declared native method, returning a C primitive, wrap it in a Any constructor
 			boolean constructor = false;
-			r += parentMethod.getNativeParameters(name).isEmpty()
-					|| name.startsWith("cf_lib_") ? "" : Config.METHOD_PRE;
-			r += parentMethod.isMethod(name)
-					&& !parentMethod.getMethod(name).hasModifier(Modifier.EXPORT) ? Config.METHOD_PRE : "";
+			r += parentMethod.isNativeMethod(name) || name.startsWith("cf_lib_")
+					? ""
+			   : parentMethod.isMethod(name)	&& !parentMethod.getMethod(name).hasModifier(Modifier.EXPORT)
+				    ? Config.METHOD_PRE
+					: "";
 			r += name +SP;
 			r += "(" +SP;
 			r += parameters(whileyMethod) +SP;

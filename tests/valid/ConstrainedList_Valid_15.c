@@ -10,8 +10,7 @@
 char * x1x_f ( void );
 
 char * x1x_f (void){
-  char * a0 = malloc(1 * sizeof(char));
-  a0[0] = '\0';
+  char * a0 = "";
   return a0;
 }
 

@@ -17,11 +17,7 @@ int main (){
   char * a9004 = calloc(STRINGMAX, sizeof(char));
   sprintf( a9004, "%s", a4 ? "true" : "false" );
   printf ( "%s\n", a4 ? "true" : "false");
-  char * a16 = malloc(4 * sizeof(char));
-  a16[0] = 'A';
-  a16[1] = 'N';
-  a16[2] = 'D';
-  a16[3] = '\0';
+  char * a16 = "AND";
   printf ( "%s\n", a16 );
   bool a18 = true;
   if ( a2 == a18 ) { goto label136; };
@@ -39,11 +35,7 @@ int main (){
   a9002 = calloc(STRINGMAX, sizeof(char));
   sprintf( a9002, "%s", a2 ? "true" : "false" );
   printf ( "%s\n", a2 ? "true" : "false");
-  char * a29 = malloc(4 * sizeof(char));
-  a29[0] = 'N';
-  a29[1] = 'O';
-  a29[2] = 'T';
-  a29[3] = '\0';
+  char * a29 = "NOT";
   printf ( "%s\n", a29 );
   bool a36 = true;
   if ( a21 == a36 ) { goto label140; };

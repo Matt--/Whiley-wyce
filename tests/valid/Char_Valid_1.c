@@ -18,18 +18,7 @@ char * x1x_f ( char * a0, char a1 ){
 }
 
 int main (){
-  char * a5 = malloc(11 * sizeof(char));
-  a5[0] = 'H';
-  a5[1] = 'e';
-  a5[2] = 'l';
-  a5[3] = 'l';
-  a5[4] = 'o';
-  a5[5] = ' ';
-  a5[6] = 'W';
-  a5[7] = 'o';
-  a5[8] = 'r';
-  a5[9] = 'l';
-  a5[10] = '\0';
+  char * a5 = "Hello Worl";
   char a6 = 'd';
   char * a4 = x1x_f ( a5, a6 );
   printf ( "%s\n", a4 );

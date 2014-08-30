@@ -22,8 +22,7 @@ char * x1x_f ( int a0 ){
   whileyPrecision( a5 );
   return a5;
   label135: ;
-  char * a7 = malloc(1 * sizeof(char));
-  a7[0] = '\0';
+  char * a7 = "";
   return a7;
 }
 

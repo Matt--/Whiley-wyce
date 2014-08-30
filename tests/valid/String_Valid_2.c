@@ -32,19 +32,7 @@ bool x1x_has ( char a0, char * a1 ){
 }
 
 int main (){
-  char * a2 = malloc(12 * sizeof(char));
-  a2[0] = 'H';
-  a2[1] = 'e';
-  a2[2] = 'l';
-  a2[3] = 'l';
-  a2[4] = 'o';
-  a2[5] = ' ';
-  a2[6] = 'W';
-  a2[7] = 'o';
-  a2[8] = 'r';
-  a2[9] = 'l';
-  a2[10] = 'd';
-  a2[11] = '\0';
+  char * a2 = "Hello World";
   char a8 = 'l';
   bool a7 = x1x_has ( a8, a2 );
   char * a9007 = calloc(STRINGMAX, sizeof(char));

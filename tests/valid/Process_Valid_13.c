@@ -9,16 +9,7 @@
 #include "../../cCompiler/mattCompiler_library.c"
 
 int main (){
-  char * a6 = malloc(9 * sizeof(char));
-  a6[0] = 'G';
-  a6[1] = 'O';
-  a6[2] = 'T';
-  a6[3] = ' ';
-  a6[4] = 'H';
-  a6[5] = 'E';
-  a6[6] = 'R';
-  a6[7] = 'E';
-  a6[8] = '\0';
+  char * a6 = "GOT HERE";
   printf ( "%s\n", a6 );
   return 0;
 }
