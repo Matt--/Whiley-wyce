@@ -22,95 +22,84 @@ type PidObject is {
 
 //==========================================================
 // pidInit
-export function pidInit(PidObject pid, real desired, real kp, real ki, real kd, real dt) => PidObject:
-    pid.error      = 1.0
-    pid.prevError  = 0.0
-    pid.integ      = 0.0
-    pid.deriv      = 0.0
-    pid.desired    = desired
-    pid.kp         = kp
-    pid.ki         = ki
-    pid.kd         = kd
-    pid.iLimit     = 5000.0
-    pid.iLimitLow  = -5000.0
-    pid.dt         = dt
-    return pid
+export method pidInit(&PidObject pid, real desired, real kp, real ki, real kd, real dt) => void:
+    pid->error      = 1.0
+    pid->prevError  = 0.0
+    pid->integ      = 0.0
+    pid->deriv      = 0.0
+    pid->desired    = desired
+    pid->kp         = kp
+    pid->ki         = ki
+    pid->kd         = kd
+    pid->iLimit     = 5000.0
+    pid->iLimitLow  = -5000.0
+    pid->dt         = dt
 
 //==========================================================
 // pidUpdate --- main job
-export function pidUpdate(PidObject pid, real measured, bool updateError) => real
-    requires pid.dt != 0:
-    real output
-    if(updateError):
-        pid.error = pid.desired - measured
+export method pidUpdate(&PidObject pid, real measured, bool updateError) => real:
+	real output
+	if(updateError):
+		pid->error = pid->desired - measured
 
-    pid.integ = pid.integ + pid.error * pid.dt
+	pid->integ = pid->integ + ( pid->error * pid->dt ) //TODO check bodmas
 
-    if(pid.integ > pid.iLimit):
-        pid.integ = pid.iLimit
-    else if(pid.integ < pid.iLimitLow):
-        pid.integ = pid.iLimitLow
+	if(pid->integ > pid->iLimit):
+		pid->integ = pid->iLimit
+	else if(pid->integ < pid->iLimitLow):
+		pid->integ = pid->iLimitLow
 
-    pid.deriv = (pid.error - pid.prevError) / pid.dt
-    pid.outP = pid.kp * pid.error
-    pid.outI = pid.ki * pid.integ
-    pid.outD = pid.kd * pid.deriv
+	pid->deriv = (pid->error - pid->prevError) / pid->dt
+	pid->outP = pid->kp * pid->error
+	pid->outI = pid->ki * pid->integ
+	pid->outD = pid->kd * pid->deriv
 
-    output = pid.outP + pid.outI + pid.outD
+	output = pid->outP + pid->outI + pid->outD
 
-    pid.prevError = pid.error
+	pid->prevError = pid->error
 
-    return output
+	return output
 
-export function pidIsActive(PidObject pid) => bool:
+export method pidIsActive(&PidObject pid) => bool:
     bool isActive = true
-    if (pid.kp < 0.0001 && pid.ki < 0.0001 && pid.kd < 0.0001):
+    if (pid->kp < 0.0001 && pid->ki < 0.0001 && pid->kd < 0.0001):
         isActive = false
     return isActive
 
 //==========================================================
 // getters & setters
-export function pidSetIntegralLimit(PidObject pid, real limit) => PidObject:
-    pid.iLimit = limit
-    return pid
+export method pidSetIntegralLimit(&PidObject pid, real limit) => void:
+    pid->iLimit = limit
 
-export function pidSetIntegralLimitLow(PidObject pid, real limitLow) => PidObject:
-    pid.iLimitLow = limitLow
-    return pid
+export method pidSetIntegralLimitLow(&PidObject pid, real limitLow) => void:
+    pid->iLimitLow = limitLow
 
-export function pidReset(PidObject pid) => PidObject:
-    pid.error     = 0.0
-    pid.prevError = 0.0
-    pid.integ     = 0.0
-    pid.deriv     = 0.0
-    return pid
+export method pidReset(&PidObject pid) => void:
+    pid->error     = 0.0
+    pid->prevError = 0.0
+    pid->integ     = 0.0
+    pid->deriv     = 0.0
 
-export function pidSetError(PidObject pid, real error) => PidObject:
-    pid.error = error
-    return pid
+export method pidSetError(&PidObject pid, real error) => void:
+    pid->error = error
 
-export function pidSetDesired(PidObject pid, real desired) => PidObject:
-    pid.desired = desired
-    return pid
+export method pidSetDesired(&PidObject pid, real desired) => void:
+    pid->desired = desired
 
-export function pidGetDesired(PidObject pid) => real:
-    return pid.desired
+export method pidGetDesired(&PidObject pid) => real:
+    return pid->desired
 
-export function pidSetKp(PidObject pid, real kp) => PidObject:
-    pid.kp = kp
-    return pid
+export method pidSetKp(&PidObject pid, real kp) => void:
+    pid->kp = kp
 
-export function pidSetKi(PidObject pid, real ki) => PidObject:
-    pid.ki = ki
-    return pid
+export method pidSetKi(&PidObject pid, real ki) => void:
+    pid->ki = ki
 
-export function pidSetKd(PidObject pid, real kd) => PidObject:
-    pid.kd = kd
-    return pid
+export method pidSetKd(&PidObject pid, real kd) => void:
+    pid->kd = kd
 
-export function pidSetDt(PidObject pid, real dt) => PidObject:
-    pid.dt = dt
-    return pid
+export method pidSetDt(&PidObject pid, real dt) => void:
+    pid->dt = dt
 
 
 
