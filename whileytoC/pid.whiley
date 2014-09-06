@@ -2,7 +2,7 @@ import whiley.lang.System
 
 //==================================================
 // pid model -- a record
-type PidObject is {
+public type PidObject is {
     real desired,
     real error,
     real prevError,
@@ -22,8 +22,8 @@ type PidObject is {
 
 //==========================================================
 // pidInit
-export method pidInit(&PidObject pid, real desired, real kp, real ki, real kd, real dt) => void:
-    pid->error      = 1.0
+public method pidInit(&PidObject pid, real desired, real kp, real ki, real kd, real dt) => void:
+    pid->error      = 0.0
     pid->prevError  = 0.0
     pid->integ      = 0.0
     pid->deriv      = 0.0
@@ -37,7 +37,7 @@ export method pidInit(&PidObject pid, real desired, real kp, real ki, real kd, r
 
 //==========================================================
 // pidUpdate --- main job
-export method pidUpdate(&PidObject pid, real measured, bool updateError) => real:
+public method pidUpdate(&PidObject pid, real measured, bool updateError) => real:
 	real output
 	if(updateError):
 		pid->error = pid->desired - measured
@@ -60,7 +60,7 @@ export method pidUpdate(&PidObject pid, real measured, bool updateError) => real
 
 	return output
 
-export method pidIsActive(&PidObject pid) => bool:
+public method pidIsActive(&PidObject pid) => bool:
     bool isActive = true
     if (pid->kp < 0.0001 && pid->ki < 0.0001 && pid->kd < 0.0001):
         isActive = false
@@ -68,37 +68,37 @@ export method pidIsActive(&PidObject pid) => bool:
 
 //==========================================================
 // getters & setters
-export method pidSetIntegralLimit(&PidObject pid, real limit) => void:
+public method pidSetIntegralLimit(&PidObject pid, real limit) => void:
     pid->iLimit = limit
 
-export method pidSetIntegralLimitLow(&PidObject pid, real limitLow) => void:
+public method pidSetIntegralLimitLow(&PidObject pid, real limitLow) => void:
     pid->iLimitLow = limitLow
 
-export method pidReset(&PidObject pid) => void:
+public method pidReset(&PidObject pid) => void:
     pid->error     = 0.0
     pid->prevError = 0.0
     pid->integ     = 0.0
     pid->deriv     = 0.0
 
-export method pidSetError(&PidObject pid, real error) => void:
+public method pidSetError(&PidObject pid, real error) => void:
     pid->error = error
 
-export method pidSetDesired(&PidObject pid, real desired) => void:
+public method pidSetDesired(&PidObject pid, real desired) => void:
     pid->desired = desired
 
-export method pidGetDesired(&PidObject pid) => real:
+public method pidGetDesired(&PidObject pid) => real:
     return pid->desired
 
-export method pidSetKp(&PidObject pid, real kp) => void:
+public method pidSetKp(&PidObject pid, real kp) => void:
     pid->kp = kp
 
-export method pidSetKi(&PidObject pid, real ki) => void:
+public method pidSetKi(&PidObject pid, real ki) => void:
     pid->ki = ki
 
-export method pidSetKd(&PidObject pid, real kd) => void:
+public method pidSetKd(&PidObject pid, real kd) => void:
     pid->kd = kd
 
-export method pidSetDt(&PidObject pid, real dt) => void:
+public method pidSetDt(&PidObject pid, real dt) => void:
     pid->dt = dt
 
 

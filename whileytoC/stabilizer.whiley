@@ -1,28 +1,50 @@
 import whiley.lang.System
+import * from controller
+//import PidObject from pid
+
+//==================================================
+// pid model -- a record
+public type PidObject is {
+    real desired,
+    real error,
+    real prevError,
+    real integ,
+    real deriv,
+    real kp,
+    real ki,
+    real kd,
+    real outP,
+    real outI,
+    real outD,
+    real iLimit,
+    real iLimitLow,
+    real dt
+    }
+//== end pid model ==
 
 //== Tests ==
 native method motorsTest() => bool
 native method imu6Test() => bool
 native method sensfusion6Test() => bool
-native method controllerTest() => bool
+//native method controllerTest() => bool
 
 //== Initialize ==
 native method motorsInit()
 native method imu6Init()
 native method sensfusion6Init()
-native method controllerInit()
+//native method controllerInit([&PidObject] pidArray)
 native method isStabilizerInit() => bool
 
 //== Simple methods, no parameters ==
 native method systemWaitStart()
 native method cf_lib_xTaskGetTickCount() => int
 native method imu6IsCalibrated() => bool
-native method controllerResetAllPID()
+//native method controllerResetAllPID()
 
 native method cf_lib_LHS_Equals_Neg_RHS( &real yawRateDesired, &real eulerYawDesired)
 
-//================================================
-//== FreeRTOS
+//==============
+//== FreeRTOS ==
   // portBASE_TYPE xTaskCreate( pdTASK_CODE pvTaskCode, const char * const pcName, unsigned short usStackDepth, void *pvParameters, unsigned portBASE_TYPE uxPriority, xTaskHandle *pvCreatedTask );
 native method cf_lib_xTaskCreate(method() => void stabilizerTask, string b, int c, int d, int e, int f) => void
 
@@ -34,7 +56,7 @@ native method cf_lib_vTaskSetApplicationTaskTag(int p, int taskStabilizerIdNmr)
   //void vTaskDelayUntil( portTickType * const pxPreviousWakeTime, portTickType xTimeIncrement ) PRIVILEGED_FUNCTION;
 native method cf_lib_vTaskDelayUntil( int lastWakeTime, int xTimeIncrement ) => int
 
-//================================================
+//====================
 //== i/o operations ==
   //void imu9Read(Axis3f* gyroOut, Axis3f* accOut, Axis3f* magOut);
 native method cf_lib_imu9Read( &[real] gyro, &[real]_acc, &[real] mag) //done
@@ -45,22 +67,22 @@ native method cf_lib_sensfusion6UpdateQ( &[real] gyro, &[real] acc, real dt)
   //void sensfusion6GetEulerRPY(float* roll, float* pitch, float* yaw);
 native method sensfusion6GetEulerRPY( &real eulerRollActual, &real eulerPitchActual, &real eulerYawActual) //done
 
-//=================================================
+//==============
 //== Firmware ==
 //== controller.c ==
 //void controllerCorrectAttitudePID(
   //       float eulerRollActual, float eulerPitchActual, float eulerYawActual,
   //       float eulerRollDesired, float eulerPitchDesired, float eulerYawDesired,
   //       float* rollRateDesired, float* pitchRateDesired, float* yawRateDesired);
-native method controllerCorrectAttitudePID( real eulerRollActual, real eulerPitchActual, real eulerYawActual, real eulerRollDesired, real eulerPitchDesired, real eulerYawDesired, &real rollRateDesired, &real pitchRateDesired, &real yawRateDesired)
+//native method controllerCorrectAttitudePID( real eulerRollActual, real eulerPitchActual, real eulerYawActual, real eulerRollDesired, real eulerPitchDesired, real eulerYawDesired, &real rollRateDesired, &real pitchRateDesired, &real yawRateDesired)
 
 //void controllerCorrectRatePID(
   //       float rollRateActual, float pitchRateActual, float yawRateActual,
   //       float rollRateDesired, float pitchRateDesired, float yawRateDesired);
-native method cf_lib_controllerCorrectRatePID( &[real] gyro, &real rollRateDesired, &real pitchRateDesired, &real yawRateDesired)
+//native method cf_lib_controllerCorrectRatePID( &[real] gyro, &real rollRateDesired, &real pitchRateDesired, &real yawRateDesired)
 
   //void controllerGetActuatorOutput(&actuatorRoll, &actuatorPitch, &actuatorYaw)
-native method cf_lib_controllerGetActuatorOutput( &int actuatorRoll, &int actuatorPitch, &int actuatorYaw)
+//native method cf_lib_controllerGetActuatorOutput( &int actuatorRoll, &int actuatorPitch, &int actuatorYaw)
 
 //== commander.c ==
   //void commanderGetThrust(uint16_t* thrust);
@@ -91,7 +113,7 @@ export method stabilizerInit() => void:
   motorsInit()
   imu6Init()
   sensfusion6Init()
-  controllerInit()
+  // controllerInit() // moved to after pid initialisations below ~ln 130
 
   // create the stabilizer task. Places the task into the FreeRTOS task que/s.
   cf_lib_xTaskCreate(&stabilizerTask, /*(const signed char * const)*/ "STABILIZER", 200, /*null*/0, /*Piority*/2, /*null*/0)
@@ -126,6 +148,29 @@ method stabilizerTask() => void:
   int attitudeCounter = 0 // was uint32_t
   int lastWakeTime // was uint32_t
 
+  //=============================
+  // Refactored controller code.
+  // Object declarations and controllerInit() inserted here to use stack declaractions
+  // and avoid issues with globals and heap declarations.
+
+  &PidObject pidRollRate  = new { desired: 0.0, error: 0.0, prevError: 0.0, integ: 0.0, deriv: 0.0, kp: 0.0, ki: 0.0, kd: 0.0, outP: 0.0, outI: 0.0, outD: 0.0, iLimit: 0.0, iLimitLow: 0.0, dt: 0.0}
+  &PidObject pidPitchRate = new { desired: 0.0, error: 0.0, prevError: 0.0, integ: 0.0, deriv: 0.0, kp: 0.0, ki: 0.0, kd: 0.0, outP: 0.0, outI: 0.0, outD: 0.0, iLimit: 0.0, iLimitLow: 0.0, dt: 0.0}
+  &PidObject pidYawRate   = new { desired: 0.0, error: 0.0, prevError: 0.0, integ: 0.0, deriv: 0.0, kp: 0.0, ki: 0.0, kd: 0.0, outP: 0.0, outI: 0.0, outD: 0.0, iLimit: 0.0, iLimitLow: 0.0, dt: 0.0}
+  &PidObject pidRoll      = new { desired: 0.0, error: 0.0, prevError: 0.0, integ: 0.0, deriv: 0.0, kp: 0.0, ki: 0.0, kd: 0.0, outP: 0.0, outI: 0.0, outD: 0.0, iLimit: 0.0, iLimitLow: 0.0, dt: 0.0}
+  &PidObject pidPitch     = new { desired: 0.0, error: 0.0, prevError: 0.0, integ: 0.0, deriv: 0.0, kp: 0.0, ki: 0.0, kd: 0.0, outP: 0.0, outI: 0.0, outD: 0.0, iLimit: 0.0, iLimitLow: 0.0, dt: 0.0}
+  &PidObject pidYaw       = new { desired: 0.0, error: 0.0, prevError: 0.0, integ: 0.0, deriv: 0.0, kp: 0.0, ki: 0.0, kd: 0.0, outP: 0.0, outI: 0.0, outD: 0.0, iLimit: 0.0, iLimitLow: 0.0, dt: 0.0}
+
+  [&PidObject] pidArray = [pidRollRate, pidPitchRate, pidYawRate, pidRoll, pidPitch, pidYaw]
+
+  // not used, use actuator roll, pitch, yaw instead
+ //&int rollOutput  = new 0 //int16_t
+ // &int pitchOutput = new 0 //int16_t
+ // &int yawOutput   = new 0 //int16_t
+
+  controllerInit(pidArray)
+
+  //== end refactored controller code ==
+
   cf_lib_vTaskSetApplicationTaskTag(0, /*TASK_STABILIZER_ID_NBR*/3) // FreeRTOSConfig.h #define TASK_STABILIZER_ID_NBR  3
 
   systemWaitStart()
@@ -150,16 +195,25 @@ method stabilizerTask() => void:
         cf_lib_sensfusion6UpdateQ( gyro, acc, fusion_update_dt)
         sensfusion6GetEulerRPY(eulerRollActual, eulerPitchActual, eulerYawActual)
 
-        controllerCorrectAttitudePID(*eulerRollActual, *eulerPitchActual, *eulerYawActual, *eulerRollDesired, *eulerPitchDesired, *eulerYawDesired, rollRateDesired, pitchRateDesired, yawRateDesired)
+        controllerCorrectAttitudePID(
+        	*eulerRollActual, *eulerPitchActual, *eulerYawActual,
+        	*eulerRollDesired, *eulerPitchDesired, -(*eulerYawDesired),
+        	rollRateDesired, pitchRateDesired, yawRateDesired,
+        	pidRoll, pidPitch, pidYaw)
 
         attitudeCounter = 0
 
       // dropped several redundent if statements
       cf_lib_LHS_Equals_Neg_RHS( yawRateDesired, eulerYawDesired )
 
-      cf_lib_controllerCorrectRatePID( gyro, rollRateDesired, pitchRateDesired, yawRateDesired)
+      controllerCorrectRatePID(
+      	*gyro,
+      	*rollRateDesired, *pitchRateDesired, *yawRateDesired,
+      	actuatorRoll, actuatorPitch, actuatorYaw,
+      	pidRollRate, pidPitchRate, pidYawRate
+      	)
 /////////////
-      cf_lib_controllerGetActuatorOutput(actuatorRoll, actuatorPitch, actuatorYaw)
+//      cf_lib_controllerGetActuatorOutput(actuatorRoll, actuatorPitch, actuatorYaw)
 
       cf_lib_commanderGetThrust(actuatorThrust)
 
@@ -167,7 +221,7 @@ method stabilizerTask() => void:
         distributePower(*actuatorThrust, *actuatorRoll, *actuatorPitch, -(*actuatorYaw))
       else:
         distributePower(0, 0, 0, 0)
-        controllerResetAllPID()
+        controllerResetAllPID(pidArray)
 
   //========= END LOOP =============
 
